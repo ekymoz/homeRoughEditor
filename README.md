@@ -18,6 +18,7 @@ You just have to copy the files into a directory and open the index.html file in
 Personally I only test all this with the mozilla debug console
 
 ## TODO
+- Make TouchScreen functions for tablet (or smartphone, but too tiny screen i think...)
 - Make interoperability for browsers (actually good for Moz.)
 - Refine the CSS and buttons behavior
 - Refine the Historical system (use LocalStorage)
