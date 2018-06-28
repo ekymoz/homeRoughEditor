@@ -1118,7 +1118,6 @@ document.addEventListener("keydown", function(event) {
 // *****************************************************************************************************
 
 function _MOUSEDOWN(event) {
-  $('#boxinfo').html('MOUSEDw');
 
 event.preventDefault();
     // *******************************************************************
@@ -1387,7 +1386,6 @@ event.preventDefault();
 //**********************************  ******************************************************************
 
   function _MOUSEUP(event) {
-    $('#boxinfo').html('MOUSEUp');
     if (showRib) $('#boxScale').show(200);
     drag = 'off';
     cursor('default');
@@ -1421,7 +1419,7 @@ event.preventDefault();
       if (OBJDATA[OBJDATA.length-1].class == 'furniture') targetBox = 'boxFurniture';
       $('#'+targetBox).append(OBJDATA[OBJDATA.length-1].graph);
       delete binder;
-      $('#boxinfo').html('Objet ajouté');
+      $('#boxinfo').html('Object added');
       fonc_button('select_mode');
       save();
     }
@@ -1451,7 +1449,7 @@ event.preventDefault();
         delete labelMeasure;
         cross.remove();
         delete cross;
-        $('#boxinfo').html('Mesure ajoutée');
+        $('#boxinfo').html('Measure added');
         fonc_button('select_mode');
         save();
       }
@@ -1487,7 +1485,7 @@ event.preventDefault();
       $('#panel').hide(100);
       $('#roomTools').show('300', function() {
         $('#lin').css('cursor', 'default');
-        $('#boxinfo').html('Configurer la pièce');
+        $('#boxinfo').html('Config. the room');
       });
       mode = 'edit_room_mode';
       save();
@@ -1524,7 +1522,7 @@ event.preventDefault();
         binder.graph.remove();
         $('#boxcarpentry').append(OBJDATA[OBJDATA.length-1].graph);
         delete binder;
-        $('#boxinfo').html('Elément ajouté');
+        $('#boxinfo').html('Element added');
         fonc_button('select_mode');
         save();
     }
@@ -1551,7 +1549,7 @@ event.preventDefault();
             action = 1;
           }
           else action = 0;
-          $('#boxinfo').html('Mur ajouté <span style=\'font-size:0.6em\'>Moy. ' + (qSVG.measure(
+          $('#boxinfo').html('Wall added <span style=\'font-size:0.6em\'>Moy. ' + (qSVG.measure(
             {x: pox, y: poy}, {x: x, y: y}) / 60).toFixed(2) + ' m</span>');
           $('#line_construc').remove(); // DEL LINE CONSTRUC HELP TO VIEW NEW SEG PATH
           lengthTemp.remove();
@@ -1566,7 +1564,7 @@ event.preventDefault();
         else {
           action = 0;
           construc = 0;
-          $('#boxinfo').html('Sélection active');
+          $('#boxinfo').html('Select mode');
           fonc_button('select_mode');
           if (typeof(binder) != 'undefined') {
               binder.remove();
@@ -1602,22 +1600,22 @@ event.preventDefault();
               if (found) {
                 $('#panel').hide(100);
                 var objWall = editor.objFromWall(wallBind);
-                $('#boxinfo').html('Modifier un mur<br/><span style="font-size:0.7em;color:#de9b43">Ce mur ne peut devenir une séparation (contient portes ou fenêtres) !</span>');
+                $('#boxinfo').html('Modify a wall<br/><span style="font-size:0.7em;color:#de9b43">This wall can\'t become a separation (contains doors or windows) !</span>');
                 if (objWall.length > 0) $('#separate').hide();
                 else if (binder.wall.type == 'separate') {
                   $('#separate').hide();
                   $('#rangeThick').hide();
                   $('#recombine').show();
                   $('#cutWall').hide();
-                  document.getElementById('titleWallTools').textContent = "Modifier la séparation";
+                  document.getElementById('titleWallTools').textContent = "Modify the separation";
                 }
                 else {
                   $('#cutWall').show();
                   $('#separate').show();
                   $('#rangeThick').show();
                   $('#recombine').hide();
-                  document.getElementById('titleWallTools').textContent = "Modifier le mur";
-                  $('#boxinfo').html('Modifier le mur');
+                  document.getElementById('titleWallTools').textContent = "Modify the wall";
+                  $('#boxinfo').html('Modify the wall');
                 }
                 $('#wallTools').show(200);
                 document.getElementById('wallWidth').setAttribute('min', 7);
@@ -1639,7 +1637,7 @@ event.preventDefault();
               $('#panel').hide(100);
               $('#objTools').show('200', function() {
                 $('#lin').css('cursor', 'default');
-                $('#boxinfo').html('Configurer la porte/fenêtre');
+                $('#boxinfo').html('Config. the door/window');
                 document.getElementById('doorWindowWidth').setAttribute('min', binder.obj.params.resizeLimit.width.min);
                 document.getElementById('doorWindowWidth').setAttribute('max', binder.obj.params.resizeLimit.width.max);
                 document.getElementById('doorWindowWidthScale').textContent = binder.obj.params.resizeLimit.width.min+"-"+binder.obj.params.resizeLimit.width.max;
@@ -1664,7 +1662,7 @@ event.preventDefault();
               // TO REMOVE MEASURE ON PLAN
               objTarget.graph.remove();
               OBJDATA.splice(OBJDATA.indexOf(objTarget), 1);
-              $('#boxinfo').html('Mesure effacée !');
+              $('#boxinfo').html('Measure deleted !');
             }
             if (moveObj < 1 && objTarget.params.move) {
               if (!objTarget.params.resize) $('#objBoundingBoxScale').hide();
@@ -1674,7 +1672,7 @@ event.preventDefault();
               $('#panel').hide(100);
               $('#objBoundingBox').show('200', function() {
                 $('#lin').css('cursor', 'default');
-                $('#boxinfo').html('Modifier l\'objet');
+                $('#boxinfo').html('Modify the object');
                 document.getElementById('bboxWidth').setAttribute('min', objTarget.params.resizeLimit.width.min);
                 document.getElementById('bboxWidth').setAttribute('max', objTarget.params.resizeLimit.width.max);
                 document.getElementById('bboxWidthScale').textContent = objTarget.params.resizeLimit.width.min+"-"+objTarget.params.resizeLimit.height.max;

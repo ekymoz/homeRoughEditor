@@ -1329,18 +1329,18 @@ function fonc_button(modesetting ,option) {
 
 $('#distance_mode').click(function() {
   $('#lin').css('cursor', 'crosshair');
-  $('#boxinfo').html('Ajouter une mesure');
+  $('#boxinfo').html('Add a measurement');
   fonc_button('distance_mode');
 });
 
 $('#room_mode').click(function() {
     $('#lin').css('cursor', 'pointer');
-    $('#boxinfo').html('Configuration des pièces');
+    $('#boxinfo').html('Config. of rooms');
     fonc_button('room_mode');
 });
 
 $('#select_mode').click(function() {
-  $('#boxinfo').html('Mode "sélection"');
+  $('#boxinfo').html('Mode "select"');
   if (typeof(binder) != 'undefined') {
       binder.remove();
       delete binder;
