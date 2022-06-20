@@ -11,7 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 You just have to copy the files into a directory and open the index.html file in your browser. Version 0.93 of homeRoughtEditor is operational from **Mozilla 39!**
 
 ### See example
-[![homeRoughEditor](https://raw.githubusercontent.com/ekymoz/homeRoughEditor/master/test.jpg)](http://homerougheditor.zipl.io)
+[![homeRoughEditor](https://raw.githubusercontent.com/ekymoz/homeRoughEditor/master/test.jpg)]([http://homerougheditor.zipl.io](https://ekymoz.github.io/homeRoughEditor/))
 
 ## Running the tests
 
