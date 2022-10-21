@@ -362,7 +362,7 @@ document.getElementById('report_mode').addEventListener("click", function () {
         let number = 1;
         let reportRoom = '<div class="row">\n';
         for (let k in ROOM) {
-            let nameRoom = "Pièce n°" + number + " <small>(sans nom)</small>";
+            let nameRoom = "Room n°" + number + " <small>(sans nom)</small>";
             if (ROOM[k].name != "") nameRoom = ROOM[k].name;
             reportRoom += '<div class="col-md-6"><p>' + nameRoom + '</p></div>\n';
             reportRoom += '<div class="col-md-6"><p>Surface : <b>' + ((ROOM[k].area) / 3600).toFixed(2) + '</b> m²</p></div>\n';
@@ -464,7 +464,7 @@ document.getElementById('report_mode').addEventListener("click", function () {
         for (let k in ROOM) {
             reportRoom += '<div class="row">\n';
             let nfc = true;
-            let nameRoom = "Pièce n°" + number + " <small>(no name)</small>";
+            let nameRoom = "Room n°" + number + " <small>(no name)</small>";
             if (ROOM[k].name != "") nameRoom = ROOM[k].name;
             reportRoom += '<div class="col-md-4"><p>' + nameRoom + '</p></div>\n';
             if (ROOM[k].name === "") {
@@ -526,13 +526,13 @@ document.getElementById('report_mode').addEventListener("click", function () {
                     }
                     if (roomEnergy[k].plug < 2) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>2 prises de courant</b> <small>(actually ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>2 power outlets</b> <small>(actually ' +
                             roomEnergy[k].plug + ')</small>.</p>\n';
                         nfc = false;
                     }
                     if (roomEnergy[k].switch === 0) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>1 interrupteur</b> <small>(actually ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 switch</b> <small>(actually ' +
                             roomEnergy[k].switch + ')</small>.</p>\n';
                         nfc = false;
                     }
@@ -543,13 +543,13 @@ document.getElementById('report_mode').addEventListener("click", function () {
                     reportRoom += '<div class="col-md-8">';
                     if (roomEnergy[k].light === 0) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>1 point lumineux commandé</b> <small>(actually ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 controlled light point</b> <small>(actually ' +
                             roomEnergy[k].light + ')</small>.</p>\n';
                         nfc = false;
                     }
                     if (roomEnergy[k].plug < 1) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>1 prise de courant</b> <small>(actually ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 power outlet</b> <small>(actually ' +
                             roomEnergy[k].plug + ')</small>.</p>\n';
                         nfc = false;
                     }
@@ -560,7 +560,7 @@ document.getElementById('report_mode').addEventListener("click", function () {
                     reportRoom += '<div class="col-md-8">';
                     if (roomEnergy[k].light === 0) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>1 point lumineux</b>. <small>(actually ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 light point</b>. <small>(actually ' +
                             roomEnergy[k].light + ')</small>.</p>\n';
                         nfc = false;
                     }
@@ -903,7 +903,7 @@ document.getElementById("applySurface").addEventListener("click", function () {
     $('#boxRoom').empty();
     $('#boxSurface').empty();
     editor.roomMaker(Rooms);
-    $('#boxinfo').html('Pièce modifiée');
+    $('#boxinfo').html('Updated room');
     fonc_button('select_mode');
 });
 
@@ -912,7 +912,7 @@ document.getElementById("resetRoomTools").addEventListener("click", function () 
     $('#panel').show(200);
     binder.remove();
     delete binder;
-    $('#boxinfo').html('Pièce modifiée');
+    $('#boxinfo').html('Updated room');
     fonc_button('select_mode');
 
 });
