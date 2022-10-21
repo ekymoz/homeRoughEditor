@@ -197,7 +197,9 @@ document.addEventListener("keydown", function(event) {
           binder.y = startText.y;
           binder.angle = angleText.deg;
           valueText = (valueText / meter).toFixed(2) + ' m';
-          labelMeasure.context.textContent = valueText;
+          //labelMeasure.context.textContent = valueText;
+          labelMeasure[0].textContent = valueText;
+
           binder.update();
         }
       }
@@ -449,7 +451,8 @@ document.addEventListener("keydown", function(event) {
               else {
                 if (typeof(binder) != 'undefined') {
                   if (typeof(binder.graph) != 'undefined') binder.graph.remove();
-                  else binder.remove();
+                  console.log(binder)
+                  if (binder.type == 'node') binder.remove();
                   delete binder;
                   cursor('default');
                   rib();
@@ -828,7 +831,8 @@ document.addEventListener("keydown", function(event) {
                 } else {
                     cursor('move');
                 }
-                $('#circlebinder').attr({"class": "circle_css", cx: coords.x, cy: coords.y});
+                binder.remove()
+              //$('#circlebinder').attr({"class": "circle_css", cx: coords.x, cy: coords.y});
             }
             for (var k in wallListRun) {
               if (isObjectsEquals(wallListRun[k].start, binder.data)) {
@@ -903,15 +907,15 @@ document.addEventListener("keydown", function(event) {
 
             binder.wall.start = intersection1;
             binder.wall.end = intersection2;
-
-            binder.graph[0].children[0].setAttribute("x1",intersection1.x);
-            binder.graph[0].children[0].setAttribute("x2",intersection2.x);
-            binder.graph[0].children[0].setAttribute("y1",intersection1.y);
-            binder.graph[0].children[0].setAttribute("y2",intersection2.y);
-            binder.graph[0].children[1].setAttribute("cx",intersection1.x);
-            binder.graph[0].children[1].setAttribute("cy",intersection1.y);
-            binder.graph[0].children[2].setAttribute("cx",intersection2.x);
-            binder.graph[0].children[2].setAttribute("cy",intersection2.y);
+            binder.graph.remove()
+            // binder.graph[0].children[0].setAttribute("x1",intersection1.x);
+            // binder.graph[0].children[0].setAttribute("x2",intersection2.x);
+            // binder.graph[0].children[0].setAttribute("y1",intersection1.y);
+            // binder.graph[0].children[0].setAttribute("y2",intersection2.y);
+            // binder.graph[0].children[1].setAttribute("cx",intersection1.x);
+            // binder.graph[0].children[1].setAttribute("cy",intersection1.y);
+            // binder.graph[0].children[2].setAttribute("cx",intersection2.x);
+            // binder.graph[0].children[2].setAttribute("cy",intersection2.y);
 
             // THE EQ FOLLOWED BY eq (PARENT EQ1 --- CHILD EQ3)
             if (equation1.follow != undefined) {
@@ -1403,7 +1407,9 @@ event.preventDefault();
     if (mode == 'text_mode') {
       if (action == 0) {
         action = 1;
-        $('#textToLayer').modal();
+        const textModal = new bootstrap.Modal($('#textToLayer'))
+        
+        textModal.show();
         mode == 'edit_text_mode';
       }
     }

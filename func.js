@@ -355,9 +355,9 @@ document.getElementById('report_mode').addEventListener("click", function () {
     mode = "report_mode";
     $('#panel').hide();
     $('#reportTools').show(200, function () {
-        document.getElementById('reportTotalSurface').innerHTML = "Total de la surface : <b>" + (globalArea / 3600).toFixed(1) + "</b> m²";
+        document.getElementById('reportTotalSurface').innerHTML = "Total surface : <b>" + (globalArea / 3600).toFixed(1) + "</b> m²";
         $('#reportTotalSurface').show(1000);
-        document.getElementById('reportNumberSurface').innerHTML = "Nombre pièces : <b>" + ROOM.length + "</b>";
+        document.getElementById('reportNumberSurface').innerHTML = "Number of rooms : <b>" + ROOM.length + "</b>";
         $('#reportNumberSurface').show(1000);
         let number = 1;
         let reportRoom = '<div class="row">\n';
@@ -380,25 +380,25 @@ document.getElementById('report_mode').addEventListener("click", function () {
                 if (OBJDATA[k].type === 'wallLight' || OBJDATA[k].type === 'roofLight') lampNumber++;
             }
         }
-        reportRoom += '<p>Nombre d\'interrupteur(s) : ' + switchNumber + '</p>';
-        reportRoom += '<p>Nombre de prise(s) secteur : ' + plugNumber + '</p>';
-        reportRoom += '<p>Nombre de point(s) de lumière : ' + lampNumber + '</p>';
+        reportRoom += '<p>Switch number : ' + switchNumber + '</p>';
+        reportRoom += '<p>Electric outlet number : ' + plugNumber + '</p>';
+        reportRoom += '<p>Light point number : ' + lampNumber + '</p>';
         reportRoom += '</div>';
         reportRoom += '<div>\n';
-        reportRoom += '<h2>Répartition énergie par pièce</h2>\n';
+        reportRoom += '<h2>Energy distribution per room</h2>\n';
         number = 1;
         reportRoom += '<div class="row">\n';
-        reportRoom += '<div class="col-md-4"><p>Libellé</p></div>\n';
-        reportRoom += '<div class="col-md-2"><small>Int.</small></div>\n';
-        reportRoom += '<div class="col-md-2"><small>Pri. sec.</small></div>\n';
-        reportRoom += '<div class="col-md-2"><small>Pt lum.</small></div>\n';
+        reportRoom += '<div class="col-md-4"><p>Label</p></div>\n';
+        reportRoom += '<div class="col-md-2"><small>Swi.</small></div>\n';
+        reportRoom += '<div class="col-md-2"><small>Elec. out.</small></div>\n';
+        reportRoom += '<div class="col-md-2"><small>Light.</small></div>\n';
         reportRoom += '<div class="col-md-2"><small>Watts Max</small></div>\n';
         reportRoom += '</div>';
 
         let roomEnergy = [];
         for (let k in ROOM) {
             reportRoom += '<div class="row">\n';
-            let nameRoom = "Pièce n°" + number + " <small>(sans nom)</small>";
+            let nameRoom = "Room n°" + number + " <small>(no name)</small>";
             if (ROOM[k].name != "") nameRoom = ROOM[k].name;
             reportRoom += '<div class="col-md-4"><p>' + nameRoom + '</p></div>\n';
             switchNumber = 0;
@@ -458,18 +458,18 @@ document.getElementById('report_mode').addEventListener("click", function () {
             number++;
             reportRoom += '</div>';
         }
-        reportRoom += '<hr/><h2>Détails Norme NF C 15-100</h2>\n';
+        reportRoom += '<hr/><h2>Standard details NF C 15-100</h2>\n';
         number = 1;
 
         for (let k in ROOM) {
             reportRoom += '<div class="row">\n';
             let nfc = true;
-            let nameRoom = "Pièce n°" + number + " <small>(sans nom)</small>";
+            let nameRoom = "Pièce n°" + number + " <small>(no name)</small>";
             if (ROOM[k].name != "") nameRoom = ROOM[k].name;
             reportRoom += '<div class="col-md-4"><p>' + nameRoom + '</p></div>\n';
             if (ROOM[k].name === "") {
                 reportRoom +=
-                    '<div class="col-md-8"><p><i class="fa fa-ban" aria-hidden="true" style="color:red"></i> La pièce n\'ayant pas de libellé, Home Rough Editor ne peut vous fournir d\'informations.</p></div>\n';
+                    '<div class="col-md-8"><p><i class="fa fa-ban" aria-hidden="true" style="color:red"></i> The room has no label, Home Rough Editor cannot provide you with information.</p></div>\n';
             } else {
                 if (ROOM[k].name === "Salon") {
                     for (let g in ROOM) {
@@ -482,13 +482,13 @@ document.getElementById('report_mode').addEventListener("click", function () {
                     reportRoom += '<div class="col-md-8">';
                     if (roomEnergy[k].light === 0) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>1 point lumineux commandé</b> <small>(actuellement ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 controlled light point</b> <small>(actually ' +
                             roomEnergy[k].light + ')</small>.</p>\n';
                         nfc = false;
                     }
                     if (roomEnergy[k].plug < 5) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>5 prises de courant</b> <small>(actuellement ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>5 power outlets</b> <small>(actually ' +
                             roomEnergy[k].plug + ')</small>.</p>\n';
                         nfc = false;
                     }
@@ -497,19 +497,19 @@ document.getElementById('report_mode').addEventListener("click", function () {
                 }
                 if (ROOM[k].name === "Salle à manger") {
                     reportRoom +=
-                        '<div class="col-md-8"><p><i class="fa fa-info" aria-hidden="true" style="color:blue"></i> Cette pièce est liée au <b>salon / séjour</b> selon la norme.</p></div>\n';
+                        '<div class="col-md-8"><p><i class="fa fa-info" aria-hidden="true" style="color:blue"></i> This room is linked to the <b>living room / living room</b> according to the standard.</p></div>\n';
                 }
                 if (ROOM[k].name.substr(0, 7) === "Chambre") {
                     reportRoom += '<div class="col-md-8">';
                     if (roomEnergy[k].light === 0) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>1 point lumineux commandé</b> <small>(actuellement ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 controlled light point</b> <small>(actually ' +
                             roomEnergy[k].light + ')</small>.</p>\n';
                         nfc = false;
                     }
                     if (roomEnergy[k].plug < 3) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>3 prises de courant</b> <small>(actuellement ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>3 power outlets</b> <small>(actually ' +
                             roomEnergy[k].plug + ')</small>.</p>\n';
                         nfc = false;
                     }
@@ -520,19 +520,19 @@ document.getElementById('report_mode').addEventListener("click", function () {
                     reportRoom += '<div class="col-md-8">';
                     if (roomEnergy[k].light === 0) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>1 point lumineux</b> <small>(actuellement ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 light point</b> <small>(actually ' +
                             roomEnergy[k].light + ')</small>.</p>\n';
                         nfc = false;
                     }
                     if (roomEnergy[k].plug < 2) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>2 prises de courant</b> <small>(actuellement ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>2 prises de courant</b> <small>(actually ' +
                             roomEnergy[k].plug + ')</small>.</p>\n';
                         nfc = false;
                     }
                     if (roomEnergy[k].switch === 0) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>1 interrupteur</b> <small>(actuellement ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>1 interrupteur</b> <small>(actually ' +
                             roomEnergy[k].switch + ')</small>.</p>\n';
                         nfc = false;
                     }
@@ -543,13 +543,13 @@ document.getElementById('report_mode').addEventListener("click", function () {
                     reportRoom += '<div class="col-md-8">';
                     if (roomEnergy[k].light === 0) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>1 point lumineux commandé</b> <small>(actuellement ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>1 point lumineux commandé</b> <small>(actually ' +
                             roomEnergy[k].light + ')</small>.</p>\n';
                         nfc = false;
                     }
                     if (roomEnergy[k].plug < 1) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>1 prise de courant</b> <small>(actuellement ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>1 prise de courant</b> <small>(actually ' +
                             roomEnergy[k].plug + ')</small>.</p>\n';
                         nfc = false;
                     }
@@ -560,7 +560,7 @@ document.getElementById('report_mode').addEventListener("click", function () {
                     reportRoom += '<div class="col-md-8">';
                     if (roomEnergy[k].light === 0) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>1 point lumineux</b>. <small>(actuellement ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>1 point lumineux</b>. <small>(actually ' +
                             roomEnergy[k].light + ')</small>.</p>\n';
                         nfc = false;
                     }
@@ -571,25 +571,25 @@ document.getElementById('report_mode').addEventListener("click", function () {
                     reportRoom += '<div class="col-md-8">';
                     if (roomEnergy[k].light === 0) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>1 point lumineux commandé</b> <small>(actuellement ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 controlled light point</b> <small>(actually ' +
                             roomEnergy[k].light + ')</small>.</p>\n';
                         nfc = false;
                     }
                     if (roomEnergy[k].plug < 6) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>6 prise de courant</b> <small>(actuellement ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>6 power outlets</b> <small>(actually ' +
                             roomEnergy[k].plug + ')</small>.</p>\n';
                         nfc = false;
                     }
                     if (roomEnergy[k].plug32 === 0) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>1 prise de courant 32A</b> <small>(actuellement ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 32A power outlet</b> <small>(actually ' +
                             roomEnergy[k].plug32 + ')</small>.</p>\n';
                         nfc = false;
                     }
                     if (roomEnergy[k].plug20 < 2) {
                         reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> Cette pièce doit disposer d\'au moins <b>2 prise de courant 20A</b> <small>(actuellement ' +
+                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>2 20A power outlets</b> <small>(actually ' +
                             roomEnergy[k].plug20 + ')</small>.</p>\n';
                         nfc = false;
                     }
@@ -629,7 +629,7 @@ document.getElementById("bboxTrash").addEventListener("click", function () {
     $('#objBoundingBox').hide(100);
     $('#panel').show(200);
     fonc_button('select_mode');
-    $('#boxinfo').html('Objet effacé');
+    $('#boxinfo').html('Deleted object');
     delete binder;
     rib();
 });
@@ -723,7 +723,8 @@ window.addEventListener("load", function () {
     if (!localStorage.getItem('history')) {
         $('#recover').html("<p>Select a plan type.");
     }
-    $('#myModal').modal();
+    const myModal = new bootstrap.Modal($('#myModal'))
+    myModal.show();
 });
 
 document.getElementById('sizePolice').addEventListener("input", function () {
@@ -734,7 +735,7 @@ $('#textToLayer').on('hidden.bs.modal', function (e) {
     fonc_button('select_mode');
     action = 0;
     let textToMake = document.getElementById('labelBox').textContent;
-    if (textToMake != "" && textToMake != "Votre texte") {
+    if (textToMake != "" && textToMake != "Your text") {
         binder = new editor.obj2D("free", "text", document.getElementById('labelBox').style.color, snap, 0, 0, 0, "normal", 0, {
             text: textToMake,
             size: document.getElementById('sizePolice').value
@@ -745,12 +746,12 @@ $('#textToLayer').on('hidden.bs.modal', function (e) {
         $('#boxText').append(OBJDATA[OBJDATA.length - 1].graph);
         OBJDATA[OBJDATA.length - 1].update();
         delete binder;
-        $('#boxinfo').html('Texte ajouté');
+        $('#boxinfo').html('Added text');
         save();
     } else {
-        $('#boxinfo').html('Mode sélection');
+        $('#boxinfo').html('Selection mode');
     }
-    document.getElementById('labelBox').textContent = "Votre texte";
+    document.getElementById('labelBox').textContent = "Your text";
     document.getElementById('labelBox').style.color = "#333333";
     document.getElementById('labelBox').style.fontSize = "15px";
     document.getElementById('sizePolice').value = 15;
@@ -966,7 +967,7 @@ for (let k = 0; k < objTrashBtn.length; k++) {
         obj.graph.remove();
         OBJDATA.splice(OBJDATA.indexOf(obj), 1);
         fonc_button('select_mode');
-        $('#boxinfo').html('Mode sélection');
+        $('#boxinfo').html('Selection mode');
         $('#panel').show('200');
         binder.graph.remove();
         delete binder;
@@ -1296,10 +1297,12 @@ function inWallRib(wall, option = false) {
     let cross;
     let angleTextValue = wall.angle * (180 / Math.PI);
     let objWall = editor.objFromWall(wall); // LIST OBJ ON EDGE
+    if (objWall.length == 0) return
     ribMaster[0].push({wall: wall, crossObj: false, side: 'up', coords: wall.coords[0], distance: 0});
     ribMaster[1].push({wall: wall, crossObj: false, side: 'down', coords: wall.coords[1], distance: 0});
+    let objTarget = null
     for (let ob in objWall) {
-        let objTarget = objWall[ob];
+        objTarget = objWall[ob];
         objTarget.up = [
             qSVG.nearPointOnEquation(wall.equations.up, objTarget.limit[0]),
             qSVG.nearPointOnEquation(wall.equations.up, objTarget.limit[1])
@@ -1670,7 +1673,7 @@ $('#select_mode').click(function () {
 
 $('#line_mode').click(function () {
     linElement.css('cursor', 'crosshair');
-    $('#boxinfo').html('Création de mur(s)');
+    $('#boxinfo').html('Creation of wall(s)');
     multi = 0;
     action = 0;
     // snap = calcul_snap(event, grid_snap);
@@ -1682,27 +1685,27 @@ $('#line_mode').click(function () {
 
 $('#partition_mode').click(function () {
     linElement.css('cursor', 'crosshair');
-    $('#boxinfo').html('Création de cloison(s)');
+    $('#boxinfo').html('Creation of thin wall(s)');
     multi = 0;
     fonc_button('partition_mode');
 });
 
 $('#rect_mode').click(function () {
     linElement.css('cursor', 'crosshair');
-    $('#boxinfo').html('Création de pièce(s)');
+    $('#boxinfo').html('Room(s) creation');
     fonc_button('rect_mode');
 });
 
 $('.door').click(function () {
     linElement.css('cursor', 'crosshair');
-    $('#boxinfo').html('Ajouter une porte');
+    $('#boxinfo').html('Add a door');
     $('#door_list').hide(200);
     fonc_button('door_mode', this.id);
 });
 
 $('.window').click(function () {
     linElement.css('cursor', 'crosshair');
-    $('#boxinfo').html('Ajouter une fenêtre');
+    $('#boxinfo').html('Add a window');
     $('#door_list').hide(200);
     $('#window_list').hide(200);
     fonc_button('door_mode', this.id);
@@ -1710,40 +1713,40 @@ $('.window').click(function () {
 
 $('.object').click(function () {
     cursor('move');
-    $('#boxinfo').html('Ajouter un objet');
+    $('#boxinfo').html('Add an object');
     fonc_button('object_mode', this.id);
 });
 
 $('#stair_mode').click(function () {
     cursor('move');
-    $('#boxinfo').html('Ajouter un escalier');
+    $('#boxinfo').html('Add stair');
     fonc_button('object_mode', 'simpleStair');
 });
 
 $('#node_mode').click(function () {
     $('#boxinfo')
-        .html('Couper un mur<br/><span style=\"font-size:0.7em\">Attention : Couper le mur d\'une pièce peut annuler sa ' +
+        .html('Cut a wall<br/><span style=\"font-size:0.7em\">Warning : Cutting the wall of a room can cancel its ' +
             'configuration</span>');
     fonc_button('node_mode');
 });
 
 $('#text_mode').click(function () {
-    $('#boxinfo').html('Ajouter du texte<br/><span style=\"font-size:0.7em\">Amenez le curseur à l\'endroit voulu, puis ' +
-        'tapez votre texte.</span>');
+    $('#boxinfo').html('Add text<br/><span style=\"font-size:0.7em\">Place the cursor to the desired location, then ' +
+        'type your text.</span>');
     fonc_button('text_mode');
 });
 
 $('#grid_mode').click(function () {
     if (grid_snap === 'on') {
         grid_snap = 'off';
-        $('#boxinfo').html('Grille d\'aide off');
+        $('#boxinfo').html('Help grid off');
         $('#grid_mode').removeClass('btn-success');
         $('#grid_mode').addClass('btn-warning');
         $('#grid_mode').html('GRID OFF');
         $('#boxgrid').css('opacity', '0.5');
     } else {
         grid_snap = 'on';
-        $('#boxinfo').html('Grille d\'aide on');
+        $('#boxinfo').html('Help grid on');
         $('#grid_mode').removeClass('btn-warning');
         $('#grid_mode').addClass('btn-success');
         $('#grid_mode').html('GRID ON <i class="fa fa-th" aria-hidden="true"></i>');
