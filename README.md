@@ -1,6 +1,6 @@
 # homeRoughEditor Version 0.95
 
-Help me to make this project an essential and free resource for all, so that any developer / integrator can propose to create **_plans for house_, _apartment_**, etc. online. **Full Javascript**, No external library without an old Jquery (only for Bootstrap), Boostrap 3 and FontAwesome. For cons, forgive me for my English, it is very rusty !!!
+Help me to make this project an essential and free resource for all, so that any developer / integrator can propose to create **_plans for house_, _apartment_**, etc. online. **Full Javascript**, No external library with Jquery (only for Bootstrap), Boostrap 5 and FontAwesome. For cons, forgive me for my English, it is very rusty !!!
 
 ## Getting Started
 
