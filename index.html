@@ -4,19 +4,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>HOME ROUGH EDITOR v0.95</title>
+    <title>Floor Plan Manager</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body style="background:#f2eee5;margin:0;padding:0; ">
-
-  <header>Make by Home Rough Editor Ver.0.95</header>
-
   <svg id="lin" viewBox="0 0 1100 700"  preserveAspectRatio="xMidYMin slice" xmlns="http://www.w3.org/2000/svg" style="z-index:2;margin:0;padding:0;width:100vw;height:100vh;position:absolute;top:0;left:0;right:0;bottom:0">
-
     <defs>
       <linearGradient id="gradientRed" x1="0%" y1="0%" x2="100%" y2="100%" spreadMethod="pad">
         <stop offset="0%"   stop-color="#e65d5e" stop-opacity="1"/>
@@ -66,7 +61,6 @@
         <stop offset="0%"   stop-color="#dbc6a0" stop-opacity="1"/>
         <stop offset="100%" stop-color="#c69d56" stop-opacity="1"/>
       </linearGradient>
-
       <pattern id="grass" patternUnits="userSpaceOnUse" width="256" height="256">
         <image xlink:href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWh5nEP_Trwo96CJjev6lnKe0_dRdA63RJFaoc3-msedgxveJd" x="0" y="0" width="256" height="256" />
       </pattern>
@@ -295,12 +289,11 @@
         <li><button class="btn disabled halfy " id="undo" title="undo"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
         <button class="btn disabled halfy pull-right" id="redo" title="redo"><i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
         </li>
-        <br/>
         <li><button class="btn btn-success fully " id="select_mode" style="box-shadow:2px 2px 3px #ccc;"><i class="fa fa-2x fa-mouse-pointer" aria-hidden="true"></i></button></li>
-        <br/>
+        <li><button class="btn btn-light shadow fully " id="node_mode"><i class="fa fa-2x fa-scissors" aria-hidden="true"></i></button></li>
         <li>
-        <button class="btn btn-light shadow fully " style="margin-bottom:0px" id="line_mode" data-toggle="tooltip" data-placement="right" title="Make walls">WALL</button>
-        <button class="mt-2 btn btn-light shadow fully " style="margin-bottom:0px" id="partition_mode" data-toggle="tooltip" data-placement="right" title="Make partitions wall">PARTITION</button>
+        <button class="btn btn-light shadow fully " id="line_mode" data-toggle="tooltip" data-placement="right" title="Make walls">WALL</button>
+        <button class="mt-2 btn btn-light shadow fully " id="partition_mode" data-toggle="tooltip" data-placement="right" title="Make partitions wall">PARTITION</button>
         <div class="funkyradio"  style="font-size:0.8em">
           <div class="funkyradio-success">
             <input type="checkbox" id="multi" checked/>
@@ -308,73 +301,74 @@
           </div>
         </div>
         </li>
-        <br/>
-        <li><button class="btn btn-light shadow fully " id="room_mode">CONFIG. ROOMS</button></li>
-        <br/>
-        <li><button class="btn btn-light shadow fully " id="node_mode"><i class="fa fa-2x fa-scissors" aria-hidden="true"></i></button></li>
-        <br/>
-        <li><button class="btn btn-light shadow fully " id="distance_mode" data-toggle="tooltip" data-placement="right" title="Add a measurement">MEASURE</button></li>
-        <li><button class="btn btn-light shadow fully " id="text_mode" data-toggle="tooltip" data-placement="right" title="Add text">TEXT</button></li>
-        <br/>
-        <div id="door_list"  class="list-unstyled sub" style="box-shadow:2px 2px 3px #ccc;display:none;background:#fff;border-radius: 0 5px 5px 0; padding:10px;position:absolute;left:200px;width:150px">
-          <button class="btn fully door" id="aperture">Aperture</button>
-          <button class="btn fully door" id="simple">Simple</button>
-          <button class="btn fully door" id="double">Double</button>
-          <button class="btn fully door" id="pocket">Pocket</button>
-        </div>
-        <li><button class="btn btn-light shadow fully " id="door_mode" onclick="$('.sub').hide();$('#door_list').toggle(200);$('#window_list').hide();">DOOR</button></li>
+        <li>
+          <button class="btn btn-light shadow fully " id="door_mode" onclick="$('.sub').hide();$('#door_list').toggle(200);$('#window_list').hide();">DOOR</button>
+          <div id="door_list"  class="list-unstyled sub" style="box-shadow:2px 2px 3px #ccc;display:none;background:#fff;border-radius: 0 5px 5px 0; padding:10px;position:absolute;left:200px;width:150px">
+            <button class="btn fully door" id="aperture">Aperture</button>
+            <button class="btn fully door" id="simple">Simple</button>
+            <button class="btn fully door" id="double">Double</button>
+            <button class="btn fully door" id="pocket">Pocket</button>
+          </div>
+        </li>
 
-        <div id="window_list"  class="list-unstyled sub" style="box-shadow:2px 2px 3px #ccc;display:none;background:#fff;border-radius: 0 5px 5px 0; padding:10px;position:absolute;left:200px;width:150px">
-          <button class="btn fully window" id="fix">Fix</button>
-          <button class="btn fully window" id="flap">Simple</button>
-          <button class="btn fully window" id="twin">Double</button>
-          <button class="btn fully window" id="bay">Slide</button>
-        </div>
-        <li><button class="btn btn-light shadow fully " id="window_mode" onclick="$('.sub').hide();$('#window_list').toggle(200);$('#door_list').hide()">WINDOW</button></li>
-        <li><button class="btn btn-light shadow fully object" id="stair_mode" onclick="$('.sub').hide();$('#door_list').hide()">STAIR</button></li>
-        <br/>
+        <li>
+          <button class="btn btn-light shadow fully " id="window_mode" onclick="$('.sub').hide();$('#window_list').toggle(200);$('#door_list').hide()">WINDOW</button>
+          <div id="window_list"  class="list-unstyled sub" style="box-shadow:2px 2px 3px #ccc;display:none;background:#fff;border-radius: 0 5px 5px 0; padding:10px;position:absolute;left:200px;width:150px">
+            <button class="btn fully window" id="fix">Fix</button>
+            <button class="btn fully window" id="flap">Simple</button>
+            <button class="btn fully window" id="twin">Double</button>
+            <button class="btn fully window" id="bay">Slide</button>
+          </div>
+        </li>
+        <!-- <li><button class="btn btn-light shadow fully " id="room_mode">CONFIG. ROOMS</button></li> -->
+        <!-- <li><button class="btn btn-light shadow fully " id="distance_mode" data-toggle="tooltip" data-placement="right" title="Add a measurement">MEASURE</button></li> -->
+        <li>
+          <button class="btn btn-light shadow fully " id="text_mode" data-toggle="tooltip" data-placement="right" title="Add text">TEXT</button>
+        </li>
+        <li><button class="btn btn-light shadow fully " id="layer_mode" onclick="$('.sub').hide();$('#layer_list').toggle(200);">Layers</button></li>
+
+
+            <li>
+              <!-- <button class="btn btn-light shadow halfy " id="report_mode" title="Show report"><i class="fa fa-calculator" aria-hidden="true"></i></button> -->
+            <button class="btn btn-light shadow halfy pull-right" onclick="fullscreen();this.style.display='none';$('#nofull_mode').show();" id="full_mode" title="Full screen"><i class="fa fa-expand" aria-hidden="true"></i></button>
+            <button class="btn btn-light shadow halfy pull-right" style="display:none" onclick="outFullscreen();this.style.display='none';$('#full_mode').show();" id="nofull_mode" data-toggle="tooltip" data-placement="right" title="Full screen"><i class="fa fa-compress" aria-hidden="true"></i></button>
+          </li>
+        <!-- <li><button class="btn btn-light shadow fully object" id="stair_mode" onclick="$('.sub').hide();$('#door_list').hide()">STAIR</button></li> -->
         <div id="energy_list"  class="list-unstyled sub" style="box-shadow:2px 2px 3px #ccc;display:none;background:#fff;border-radius: 0 5px 5px 0; padding:10px;position:absolute;left:200px;bottom:40px;width:600px">
           <div style="width:600px;float:left;padding:10px">
-          <p>Energy</p>
-          <div style="float:left;padding:10px;margin:5px;border:1px solid #ddd;border-radius:5px">
-            <p>High current</p>
-            <div style="width:120px;float:left;padding:2px">
-              <button class="btn btn-light fully object" id="gtl">Switchboard</button>
-              <button class="btn btn-light fully object" id="switch">Switch</button>
-              <button class="btn btn-light fully object" id="doubleSwitch">Multiways</button>
-              <button class="btn btn-light fully object" id="dimmer">Variator</button>
-
+            <p>Energy</p>
+            <div style="float:left;padding:10px;margin:5px;border:1px solid #ddd;border-radius:5px">
+              <p>High current</p>
+              <div style="width:120px;float:left;padding:2px">
+                <button class="btn btn-light fully object" id="gtl">Switchboard</button>
+                <button class="btn btn-light fully object" id="switch">Switch</button>
+                <button class="btn btn-light fully object" id="doubleSwitch">Multiways</button>
+                <button class="btn btn-light fully object" id="dimmer">Variator</button>
+              </div>
+              <div style="width:120px;float:left;padding:2px">
+                <button class="btn btn-light fully object" id="plug">Electrical outlet</button>
+                <button class="btn btn-light fully object" id="plug20">Outlet 20A</button>
+                <button class="btn btn-light fully object" id="plug32">Outlet 32A</button>
+                <button class="btn btn-light fully object" id="rooflight shadow">Ceiling lamp</button>
+                <button class="btn btn-light fully object" id="walllight shadow">Wall light</button>
             </div>
-            <div style="width:120px;float:left;padding:2px">
-              <button class="btn btn-light fully object" id="plug">Electrical outlet</button>
-              <button class="btn btn-light fully object" id="plug20">Outlet 20A</button>
-              <button class="btn btn-light fully object" id="plug32">Outlet 32A</button>
-              <button class="btn btn-light fully object" id="rooflight shadow">Ceiling lamp</button>
-              <button class="btn btn-light fully object" id="walllight shadow">Wall light</button>
+            </div>
+            <div style="width:130px;float:left;padding:10px;margin:5px;border:1px solid #ddd;border-radius:5px">
+              <p>Low current</p>
+              <button class="btn btn-light fully object" id="www">Internet access</button>
+              <button class="btn btn-light fully object" id="rj45">RJ45 plug</button>
+              <button class="btn btn-light fully object" id="tv">Antenna plug</button>
+            </div>
+            <div style="width:130px;float:left;padding:10px;margin:5px;border:1px solid #ddd;border-radius:5px">
+              <p>Thermal</p>
+              <button class="btn btn-light fully object" id="boiler">Boiler</button>
+              <button class="btn btn-light fully object" id="heater">Water heater</button>
+              <button class="btn btn-light fully object" id="radiator">Radiator</button>
+            </div>
           </div>
-          </div>
-          <div style="width:130px;float:left;padding:10px;margin:5px;border:1px solid #ddd;border-radius:5px">
-            <p>Low current</p>
-            <button class="btn btn-light fully object" id="www">Internet access</button>
-            <button class="btn btn-light fully object" id="rj45">RJ45 plug</button>
-            <button class="btn btn-light fully object" id="tv">Antenna plug</button>
-          </div>
-
-          <div style="width:130px;float:left;padding:10px;margin:5px;border:1px solid #ddd;border-radius:5px">
-            <p>Thermal</p>
-            <button class="btn btn-light fully object" id="boiler">Boiler</button>
-            <button class="btn btn-light fully object" id="heater">Water heater</button>
-            <button class="btn btn-light fully object" id="radiator">Radiator</button>
-          </div>
-          </div>
-
       </div>
-      <li><button class="btn btn-light shadow fully " id="object_mode" onclick="$('.sub').hide();$('#energy_list').toggle(200);">ENERGY</button></li>
+      <!-- <li><button class="btn btn-light shadow fully " id="object_mode" onclick="$('.sub').hide();$('#energy_list').toggle(200);">ENERGY</button></li> -->
       <!-- <li><button class="btn btn-light shadow fully " id="object_mode" onclick="$('.sub').hide();$('#object_list').toggle(200);">FURNITURE</button></li> -->
-      <br/>
-
-      <li><button class="btn btn-light shadow fully " id="layer_mode" onclick="$('.sub').hide();$('#layer_list').toggle(200);">Layers</button></li>
-
     <div id="layer_list"  class="list-unstyled sub" style="box-shadow:2px 2px 3px #ccc;display:none;background:#fff;border-radius: 0 5px 5px 0; padding:10px;position:absolute;left:200px;bottom:100px;width:200px">
       <div class="funkyradio" style="font-size:0.8em">
       <div class="funkyradio-info">
@@ -402,12 +396,6 @@
       </div>
     </div>
 
-    <li><button class="btn btn-light shadow halfy " id="report_mode" title="Show report"><i class="fa fa-calculator" aria-hidden="true"></i>
-    <button class="btn btn-light shadow halfy pull-right" onclick="fullscreen();this.style.display='none';$('#nofull_mode').show();" id="full_mode" title="Full screen"><i class="fa fa-expand" aria-hidden="true"></i></button>
-    <button class="btn btn-light shadow halfy pull-right" style="display:none" onclick="outFullscreen();this.style.display='none';$('#full_mode').show();" id="nofull_mode" data-toggle="tooltip" data-placement="right" title="Full screen"><i class="fa fa-compress" aria-hidden="true"></i></button>
-    <li>
-
-      <div style="clear:both"></div>
     </ul>
   </div>
 
@@ -415,7 +403,7 @@
     <div class="modal-dialog modal-lg  modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          
+
           <h4 class="modal-title" id="myModalLabel">Welcome Home Rough Editor v0.95</h4>
         </div>
         <div class="modal-body m-2">
@@ -479,7 +467,7 @@
   </div>
 
   <div id="moveBox" style="position:absolute;right:-150px;top:10px;color:#08d;background:transparent;z-index:2;text-align:center;transition-duration: 0.2s;transition-timing-function: ease-in;">
-    <p style="margin:0px 0 0 0;font-size:11px" onclick="document.location='https://github.com/ekymoz/homeRoughEditor'"><img src="https://cdn4.iconfinder.com/data/icons/mathematics-doodle-3/48/102-128.png" width=20px /> Home Rough Editor</p>
+
     <div class="pull-right" style="margin:10px">
     <p style="margin:0"><button class="btn btn-xs btn-info zoom" data-zoom="zoomtop" style="box-shadow:2px 2px 3px #ccc;"><i class="fa fa-arrow-up" aria-hidden="true"></i></button></p>
     <p style="margin:0">
