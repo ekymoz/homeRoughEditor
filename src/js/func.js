@@ -886,23 +886,6 @@ document.getElementById('objToolsHinge').addEventListener('click', function () {
   objTarget.update()
 })
 
-// INITIAL APPLICATION LOAD
-window.addEventListener('load', function () {
-  document.getElementById('panel').style.transform = 'translateX(200px)'
-  document
-    .getElementById('panel')
-    .addEventListener('transitionend', function () {
-      // HIDE MOVE AND ZOOM CONTROLS
-      // document.getElementById('moveBox').style.transform = 'translateX(-165px)'
-      // document.getElementById('zoomBox').style.transform = 'translateX(-165px)'
-    })
-  if (!localStorage.getItem('history')) {
-    $('#recover').html('<p>Select a plan type.')
-  }
-  const myModal = new bootstrap.Modal($('#myModal'))
-  myModal.show()
-})
-
 document.getElementById('sizePolice').addEventListener('input', function () {
   document.getElementById('labelBox').style.fontSize = this.value + 'px'
 })

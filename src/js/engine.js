@@ -1,3 +1,35 @@
+window.addEventListener('resize', function (event) {
+  width_viewbox = $('#lin').width()
+  height_viewbox = $('#lin').height()
+  document
+    .querySelector('#lin')
+    .setAttribute(
+      'viewBox',
+      originX_viewbox +
+        ' ' +
+        originY_viewbox +
+        ' ' +
+        width_viewbox +
+        ' ' +
+        height_viewbox,
+    )
+})
+
+window.addEventListener('load', function () {
+  // HIDE MOVE AND ZOOM CONTROLS
+  // document
+  //   .getElementById('panel')
+  //   .addEventListener('transitionend', function () {
+  //     document.getElementById('moveBox').style.transform = 'translateX(-165px)'
+  //     document.getElementById('zoomBox').style.transform = 'translateX(-165px)'
+  //   })
+  if (!localStorage.getItem('history')) {
+    $('#recover').html('<p>Select a plan type.</p>')
+  }
+  const myModal = new bootstrap.Modal($('#myModal'))
+  myModal.show()
+})
+
 document.querySelector('#lin').addEventListener('mouseup', _MOUSEUP)
 document.querySelector('#lin').addEventListener(
   'mousemove',
@@ -19,12 +51,14 @@ for (let radio of activeLayerRadios) {
   })
 }
 
-const visibleLayerCheckboxes = document.querySelectorAll('[name="visible_layer"]')
+const visibleLayerCheckboxes = document.querySelectorAll(
+  '[name="visible_layer"]',
+)
 
 for (let checkbox of visibleLayerCheckboxes) {
   checkbox.addEventListener('click', function (event) {
     const layer = event.currentTarget.value
-    if(visibleLayers.has(layer)) {
+    if (visibleLayers.has(layer)) {
       visibleLayers.delete(layer)
     } else {
       visibleLayers.add(layer)
@@ -47,23 +81,6 @@ document
       delete lengthTemp
     }
   })
-
-window.addEventListener('resize', function (event) {
-  width_viewbox = $('#lin').width()
-  height_viewbox = $('#lin').height()
-  document
-    .querySelector('#lin')
-    .setAttribute(
-      'viewBox',
-      originX_viewbox +
-        ' ' +
-        originY_viewbox +
-        ' ' +
-        width_viewbox +
-        ' ' +
-        height_viewbox,
-    )
-})
 
 // *****************************************************************************************************
 // ******************************        KEYPRESS on KEYBOARD          *********************************

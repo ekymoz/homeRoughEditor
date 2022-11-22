@@ -10,15 +10,8 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
       integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
       crossorigin="anonymous" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="src/css/style.css" />
   </head>
-
   <body style="background: #f2eee5; margin: 0; padding: 0">
     <svg
       id="lin"
@@ -805,17 +798,30 @@
         </li>
         <li>
           Visible Layer
-          <br/>
-          <input type="checkbox" name="visible_layer" id="visible_layer_electrical" value="electrical" />
+          <br />
+          <input
+            type="checkbox"
+            name="visible_layer"
+            id="visible_layer_electrical"
+            value="electrical" />
           <label for="visible_layer_electrical">Electrical</label>
         </li>
         <li>
           Active Layer
-          <br/>
-          <input type="radio" name="active_layer" id="active_layer_walls" checked value="walls" />
+          <br />
+          <input
+            type="radio"
+            name="active_layer"
+            id="active_layer_walls"
+            checked
+            value="walls" />
           <label for="active_layer_walls">Walls</label>
-          <br/>
-          <input type="radio" name="active_layer" id="active_layer_electrical" value="electrical" />
+          <br />
+          <input
+            type="radio"
+            name="active_layer"
+            id="active_layer_electrical"
+            value="electrical" />
           <label for="active_layer_electrical">Electrical</label>
         </li>
         <li>
@@ -1295,7 +1301,6 @@
         ">
         1m
       </div>
-
       <div style="clear: both"></div>
     </div>
   </body>
