@@ -19,7 +19,7 @@ taille_w = linElement.width()
 taille_h = linElement.height()
 let offset = linElement.offset()
 grid = 20
-showRib = true
+// showRib = true
 showArea = true
 meter = 60
 grid_snap = 'off'
@@ -998,43 +998,45 @@ function throttle(callback, delay) {
 //   }, 100),
 // )
 
-document.getElementById('showRib').addEventListener('click', function () {
-  if (document.getElementById('showRib').checked) {
-    $('#boxScale').show(200)
-    $('#boxRib').show(200)
-    showRib = true
-  } else {
-    $('#boxScale').hide(100)
-    $('#boxRib').hide(100)
-    showRib = false
-  }
-})
+// document.getElementById('showRib').addEventListener('click', function () {
+//   if (document.getElementById('showRib').checked) {
+//     $('#boxScale').show(200)
+//     $('#boxRib').show(200)
+//     showRib = true
+//   } else {
+//     $('#boxScale').hide(100)
+//     $('#boxRib').hide(100)
+//     showRib = false
+//   }
+// })
 
-document.getElementById('showArea').addEventListener('click', function () {
-  if (document.getElementById('showArea').checked) {
-    $('#boxArea').show(200)
-  } else {
-    $('#boxArea').hide(100)
-  }
-})
+// document.getElementById('showArea').addEventListener('click', function () {
+//   if (document.getElementById('showArea').checked) {
+//     $('#boxArea').show(200)
+//   } else {
+//     $('#boxArea').hide(100)
+//   }
+// })
 
-document.getElementById('showLayerRoom').addEventListener('click', function () {
-  if (document.getElementById('showLayerRoom').checked) {
-    $('#boxRoom').show(200)
-  } else {
-    $('#boxRoom').hide(100)
-  }
-})
 
-document
-  .getElementById('showLayerEnergy')
-  .addEventListener('click', function () {
-    if (document.getElementById('showLayerEnergy').checked) {
-      $('#boxEnergy').show(200)
-    } else {
-      $('#boxEnergy').hide(100)
-    }
-  })
+
+// document.getElementById('showLayerRoom').addEventListener('click', function () {
+//   if (document.getElementById('showLayerRoom').checked) {
+//     $('#boxRoom').show(200)
+//   } else {
+//     $('#boxRoom').hide(100)
+//   }
+// })
+
+// document
+//   .getElementById('showLayerEnergy')
+//   .addEventListener('click', function () {
+//     if (document.getElementById('showLayerEnergy').checked) {
+//       $('#boxEnergy').show(200)
+//     } else {
+//       $('#boxEnergy').hide(100)
+//     }
+//   })
 
 // document.getElementById("showLayerFurniture").addEventListener("click", function () {
 //   if (document.getElementById("showLayerFurniture").checked) {

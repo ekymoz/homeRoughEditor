@@ -2241,7 +2241,7 @@ function mouseUp_mode_room (event) {
 
 function mouseUpHandler(event) {
 
-  if (showRib) $('#boxScale').show(200)
+  // if (showRib) $('#boxScale').show(200)
 
   drag = 'off'
 
