@@ -113,6 +113,398 @@ document
     }
   })
 
+function mouseDown_mode_select (event) {
+  if (mode !== 'select_mode') {
+    return
+  }
+
+  if (
+    typeof binder != 'undefined' &&
+    (binder.type == 'segment' ||
+      binder.type == 'node' ||
+      binder.type == 'obj' ||
+      binder.type == 'boundingBox')
+  ) {
+    // REVIEW: Is this safe to do here? How is the subsequent mouse move effected?
+    mode = 'bind_mode'
+
+    if (binder.type == 'obj') {
+      action = 1
+    }
+
+    if (binder.type == 'boundingBox') {
+      action = 1
+    }
+
+    // INIT FOR HELP BINDER NODE MOVING H V (MOUSE DOWN)
+    if (binder.type == 'node') {
+      $('#boxScale').hide(100)
+      var node = binder.data
+      pox = node.x
+      poy = node.y
+      var nodeControl = { x: pox, y: poy }
+
+      // DETERMINATE DISTANCE OF OPPOSED NODE ON EDGE(s) PARENT(s) OF THIS NODE !!!! NODE 1 -- NODE 2 SYSTE% :-(
+      wallListObj = [] // SUPER VAR -- WARNING
+      var objWall
+      wallListRun = []
+      for (var ee = WALLS.length - 1; ee > -1; ee--) {
+        // SEARCH MOST YOUNG WALL COORDS IN NODE BINDER
+        if (
+          isObjectsEquals(WALLS[ee].start, nodeControl) ||
+          isObjectsEquals(WALLS[ee].end, nodeControl)
+        ) {
+          wallListRun.push(WALLS[ee])
+          break
+        }
+      }
+      if (wallListRun[0].child != null) {
+        if (
+          isObjectsEquals(wallListRun[0].child.start, nodeControl) ||
+          isObjectsEquals(wallListRun[0].child.end, nodeControl)
+        )
+          wallListRun.push(wallListRun[0].child)
+      }
+      if (wallListRun[0].parent != null) {
+        if (
+          isObjectsEquals(wallListRun[0].parent.start, nodeControl) ||
+          isObjectsEquals(wallListRun[0].parent.end, nodeControl)
+        )
+          wallListRun.push(wallListRun[0].parent)
+      }
+
+      for (var k in wallListRun) {
+        if (
+          isObjectsEquals(wallListRun[k].start, nodeControl) ||
+          isObjectsEquals(wallListRun[k].end, nodeControl)
+        ) {
+          var nodeTarget = wallListRun[k].start
+          if (isObjectsEquals(wallListRun[k].start, nodeControl)) {
+            nodeTarget = wallListRun[k].end
+          }
+          objWall = editor.objFromWall(wallListRun[k]) // LIST OBJ ON EDGE -- NOT INDEX !!!
+          wall = wallListRun[k]
+          for (var ob = 0; ob < objWall.length; ob++) {
+            var objTarget = objWall[ob]
+            var distance = qSVG.measure(objTarget, nodeTarget)
+            wallListObj.push({
+              wall: wall,
+              from: nodeTarget,
+              distance: distance,
+              obj: objTarget,
+              indexObj: ob,
+            })
+          }
+        }
+      }
+      magnetic = 0
+      action = 1
+    }
+    if (binder.type == 'segment') {
+      $('#boxScale').hide(100)
+      var wall = binder.wall
+      binder.before = binder.wall.start
+      equation2 = editor.createEquationFromWall(wall)
+      if (wall.parent != null) {
+        equation1 = editor.createEquationFromWall(wall.parent)
+        var angle12 = qSVG.angleBetweenEquations(equation1.A, equation2.A)
+        if (angle12 < 20 || angle12 > 160) {
+          var found = true
+          for (var k in WALLS) {
+            if (
+              qSVG.rayCasting(wall.start, WALLS[k].coords) &&
+              !isObjectsEquals(WALLS[k], wall.parent) &&
+              !isObjectsEquals(WALLS[k], wall)
+            ) {
+              if (
+                wall.parent.parent != null &&
+                isObjectsEquals(wall, wall.parent.parent)
+              )
+                wall.parent.parent = null
+              if (
+                wall.parent.child != null &&
+                isObjectsEquals(wall, wall.parent.child)
+              )
+                wall.parent.child = null
+              wall.parent = null
+              found = false
+              break
+            }
+          }
+          if (found) {
+            var newWall
+            if (isObjectsEquals(wall.parent.end, wall.start, '1')) {
+              newWall = new editor.wall(
+                wall.parent.end,
+                wall.start,
+                'normal',
+                wall.thick,
+              )
+              WALLS.push(newWall)
+              newWall.parent = wall.parent
+              newWall.child = wall
+              wall.parent.child = newWall
+              wall.parent = newWall
+              equation1 = qSVG.perpendicularEquation(
+                equation2,
+                wall.start.x,
+                wall.start.y,
+              )
+            } else if (isObjectsEquals(wall.parent.start, wall.start, '2')) {
+              newWall = new editor.wall(
+                wall.parent.start,
+                wall.start,
+                'normal',
+                wall.thick,
+              )
+              WALLS.push(newWall)
+              newWall.parent = wall.parent
+              newWall.child = wall
+              wall.parent.parent = newWall
+              wall.parent = newWall
+              equation1 = qSVG.perpendicularEquation(
+                equation2,
+                wall.start.x,
+                wall.start.y,
+              )
+            }
+            // CREATE NEW WALL
+          }
+        }
+      }
+      if (wall.parent == null) {
+        var foundEq = false
+        for (var k in WALLS) {
+          if (
+            qSVG.rayCasting(wall.start, WALLS[k].coords) &&
+            !isObjectsEquals(WALLS[k].coords, wall.coords)
+          ) {
+            var angleFollow = qSVG.angleBetweenEquations(
+              WALLS[k].equations.base.A,
+              equation2.A,
+            )
+            if (angleFollow < 20 || angleFollow > 160) break
+            equation1 = editor.createEquationFromWall(WALLS[k])
+            equation1.follow = WALLS[k]
+            equation1.backUp = {
+              coords: WALLS[k].coords,
+              start: WALLS[k].start,
+              end: WALLS[k].end,
+              child: WALLS[k].child,
+              parent: WALLS[k].parent,
+            }
+            foundEq = true
+            break
+          }
+        }
+        if (!foundEq)
+          equation1 = qSVG.perpendicularEquation(
+            equation2,
+            wall.start.x,
+            wall.start.y,
+          )
+      }
+
+      if (wall.child != null) {
+        equation3 = editor.createEquationFromWall(wall.child)
+        var angle23 = qSVG.angleBetweenEquations(equation3.A, equation2.A)
+        if (angle23 < 20 || angle23 > 160) {
+          var found = true
+          for (var k in WALLS) {
+            if (
+              qSVG.rayCasting(wall.end, WALLS[k].coords) &&
+              !isObjectsEquals(WALLS[k], wall.child) &&
+              !isObjectsEquals(WALLS[k], wall)
+            ) {
+              if (
+                wall.child.parent != null &&
+                isObjectsEquals(wall, wall.child.parent)
+              )
+                wall.child.parent = null
+              if (
+                wall.child.child != null &&
+                isObjectsEquals(wall, wall.child.child)
+              )
+                wall.child.child = null
+              wall.child = null
+              found = false
+              break
+            }
+          }
+          if (found) {
+            if (isObjectsEquals(wall.child.start, wall.end)) {
+              var newWall = new editor.wall(
+                wall.end,
+                wall.child.start,
+                'new',
+                wall.thick,
+              )
+              WALLS.push(newWall)
+              newWall.parent = wall
+              newWall.child = wall.child
+              wall.child.parent = newWall
+              wall.child = newWall
+              equation3 = qSVG.perpendicularEquation(
+                equation2,
+                wall.end.x,
+                wall.end.y,
+              )
+            } else if (isObjectsEquals(wall.child.end, wall.end)) {
+              var newWall = new editor.wall(
+                wall.end,
+                wall.child.end,
+                'normal',
+                wall.thick,
+              )
+              WALLS.push(newWall)
+              newWall.parent = wall
+              newWall.child = wall.child
+              wall.child.child = newWall
+              wall.child = newWall
+              equation3 = qSVG.perpendicularEquation(
+                equation2,
+                wall.end.x,
+                wall.end.y,
+              )
+            }
+            // CREATE NEW WALL
+          }
+        }
+      }
+      if (wall.child == null) {
+        var foundEq = false
+        for (var k in WALLS) {
+          if (
+            qSVG.rayCasting(wall.end, WALLS[k].coords) &&
+            !isObjectsEquals(WALLS[k].coords, wall.coords, '4')
+          ) {
+            var angleFollow = qSVG.angleBetweenEquations(
+              WALLS[k].equations.base.A,
+              equation2.A,
+            )
+            if (angleFollow < 20 || angleFollow > 160) break
+            equation3 = editor.createEquationFromWall(WALLS[k])
+            equation3.follow = WALLS[k]
+            equation3.backUp = {
+              coords: WALLS[k].coords,
+              start: WALLS[k].start,
+              end: WALLS[k].end,
+              child: WALLS[k].child,
+              parent: WALLS[k].parent,
+            }
+            foundEq = true
+            break
+          }
+        }
+        if (!foundEq)
+          equation3 = qSVG.perpendicularEquation(
+            equation2,
+            wall.end.x,
+            wall.end.y,
+          )
+      }
+
+      equationFollowers = []
+      for (var k in WALLS) {
+        if (
+          WALLS[k].child == null &&
+          qSVG.rayCasting(WALLS[k].end, wall.coords) &&
+          !isObjectsEquals(wall, WALLS[k])
+        ) {
+          equationFollowers.push({
+            wall: WALLS[k],
+            eq: editor.createEquationFromWall(WALLS[k]),
+            type: 'end',
+          })
+        }
+        if (
+          WALLS[k].parent == null &&
+          qSVG.rayCasting(WALLS[k].start, wall.coords) &&
+          !isObjectsEquals(wall, WALLS[k])
+        ) {
+          equationFollowers.push({
+            wall: WALLS[k],
+            eq: editor.createEquationFromWall(WALLS[k]),
+            type: 'start',
+          })
+        }
+      }
+
+      equationsObj = []
+      var objWall = editor.objFromWall(wall) // LIST OBJ ON EDGE
+      for (var ob = 0; ob < objWall.length; ob++) {
+        var objTarget = objWall[ob]
+        equationsObj.push({
+          obj: objTarget,
+          wall: wall,
+          eq: qSVG.perpendicularEquation(equation2, objTarget.x, objTarget.y),
+        })
+      }
+      action = 1
+    }
+  } else {
+    action = 0
+    drag = 'on'
+    snap = calcul_snap(event, grid_snap)
+    pox = snap.xMouse
+    poy = snap.yMouse
+  }
+}
+
+function mouseDown_mode_line_partition (event) {
+  if (mode !== 'line_mode' && mode !== 'partition_mode') {
+    return
+  }
+
+  if (action == 0) {
+    snap = calcul_snap(event, grid_snap)
+    pox = snap.x
+    poy = snap.y
+    if ((wallStartConstruc = editor.nearWall(snap, 12))) {
+      // TO SNAP SEGMENT TO FINALIZE X2Y2
+      pox = wallStartConstruc.x
+      poy = wallStartConstruc.y
+    }
+  } else {
+    construc = 1
+  }
+
+  action = 1
+}
+
+function mouseDown_mode_distance (event) {
+  if (mode !== 'distance_mode') {
+    return
+  }
+
+  if (action == 0) {
+    action = 1
+    snap = calcul_snap(event, grid_snap)
+    pox = snap.x
+    poy = snap.y
+  }
+}
+
+function mouseDown_mode_edit_door (event) {
+  if (mode !== 'edit_door_mode') {
+    return
+  }
+
+  // ACTION 1 ACTIVATE EDITION OF THE DOOR
+  action = 1
+  $('#lin').css('cursor', 'pointer')
+}
+
+function mouseDownHandler(event) {
+
+  event.preventDefault()
+
+  mouseDown_mode_select(event)
+  mouseDown_mode_line_partition(event)
+  mouseDown_mode_distance(event)
+  mouseDown_mode_edit_door(event)
+}
+
 function mouseMove_mode_select (event) {
 
   if(mode !== 'select_mode') {
@@ -1472,398 +1864,6 @@ function mouseMoveHandler(event) {
   mouseMove_mode_text(event)
   mouseMove_mode_object(event)
   mouseMove_mode_room(event)
-}
-
-function mouseDown_mode_select (event) {
-  if (mode !== 'select_mode') {
-    return
-  }
-
-  if (
-    typeof binder != 'undefined' &&
-    (binder.type == 'segment' ||
-      binder.type == 'node' ||
-      binder.type == 'obj' ||
-      binder.type == 'boundingBox')
-  ) {
-    // REVIEW: Is this safe to do here? How is the subsequent mouse move effected?
-    mode = 'bind_mode'
-
-    if (binder.type == 'obj') {
-      action = 1
-    }
-
-    if (binder.type == 'boundingBox') {
-      action = 1
-    }
-
-    // INIT FOR HELP BINDER NODE MOVING H V (MOUSE DOWN)
-    if (binder.type == 'node') {
-      $('#boxScale').hide(100)
-      var node = binder.data
-      pox = node.x
-      poy = node.y
-      var nodeControl = { x: pox, y: poy }
-
-      // DETERMINATE DISTANCE OF OPPOSED NODE ON EDGE(s) PARENT(s) OF THIS NODE !!!! NODE 1 -- NODE 2 SYSTE% :-(
-      wallListObj = [] // SUPER VAR -- WARNING
-      var objWall
-      wallListRun = []
-      for (var ee = WALLS.length - 1; ee > -1; ee--) {
-        // SEARCH MOST YOUNG WALL COORDS IN NODE BINDER
-        if (
-          isObjectsEquals(WALLS[ee].start, nodeControl) ||
-          isObjectsEquals(WALLS[ee].end, nodeControl)
-        ) {
-          wallListRun.push(WALLS[ee])
-          break
-        }
-      }
-      if (wallListRun[0].child != null) {
-        if (
-          isObjectsEquals(wallListRun[0].child.start, nodeControl) ||
-          isObjectsEquals(wallListRun[0].child.end, nodeControl)
-        )
-          wallListRun.push(wallListRun[0].child)
-      }
-      if (wallListRun[0].parent != null) {
-        if (
-          isObjectsEquals(wallListRun[0].parent.start, nodeControl) ||
-          isObjectsEquals(wallListRun[0].parent.end, nodeControl)
-        )
-          wallListRun.push(wallListRun[0].parent)
-      }
-
-      for (var k in wallListRun) {
-        if (
-          isObjectsEquals(wallListRun[k].start, nodeControl) ||
-          isObjectsEquals(wallListRun[k].end, nodeControl)
-        ) {
-          var nodeTarget = wallListRun[k].start
-          if (isObjectsEquals(wallListRun[k].start, nodeControl)) {
-            nodeTarget = wallListRun[k].end
-          }
-          objWall = editor.objFromWall(wallListRun[k]) // LIST OBJ ON EDGE -- NOT INDEX !!!
-          wall = wallListRun[k]
-          for (var ob = 0; ob < objWall.length; ob++) {
-            var objTarget = objWall[ob]
-            var distance = qSVG.measure(objTarget, nodeTarget)
-            wallListObj.push({
-              wall: wall,
-              from: nodeTarget,
-              distance: distance,
-              obj: objTarget,
-              indexObj: ob,
-            })
-          }
-        }
-      }
-      magnetic = 0
-      action = 1
-    }
-    if (binder.type == 'segment') {
-      $('#boxScale').hide(100)
-      var wall = binder.wall
-      binder.before = binder.wall.start
-      equation2 = editor.createEquationFromWall(wall)
-      if (wall.parent != null) {
-        equation1 = editor.createEquationFromWall(wall.parent)
-        var angle12 = qSVG.angleBetweenEquations(equation1.A, equation2.A)
-        if (angle12 < 20 || angle12 > 160) {
-          var found = true
-          for (var k in WALLS) {
-            if (
-              qSVG.rayCasting(wall.start, WALLS[k].coords) &&
-              !isObjectsEquals(WALLS[k], wall.parent) &&
-              !isObjectsEquals(WALLS[k], wall)
-            ) {
-              if (
-                wall.parent.parent != null &&
-                isObjectsEquals(wall, wall.parent.parent)
-              )
-                wall.parent.parent = null
-              if (
-                wall.parent.child != null &&
-                isObjectsEquals(wall, wall.parent.child)
-              )
-                wall.parent.child = null
-              wall.parent = null
-              found = false
-              break
-            }
-          }
-          if (found) {
-            var newWall
-            if (isObjectsEquals(wall.parent.end, wall.start, '1')) {
-              newWall = new editor.wall(
-                wall.parent.end,
-                wall.start,
-                'normal',
-                wall.thick,
-              )
-              WALLS.push(newWall)
-              newWall.parent = wall.parent
-              newWall.child = wall
-              wall.parent.child = newWall
-              wall.parent = newWall
-              equation1 = qSVG.perpendicularEquation(
-                equation2,
-                wall.start.x,
-                wall.start.y,
-              )
-            } else if (isObjectsEquals(wall.parent.start, wall.start, '2')) {
-              newWall = new editor.wall(
-                wall.parent.start,
-                wall.start,
-                'normal',
-                wall.thick,
-              )
-              WALLS.push(newWall)
-              newWall.parent = wall.parent
-              newWall.child = wall
-              wall.parent.parent = newWall
-              wall.parent = newWall
-              equation1 = qSVG.perpendicularEquation(
-                equation2,
-                wall.start.x,
-                wall.start.y,
-              )
-            }
-            // CREATE NEW WALL
-          }
-        }
-      }
-      if (wall.parent == null) {
-        var foundEq = false
-        for (var k in WALLS) {
-          if (
-            qSVG.rayCasting(wall.start, WALLS[k].coords) &&
-            !isObjectsEquals(WALLS[k].coords, wall.coords)
-          ) {
-            var angleFollow = qSVG.angleBetweenEquations(
-              WALLS[k].equations.base.A,
-              equation2.A,
-            )
-            if (angleFollow < 20 || angleFollow > 160) break
-            equation1 = editor.createEquationFromWall(WALLS[k])
-            equation1.follow = WALLS[k]
-            equation1.backUp = {
-              coords: WALLS[k].coords,
-              start: WALLS[k].start,
-              end: WALLS[k].end,
-              child: WALLS[k].child,
-              parent: WALLS[k].parent,
-            }
-            foundEq = true
-            break
-          }
-        }
-        if (!foundEq)
-          equation1 = qSVG.perpendicularEquation(
-            equation2,
-            wall.start.x,
-            wall.start.y,
-          )
-      }
-
-      if (wall.child != null) {
-        equation3 = editor.createEquationFromWall(wall.child)
-        var angle23 = qSVG.angleBetweenEquations(equation3.A, equation2.A)
-        if (angle23 < 20 || angle23 > 160) {
-          var found = true
-          for (var k in WALLS) {
-            if (
-              qSVG.rayCasting(wall.end, WALLS[k].coords) &&
-              !isObjectsEquals(WALLS[k], wall.child) &&
-              !isObjectsEquals(WALLS[k], wall)
-            ) {
-              if (
-                wall.child.parent != null &&
-                isObjectsEquals(wall, wall.child.parent)
-              )
-                wall.child.parent = null
-              if (
-                wall.child.child != null &&
-                isObjectsEquals(wall, wall.child.child)
-              )
-                wall.child.child = null
-              wall.child = null
-              found = false
-              break
-            }
-          }
-          if (found) {
-            if (isObjectsEquals(wall.child.start, wall.end)) {
-              var newWall = new editor.wall(
-                wall.end,
-                wall.child.start,
-                'new',
-                wall.thick,
-              )
-              WALLS.push(newWall)
-              newWall.parent = wall
-              newWall.child = wall.child
-              wall.child.parent = newWall
-              wall.child = newWall
-              equation3 = qSVG.perpendicularEquation(
-                equation2,
-                wall.end.x,
-                wall.end.y,
-              )
-            } else if (isObjectsEquals(wall.child.end, wall.end)) {
-              var newWall = new editor.wall(
-                wall.end,
-                wall.child.end,
-                'normal',
-                wall.thick,
-              )
-              WALLS.push(newWall)
-              newWall.parent = wall
-              newWall.child = wall.child
-              wall.child.child = newWall
-              wall.child = newWall
-              equation3 = qSVG.perpendicularEquation(
-                equation2,
-                wall.end.x,
-                wall.end.y,
-              )
-            }
-            // CREATE NEW WALL
-          }
-        }
-      }
-      if (wall.child == null) {
-        var foundEq = false
-        for (var k in WALLS) {
-          if (
-            qSVG.rayCasting(wall.end, WALLS[k].coords) &&
-            !isObjectsEquals(WALLS[k].coords, wall.coords, '4')
-          ) {
-            var angleFollow = qSVG.angleBetweenEquations(
-              WALLS[k].equations.base.A,
-              equation2.A,
-            )
-            if (angleFollow < 20 || angleFollow > 160) break
-            equation3 = editor.createEquationFromWall(WALLS[k])
-            equation3.follow = WALLS[k]
-            equation3.backUp = {
-              coords: WALLS[k].coords,
-              start: WALLS[k].start,
-              end: WALLS[k].end,
-              child: WALLS[k].child,
-              parent: WALLS[k].parent,
-            }
-            foundEq = true
-            break
-          }
-        }
-        if (!foundEq)
-          equation3 = qSVG.perpendicularEquation(
-            equation2,
-            wall.end.x,
-            wall.end.y,
-          )
-      }
-
-      equationFollowers = []
-      for (var k in WALLS) {
-        if (
-          WALLS[k].child == null &&
-          qSVG.rayCasting(WALLS[k].end, wall.coords) &&
-          !isObjectsEquals(wall, WALLS[k])
-        ) {
-          equationFollowers.push({
-            wall: WALLS[k],
-            eq: editor.createEquationFromWall(WALLS[k]),
-            type: 'end',
-          })
-        }
-        if (
-          WALLS[k].parent == null &&
-          qSVG.rayCasting(WALLS[k].start, wall.coords) &&
-          !isObjectsEquals(wall, WALLS[k])
-        ) {
-          equationFollowers.push({
-            wall: WALLS[k],
-            eq: editor.createEquationFromWall(WALLS[k]),
-            type: 'start',
-          })
-        }
-      }
-
-      equationsObj = []
-      var objWall = editor.objFromWall(wall) // LIST OBJ ON EDGE
-      for (var ob = 0; ob < objWall.length; ob++) {
-        var objTarget = objWall[ob]
-        equationsObj.push({
-          obj: objTarget,
-          wall: wall,
-          eq: qSVG.perpendicularEquation(equation2, objTarget.x, objTarget.y),
-        })
-      }
-      action = 1
-    }
-  } else {
-    action = 0
-    drag = 'on'
-    snap = calcul_snap(event, grid_snap)
-    pox = snap.xMouse
-    poy = snap.yMouse
-  }
-}
-
-function mouseDown_mode_line_partition (event) {
-  if (mode !== 'line_mode' && mode !== 'partition_mode') {
-    return
-  }
-
-  if (action == 0) {
-    snap = calcul_snap(event, grid_snap)
-    pox = snap.x
-    poy = snap.y
-    if ((wallStartConstruc = editor.nearWall(snap, 12))) {
-      // TO SNAP SEGMENT TO FINALIZE X2Y2
-      pox = wallStartConstruc.x
-      poy = wallStartConstruc.y
-    }
-  } else {
-    construc = 1
-  }
-
-  action = 1
-}
-
-function mouseDown_mode_distance (event) {
-  if (mode !== 'distance_mode') {
-    return
-  }
-
-  if (action == 0) {
-    action = 1
-    snap = calcul_snap(event, grid_snap)
-    pox = snap.x
-    poy = snap.y
-  }
-}
-
-function mouseDown_mode_edit_door (event) {
-  if (mode !== 'edit_door_mode') {
-    return
-  }
-
-  // ACTION 1 ACTIVATE EDITION OF THE DOOR
-  action = 1
-  $('#lin').css('cursor', 'pointer')
-}
-
-function mouseDownHandler(event) {
-
-  event.preventDefault()
-
-  mouseDown_mode_select(event)
-  mouseDown_mode_line_partition(event)
-  mouseDown_mode_distance(event)
-  mouseDown_mode_edit_door(event)
 }
 
 function mouseUp_mode_select (event) {
