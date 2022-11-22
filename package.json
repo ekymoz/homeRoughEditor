@@ -1,0 +1,8 @@
+{
+  "name": "homerougheditor",
+  "scripts": {
+  },
+  "devDependencies": {
+    "prettier": "2.5.1"
+  }
+}
