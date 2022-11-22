@@ -898,7 +898,6 @@ var editor = {
     cc.params.height ? (this.thick = cc.params.height) : (this.thick = thick)
 
     this.update = function () {
-      console.log('update')
       this.width = (this.size / meter).toFixed(2)
       this.height = (this.thick / meter).toFixed(2)
       cc = carpentryCalc(
@@ -1374,6 +1373,4 @@ var editor = {
       $('#boxScale').append(text)
     }
   },
-
-  // END EDITOR
 }

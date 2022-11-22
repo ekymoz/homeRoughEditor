@@ -1285,7 +1285,6 @@ tactile = false
 function calcul_snap(event, state) {
   if (event.touches) {
     let touches = event.changedTouches
-    console.log('toto')
     eX = touches[0].pageX
     eY = touches[0].pageY
     tactile = true
@@ -2196,6 +2195,20 @@ $('.door').click(function () {
   fonc_button('door_mode', this.id)
 })
 
+$('.electrical').click(function () {
+  linElement.css('cursor', 'crosshair')
+  $('#boxinfo').html('Add electrical')
+  $('#electrical_list').hide(200)
+  fonc_button('electrical_mode', this.id)
+})
+
+$('.network').click(function () {
+  linElement.css('cursor', 'crosshair')
+  $('#boxinfo').html('Add network')
+  $('#network_list').hide(200)
+  fonc_button('network_mode', this.id)
+})
+
 $('.window').click(function () {
   linElement.css('cursor', 'crosshair')
   $('#boxinfo').html('Add a window')
@@ -2286,6 +2299,114 @@ function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
       '#5cba79',
       '',
     )
+  }
+
+  if (classObj === 'network') {
+    if (typeObj === 'rj11') {
+      construc.params.bindBox = true
+      construc.params.move = true
+      construc.params.resize = false
+      construc.params.rotate = false
+      pushToConstruc(construc, qSVG.circlePath(0, 0, 16), '#fff', '#000', '')
+      pushToConstruc(construc, 'm-10,5 l0,-10 m20,0 l0,10', 'none', '#333', '')
+      pushToConstruc(construc, 'm 0,5 v 7', 'none', '#333', '')
+      pushToConstruc(construc, 'm -10,5 h 20', 'none', '#333', '')
+
+      construc.push({
+        text: 'RJ11',
+        x: '0',
+        y: '-5',
+        fill: '#333333',
+        stroke: 'none',
+        fontSize: '0.5em',
+        strokeWidth: '0.4px',
+      })
+      construc.params.width = 36
+      construc.params.height = 36
+      construc.family = 'stick'
+    }
+    if (typeObj === 'rj45') {
+      construc.params.bindBox = true
+      construc.params.move = true
+      construc.params.resize = false
+      construc.params.rotate = false
+      pushToConstruc(construc, qSVG.circlePath(0, 0, 16), '#fff', '#000', '')
+      pushToConstruc(construc, 'm-10,5 l0,-10 m20,0 l0,10', 'none', '#333', '')
+      pushToConstruc(construc, 'm 0,5 v 7', 'none', '#333', '')
+      pushToConstruc(construc, 'm -10,5 h 20', 'none', '#333', '')
+
+      construc.push({
+        text: 'RJ45',
+        x: '0',
+        y: '-5',
+        fill: '#333333',
+        stroke: 'none',
+        fontSize: '0.5em',
+        strokeWidth: '0.4px',
+      })
+      construc.params.width = 36
+      construc.params.height = 36
+      construc.family = 'stick'
+    }
+    if (typeObj === 'coax') {
+      construc.params.bindBox = true
+      construc.params.move = true
+      construc.params.resize = false
+      construc.params.rotate = false
+      pushToConstruc(construc, qSVG.circlePath(0, 0, 16), '#fff', '#000', '')
+      pushToConstruc(construc, 'm-10,5 l0-10 m20,0 l0,10', 'none', '#333', '')
+      pushToConstruc(construc, 'm-7,-5 l0,7 l14,0 l0,-7', 'none', '#333', '')
+      pushToConstruc(construc, 'm 0,5 v 7', 'none', '#333', '')
+      pushToConstruc(construc, 'm -10,5 h 20', 'none', '#333', '')
+
+      construc.push({
+        text: 'TV',
+        x: '0',
+        y: '-5',
+        fill: '#333333',
+        stroke: 'none',
+        fontSize: '0.5em',
+        strokeWidth: '0.4px',
+      })
+      construc.params.width = 36
+      construc.params.height = 36
+      construc.family = 'stick'
+    }
+  }
+
+  if (classObj === 'electrical') {
+    if (typeObj === 'outlet') {
+      construc.params.bindBox = true
+      construc.params.move = true
+      construc.params.resize = false
+      construc.params.rotate = false
+      pushToConstruc(construc, qSVG.circlePath(0, 0, 16), '#fff', '#000', '')
+      pushToConstruc(
+        construc,
+        'M 10,-6 a 10,10 0 0 1 -5,8 10,10 0 0 1 -10,0 10,10 0 0 1 -5,-8',
+        'none',
+        '#333',
+        '',
+      )
+      pushToConstruc(construc, 'm 0,3 v 7', 'none', '#333', '')
+      pushToConstruc(construc, 'm -10,4 h 20', 'none', '#333', '')
+      construc.params.width = 36
+      construc.params.height = 36
+      construc.family = 'stick'
+    }
+
+    if(typeObj === 'switch') {
+      construc.params.bindBox = true
+      construc.params.move = true
+      construc.params.resize = false
+      construc.params.rotate = false
+      pushToConstruc(construc, qSVG.circlePath(0, 0, 16), '#fff', '#333', '')
+      pushToConstruc(construc, qSVG.circlePath(-2, 4, 5), 'none', '#333', '')
+      pushToConstruc(construc, 'm 0,0 5,-9', 'none', '#333', '')
+      construc.params.width = 36
+      construc.params.height = 36
+      construc.family = 'stick'
+    }
   }
 
   if (classObj === 'doorWindow') {

@@ -1,6 +1,6 @@
-const visibleLayerCheckboxes = document.querySelectorAll(
-  '[name="visible_layer"]',
-)
+// const visibleLayerCheckboxes = document.querySelectorAll(
+//   '[name="visible_layer"]',
+// )
 
 // Window Event Listeners
 window.addEventListener('resize', function (event) {
@@ -77,16 +77,16 @@ $(document).on('click', '#lin', function (event) {
   event.preventDefault()
 })
 
-for (let checkbox of visibleLayerCheckboxes) {
-  checkbox.addEventListener('click', function (event) {
-    const layer = event.currentTarget.value
-    if (visibleLayers.has(layer)) {
-      visibleLayers.delete(layer)
-    } else {
-      visibleLayers.add(layer)
-    }
-  })
-}
+// for (let checkbox of visibleLayerCheckboxes) {
+//   checkbox.addEventListener('click', function (event) {
+//     const layer = event.currentTarget.value
+//     if (visibleLayers.has(layer)) {
+//       visibleLayers.delete(layer)
+//     } else {
+//       visibleLayers.add(layer)
+//     }
+//   })
+// }
 
 // REVIEW: What does this do?
 document
@@ -588,7 +588,6 @@ function mouseMove_mode_select (event) {
     } else {
       if (typeof binder != 'undefined') {
         if (typeof binder.graph != 'undefined') binder.graph.remove()
-        console.log(binder)
         if (binder.type == 'node') binder.remove()
         delete binder
         cursor('default')
@@ -964,6 +963,238 @@ function mouseMove_mode_door (event) {
         binder = new editor.obj2D(
           'inWall',
           'doorWindow',
+          modeOption,
+          wallSelect,
+          0,
+          0,
+          60,
+          'normal',
+          wall.thick,
+        )
+        var angleWall = qSVG.angleDeg(
+          wall.start.x,
+          wall.start.y,
+          wall.end.x,
+          wall.end.y,
+        )
+        var v1 = qSVG.vectorXY(
+          { x: wall.start.x, y: wall.start.y },
+          { x: wall.end.x, y: wall.end.y },
+        )
+        var v2 = qSVG.vectorXY({ x: wall.end.x, y: wall.end.y }, snap)
+        var newAngle = qSVG.vectorDeter(v1, v2)
+        if (Math.sign(newAngle) == 1) {
+          angleWall += 180
+          binder.angleSign = 1
+        }
+        var startCoords = qSVG.middle(
+          wall.start.x,
+          wall.start.y,
+          wall.end.x,
+          wall.end.y,
+        )
+        binder.x = startCoords.x
+        binder.y = startCoords.y
+        binder.angle = angleWall
+        binder.update()
+        $('#boxbind').append(binder.graph)
+      } else {
+        var angleWall = qSVG.angleDeg(
+          wall.start.x,
+          wall.start.y,
+          wall.end.x,
+          wall.end.y,
+        )
+        var v1 = qSVG.vectorXY(
+          { x: wall.start.x, y: wall.start.y },
+          { x: wall.end.x, y: wall.end.y },
+        )
+        var v2 = qSVG.vectorXY({ x: wall.end.x, y: wall.end.y }, snap)
+        var newAngle = qSVG.vectorDeter(v1, v2)
+        binder.angleSign = 0
+        if (Math.sign(newAngle) == 1) {
+          binder.angleSign = 1
+          angleWall += 180
+        }
+
+        var limits = limitObj(wall.equations.base, binder.size, wallSelect)
+        if (
+          qSVG.btwn(limits[0].x, wall.start.x, wall.end.x) &&
+          qSVG.btwn(limits[0].y, wall.start.y, wall.end.y) &&
+          qSVG.btwn(limits[1].x, wall.start.x, wall.end.x) &&
+          qSVG.btwn(limits[1].y, wall.start.y, wall.end.y)
+        ) {
+          binder.x = wallSelect.x
+          binder.y = wallSelect.y
+          binder.angle = angleWall
+          binder.thick = wall.thick
+          binder.limit = limits
+          binder.update()
+        }
+
+        if (
+          (wallSelect.x == wall.start.x && wallSelect.y == wall.start.y) ||
+          (wallSelect.x == wall.end.x && wallSelect.y == wall.end.y)
+        ) {
+          if (
+            qSVG.btwn(limits[0].x, wall.start.x, wall.end.x) &&
+            qSVG.btwn(limits[0].y, wall.start.y, wall.end.y)
+          ) {
+            binder.x = limits[0].x
+            binder.y = limits[0].y
+          }
+          if (
+            qSVG.btwn(limits[1].x, wall.start.x, wall.end.x) &&
+            qSVG.btwn(limits[1].y, wall.start.y, wall.end.y)
+          ) {
+            binder.x = limits[1].x
+            binder.y = limits[1].y
+          }
+          binder.limit = limits
+          binder.angle = angleWall
+          binder.thick = wall.thick
+          binder.update()
+        }
+      }
+    }
+  } else {
+    if (typeof binder != 'undefined') {
+      binder.graph.remove()
+      delete binder
+    }
+  }
+}
+
+function mouseMove_mode_network (event) {
+  if (mode !== 'network_mode') {
+    return
+  }
+  snap = calcul_snap(event, grid_snap)
+
+  if ((wallSelect = editor.nearWall(snap))) {
+    var wall = wallSelect.wall
+    if (wall.type != 'separate') {
+      if (typeof binder == 'undefined') {
+        // family, classe, type, pos, angle, angleSign, size, hinge, thick
+        binder = new editor.obj2D(
+          'inWall',
+          'network',
+          modeOption,
+          wallSelect,
+          0,
+          0,
+          60,
+          'normal',
+          wall.thick,
+        )
+        var angleWall = qSVG.angleDeg(
+          wall.start.x,
+          wall.start.y,
+          wall.end.x,
+          wall.end.y,
+        )
+        var v1 = qSVG.vectorXY(
+          { x: wall.start.x, y: wall.start.y },
+          { x: wall.end.x, y: wall.end.y },
+        )
+        var v2 = qSVG.vectorXY({ x: wall.end.x, y: wall.end.y }, snap)
+        var newAngle = qSVG.vectorDeter(v1, v2)
+        if (Math.sign(newAngle) == 1) {
+          angleWall += 180
+          binder.angleSign = 1
+        }
+        var startCoords = qSVG.middle(
+          wall.start.x,
+          wall.start.y,
+          wall.end.x,
+          wall.end.y,
+        )
+        binder.x = startCoords.x
+        binder.y = startCoords.y
+        binder.angle = angleWall
+        binder.update()
+        $('#boxbind').append(binder.graph)
+      } else {
+        var angleWall = qSVG.angleDeg(
+          wall.start.x,
+          wall.start.y,
+          wall.end.x,
+          wall.end.y,
+        )
+        var v1 = qSVG.vectorXY(
+          { x: wall.start.x, y: wall.start.y },
+          { x: wall.end.x, y: wall.end.y },
+        )
+        var v2 = qSVG.vectorXY({ x: wall.end.x, y: wall.end.y }, snap)
+        var newAngle = qSVG.vectorDeter(v1, v2)
+        binder.angleSign = 0
+        if (Math.sign(newAngle) == 1) {
+          binder.angleSign = 1
+          angleWall += 180
+        }
+
+        var limits = limitObj(wall.equations.base, binder.size, wallSelect)
+        if (
+          qSVG.btwn(limits[0].x, wall.start.x, wall.end.x) &&
+          qSVG.btwn(limits[0].y, wall.start.y, wall.end.y) &&
+          qSVG.btwn(limits[1].x, wall.start.x, wall.end.x) &&
+          qSVG.btwn(limits[1].y, wall.start.y, wall.end.y)
+        ) {
+          binder.x = wallSelect.x
+          binder.y = wallSelect.y
+          binder.angle = angleWall
+          binder.thick = wall.thick
+          binder.limit = limits
+          binder.update()
+        }
+
+        if (
+          (wallSelect.x == wall.start.x && wallSelect.y == wall.start.y) ||
+          (wallSelect.x == wall.end.x && wallSelect.y == wall.end.y)
+        ) {
+          if (
+            qSVG.btwn(limits[0].x, wall.start.x, wall.end.x) &&
+            qSVG.btwn(limits[0].y, wall.start.y, wall.end.y)
+          ) {
+            binder.x = limits[0].x
+            binder.y = limits[0].y
+          }
+          if (
+            qSVG.btwn(limits[1].x, wall.start.x, wall.end.x) &&
+            qSVG.btwn(limits[1].y, wall.start.y, wall.end.y)
+          ) {
+            binder.x = limits[1].x
+            binder.y = limits[1].y
+          }
+          binder.limit = limits
+          binder.angle = angleWall
+          binder.thick = wall.thick
+          binder.update()
+        }
+      }
+    }
+  } else {
+    if (typeof binder != 'undefined') {
+      binder.graph.remove()
+      delete binder
+    }
+  }
+}
+
+function mouseMove_mode_electrical (event) {
+  if (mode !== 'electrical_mode') {
+    return
+  }
+  snap = calcul_snap(event, grid_snap)
+
+  if ((wallSelect = editor.nearWall(snap))) {
+    var wall = wallSelect.wall
+    if (wall.type != 'separate') {
+      if (typeof binder == 'undefined') {
+        // family, classe, type, pos, angle, angleSign, size, hinge, thick
+        binder = new editor.obj2D(
+          'inWall',
+          'electrical',
           modeOption,
           wallSelect,
           0,
@@ -1850,6 +2081,8 @@ function mouseMoveHandler(event) {
   mouseMove_mode_select(event)
   mouseMove_mode_line_partition(event)
   mouseMove_mode_door(event)
+  mouseMove_mode_electrical(event)
+  mouseMove_mode_network(event)
   mouseMove_mode_distance(event)
   mouseMove_mode_node(event)
   mouseMove_mode_bind(event)
@@ -1923,6 +2156,44 @@ function mouseUp_mode_line_partition (event) {
     pox = snap.x
     poy = snap.y
   }
+}
+
+function mouseUp_mode_electrical (event) {
+  if (mode !== 'electrical_mode') {
+    return
+  }
+
+  if (typeof binder == 'undefined') {
+    $('#boxinfo').html('The plan currently contains no wall.')
+    fonc_button('select_mode')
+    return false
+  }
+  OBJDATA.push(binder)
+  binder.graph.remove()
+  $('#boxcarpentry').append(OBJDATA[OBJDATA.length - 1].graph)
+  delete binder
+  $('#boxinfo').html('Element added')
+  fonc_button('select_mode')
+  save()
+}
+
+function mouseUp_mode_network (event) {
+  if (mode !== 'network_mode') {
+    return
+  }
+
+  if (typeof binder == 'undefined') {
+    $('#boxinfo').html('The plan currently contains no wall.')
+    fonc_button('select_mode')
+    return false
+  }
+  OBJDATA.push(binder)
+  binder.graph.remove()
+  $('#boxcarpentry').append(OBJDATA[OBJDATA.length - 1].graph)
+  delete binder
+  $('#boxinfo').html('Element added')
+  fonc_button('select_mode')
+  save()
 }
 
 function mouseUp_mode_door (event) {
@@ -2250,6 +2521,8 @@ function mouseUpHandler(event) {
   mouseUp_mode_select(event)
   mouseUp_mode_line_partition(event)
   mouseUp_mode_door(event)
+  mouseUp_mode_network(event)
+  mouseUp_mode_electrical(event)
   mouseUp_mode_distance(event)
   mouseUp_mode_node(event)
   mouseUp_mode_bind(event)

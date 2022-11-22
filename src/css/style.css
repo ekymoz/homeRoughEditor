@@ -362,6 +362,27 @@ input[type='range']:focus::-ms-fill-upper {
 .btn {
 }
 
+.list-unstyled li {
+  position: relative;
+}
+
+.list-unstyled li .sub-menu {
+  border: 1px solid black;
+  box-shadow: 2px 2px 3px #ccc;
+  display: none;
+  background: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  margin-left: 10px;
+  left: 100%;
+  width: 150px;
+}
+.list-unstyled li .sub-menu button {
+  text-align: left;
+}
+
 .list-unstyled li + li {
   margin-top: 6px;
 }
