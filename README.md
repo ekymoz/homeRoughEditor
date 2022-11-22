@@ -7,12 +7,10 @@
 https://ekymoz.github.io/homeRoughEditor/
 
 ## TODO Layers
-- Walls / Doors / Windows
+
 - Furniture
-- Electrical
 - Plumbing
 - Garden
-- Network / Ethernet
 - HVAC
 
 ## Code Formatting / Linting
