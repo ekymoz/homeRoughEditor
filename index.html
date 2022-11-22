@@ -7,7 +7,7 @@
     <title>Floor Plan Manager</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="src/css/style.css">
 </head>
 
 <body style="background:#f2eee5;margin:0;padding:0; ">
@@ -414,9 +414,9 @@
             <p>Or are you prefer start a new plan ?</p>
           </div>
           <div class="w-100 d-flex justify-content-center  flex-column gap-4 flex-md-row">
-            <div class="boxMouseOver"><img src="img/newPlanEmpty.jpg" class="img-fluid" onclick="initHistory();" data-bs-dismiss="modal" /></div>
-            <div class=" boxMouseOver"><img src="img/newPlanSquare.jpg"  class="img-fluid"  onclick="initHistory('newSquare');" data-bs-dismiss="modal"/></div>
-            <div class=" boxMouseOver"><img src="img/newPlanL.jpg"  class="img-fluid" onclick="initHistory('newL');" data-bs-dismiss="modal"/></div>
+            <div class="boxMouseOver"><img src="src/img/newPlanEmpty.jpg" class="img-fluid" onclick="initHistory();" data-bs-dismiss="modal" /></div>
+            <div class=" boxMouseOver"><img src="src/img/newPlanSquare.jpg"  class="img-fluid"  onclick="initHistory('newSquare');" data-bs-dismiss="modal"/></div>
+            <div class=" boxMouseOver"><img src="src/img/newPlanL.jpg"  class="img-fluid" onclick="initHistory('newL');" data-bs-dismiss="modal"/></div>
           </div>
         </div>
         <!-- <div class="modal-footer">
@@ -494,9 +494,9 @@
 </body>
   <script src="https://code.jquery.com/jquery-3.6.1.slim.min.js" integrity="sha256-w8CvhFs7iHNVUtnSP0YKEg00p9Ih13rlL9zGqvLdePA=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
-  <script src="mousewheel.js"></script>
-  <script src="func.js"></script>
-  <script src="qSVG.js"></script>
-  <script src="editor.js"></script>
-  <script src="engine.js"></script>
+  <script src="lib/mousewheel.js"></script>
+  <script src="src/js/func.js"></script>
+  <script src="lib/qSVG.js"></script>
+  <script src="src/js/editor.js"></script>
+  <script src="src/js/engine.js"></script>
 </html>
