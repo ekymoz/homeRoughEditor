@@ -11,6 +11,27 @@ $(document).on('click', '#lin', function (event) {
   event.preventDefault()
 })
 
+const activeLayerRadios = document.querySelectorAll('[name="active_layer"]')
+
+for (let radio of activeLayerRadios) {
+  radio.addEventListener('click', function (event) {
+    activeLayer = event.currentTarget.value
+  })
+}
+
+const visibleLayerCheckboxes = document.querySelectorAll('[name="visible_layer"]')
+
+for (let checkbox of visibleLayerCheckboxes) {
+  checkbox.addEventListener('click', function (event) {
+    const layer = event.currentTarget.value
+    if(visibleLayers.has(layer)) {
+      visibleLayers.delete(layer)
+    } else {
+      visibleLayers.add(layer)
+    }
+  })
+}
+
 document
   .querySelector('#panel')
   .addEventListener('mousemove', function (event) {

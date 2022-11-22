@@ -262,9 +262,7 @@
       <g id="boxText"></g>
       <g id="boxDebug"></g>
     </svg>
-
     <div id="areaValue"></div>
-
     <div
       id="reportTools"
       class="leftBox"
@@ -282,7 +280,6 @@
         <i class="fa fa-2x fa-backward" aria-hidden="true"></i>
       </button>
     </div>
-
     <div id="wallTools" class="leftBox">
       <h2 id="titleWallTools">Modify the wall</h2>
       <hr />
@@ -355,7 +352,6 @@
         </li>
       </ul>
     </div>
-
     <div id="objBoundingBox" class="leftBox">
       <h2>Modify object</h2>
       <hr />
@@ -371,7 +367,6 @@
         </p>
         <input type="range" id="bboxHeight" step="1" class="range" />
       </section>
-
       <section id="objBoundingBoxRotation">
         <p>
           <i class="fa fa-compass" aria-hidden="true"></i> Rotation :
@@ -385,7 +380,6 @@
           min="-180"
           max="180" />
       </section>
-
       <div id="stepsCounter" style="display: none">
         <p>
           <span id="bboxSteps"
@@ -399,7 +393,6 @@
           <i class="fa fa-minus" aria-hidden="true"></i>
         </button>
       </div>
-
       <div id="objBoundingBoxColor">
         <div
           class="color textEditorColor"
@@ -606,7 +599,6 @@
         </div>
       </div>
       <hr />
-
       <p>Colors</p>
       <div
         class="roomColor"
@@ -810,6 +802,21 @@
             onclick="$('.sub').hide();$('#layer_list').toggle(200);">
             Layers
           </button>
+        </li>
+        <li>
+          Visible Layer
+          <br/>
+          <input type="checkbox" name="visible_layer" id="visible_layer_electrical" value="electrical" />
+          <label for="visible_layer_electrical">Electrical</label>
+        </li>
+        <li>
+          Active Layer
+          <br/>
+          <input type="radio" name="active_layer" id="active_layer_walls" checked value="walls" />
+          <label for="active_layer_walls">Walls</label>
+          <br/>
+          <input type="radio" name="active_layer" id="active_layer_electrical" value="electrical" />
+          <label for="active_layer_electrical">Electrical</label>
         </li>
         <li>
           <!-- <button class="btn btn-light shadow halfy " id="report_mode" title="Show report"><i class="fa fa-calculator" aria-hidden="true"></i></button> -->
@@ -1194,7 +1201,7 @@
         color: #08d;
       "
       id="boxinfo"></div>
-    <div
+    <!-- <div
       id="moveBox"
       style="
         position: absolute;
@@ -1245,7 +1252,7 @@
           </button>
         </p>
       </div>
-    </div>
+    </div> -->
     <div
       id="zoomBox"
       style="

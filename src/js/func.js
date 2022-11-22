@@ -5,6 +5,8 @@ ROOM = []
 HISTORY = []
 wallSize = 20
 partitionSize = 8
+const visibleLayers = new Set(['walls'])
+let activeLayer = 'walls'
 let drag = 'off'
 let action = 0
 let magnetic = 0
@@ -884,13 +886,15 @@ document.getElementById('objToolsHinge').addEventListener('click', function () {
   objTarget.update()
 })
 
+// INITIAL APPLICATION LOAD
 window.addEventListener('load', function () {
   document.getElementById('panel').style.transform = 'translateX(200px)'
   document
     .getElementById('panel')
     .addEventListener('transitionend', function () {
-      document.getElementById('moveBox').style.transform = 'translateX(-165px)'
-      document.getElementById('zoomBox').style.transform = 'translateX(-165px)'
+      // HIDE MOVE AND ZOOM CONTROLS
+      // document.getElementById('moveBox').style.transform = 'translateX(-165px)'
+      // document.getElementById('zoomBox').style.transform = 'translateX(-165px)'
     })
   if (!localStorage.getItem('history')) {
     $('#recover').html('<p>Select a plan type.')
@@ -999,16 +1003,17 @@ function throttle(callback, delay) {
   }
 }
 
-linElement.mousewheel(
-  throttle(function (event) {
-    event.preventDefault()
-    if (event.deltaY > 0) {
-      zoom_maker('zoomin', 200)
-    } else {
-      zoom_maker('zoomout', 200)
-    }
-  }, 100),
-)
+// HIDE MOUSEWHEEL FUNCTIONALITY FOR NOW SINCE THERE IS AN ISSUE WITH ZOOM AND MOUSE MOVE
+// linElement.mousewheel(
+//   throttle(function (event) {
+//     event.preventDefault()
+//     if (event.deltaY > 0) {
+//       zoom_maker('zoomin', 200)
+//     } else {
+//       zoom_maker('zoomout', 200)
+//     }
+//   }, 100),
+// )
 
 document.getElementById('showRib').addEventListener('click', function () {
   if (document.getElementById('showRib').checked) {
