@@ -683,10 +683,10 @@
       <ul class="list-unstyled">
         <li>
           <button class="btn disabled halfy" id="undo" title="undo">
-            <i class="fa fa-chevron-circle-left" aria-hidden="true"></i>
+            UNDO
           </button>
           <button class="btn disabled halfy pull-right" id="redo" title="redo">
-            <i class="fa fa-chevron-circle-right" aria-hidden="true"></i>
+            REDO
           </button>
         </li>
         <li>
@@ -694,12 +694,12 @@
             class="btn btn-success fully"
             id="select_mode"
             style="box-shadow: 2px 2px 3px #ccc">
-            <i class="fa fa-2x fa-mouse-pointer" aria-hidden="true"></i>
+            SELECT
           </button>
         </li>
         <li>
           <button class="btn btn-light shadow fully" id="node_mode">
-            <i class="fa fa-2x fa-scissors" aria-hidden="true"></i>
+            CUT
           </button>
         </li>
         <li>
@@ -827,21 +827,21 @@
         <li>
           <!-- <button class="btn btn-light shadow halfy " id="report_mode" title="Show report"><i class="fa fa-calculator" aria-hidden="true"></i></button> -->
           <button
-            class="btn btn-light shadow halfy pull-right"
+            class="btn btn-light shadow"
             onclick="fullscreen();this.style.display='none';$('#nofull_mode').show();"
             id="full_mode"
             title="Full screen">
-            <i class="fa fa-expand" aria-hidden="true"></i>
+            FULL-SCREEN
           </button>
           <button
-            class="btn btn-light shadow halfy pull-right"
+            class="btn btn-light shadow"
             style="display: none"
             onclick="outFullscreen();this.style.display='none';$('#full_mode').show();"
             id="nofull_mode"
             data-toggle="tooltip"
             data-placement="right"
             title="Full screen">
-            <i class="fa fa-compress" aria-hidden="true"></i>
+            EXIT
           </button>
         </li>
         <div

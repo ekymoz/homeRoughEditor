@@ -365,9 +365,6 @@ input[type='range']:focus::-ms-fill-upper {
 .list-unstyled li + li {
   margin-top: 6px;
 }
-.btn + .btn {
-  margin-top: 6px;
-}
 .fully {
   width: 100%;
 }

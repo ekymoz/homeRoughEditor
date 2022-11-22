@@ -1,3 +1,27 @@
+const mouseEventHandlers = {
+  electrical: {
+    mouseDown: mouseDownElectrical,
+    mouseMove: mouseMoveElectrical,
+    mouseUp: mouseUpElectrical
+  },
+  walls: {
+    mouseDown: mouseDownWalls,
+    mouseMove: mouseMoveWalls,
+    mouseUp: mouseUpWalls
+  }
+}
+
+let MOUSE_DOWN_HANDLER
+let MOUSE_MOVE_HANDLER
+let MOUSE_UP_HANDLER
+
+const activeLayerRadios = document.querySelectorAll('[name="active_layer"]')
+
+const visibleLayerCheckboxes = document.querySelectorAll(
+  '[name="visible_layer"]',
+)
+
+// Window Event Listeners
 window.addEventListener('resize', function (event) {
   width_viewbox = $('#lin').width()
   height_viewbox = $('#lin').height()
@@ -30,30 +54,24 @@ window.addEventListener('load', function () {
   myModal.show()
 })
 
-document.querySelector('#lin').addEventListener('mouseup', _MOUSEUP)
+document.querySelector('#lin').addEventListener('mouseup', MOUSE_UP_HANDLER)
 document.querySelector('#lin').addEventListener(
   'mousemove',
   throttle(function (event) {
-    _MOUSEMOVE(event)
+    MOUSE_MOVE_HANDLER(event)
   }, 30),
 )
-document.querySelector('#lin').addEventListener('mousedown', _MOUSEDOWN, true)
+document.querySelector('#lin').addEventListener('mousedown', MOUSE_DOWN_HANDLER, true)
 
 $(document).on('click', '#lin', function (event) {
   event.preventDefault()
 })
-
-const activeLayerRadios = document.querySelectorAll('[name="active_layer"]')
 
 for (let radio of activeLayerRadios) {
   radio.addEventListener('click', function (event) {
     activeLayer = event.currentTarget.value
   })
 }
-
-const visibleLayerCheckboxes = document.querySelectorAll(
-  '[name="visible_layer"]',
-)
 
 for (let checkbox of visibleLayerCheckboxes) {
   checkbox.addEventListener('click', function (event) {
@@ -66,6 +84,7 @@ for (let checkbox of visibleLayerCheckboxes) {
   })
 }
 
+// REVIEW: What does this do?
 document
   .querySelector('#panel')
   .addEventListener('mousemove', function (event) {
@@ -120,11 +139,19 @@ document.addEventListener('keydown', function (event) {
   // }
 })
 
-// *****************************************************************************************************
-// ******************************        MOUSE MOVE          *******************************************
-// *****************************************************************************************************
+function mouseDownElectrical (event) {
 
-function _MOUSEMOVE(event) {
+}
+
+function mouseMoveElectrical (event) {
+
+}
+
+function mouseUpElectrical (event) {
+
+}
+
+function mouseMoveWalls(event) {
   event.preventDefault()
   $('.sub').hide(100)
 
@@ -1470,17 +1497,9 @@ function _MOUSEMOVE(event) {
     // poy = event.pageY;
     zoom_maker('zoomdrag', distX, distY)
   }
-} // END MOUSEMOVE
+}
 
-// *****************************************************************************************************
-// *****************************************************************************************************
-// *****************************************************************************************************
-// ******************************        MOUSE DOWN            *****************************************
-// *****************************************************************************************************
-// *****************************************************************************************************
-// *****************************************************************************************************
-
-function _MOUSEDOWN(event) {
+function mouseDownWalls(event) {
   event.preventDefault()
   // *******************************************************************
   // **************************   DISTANCE MODE   **********************
@@ -1856,15 +1875,7 @@ function _MOUSEDOWN(event) {
   }
 }
 
-//******************************************************************************************************
-//*******************  *****  ******        ************************************************************
-//*******************  *****  ******  ****  ************************************************************
-//*******************  *****  ******  ****  ************************************************************
-//*******************  *****  ******        ************************************************************
-//*******************         ******  ******************************************************************
-//**********************************  ******************************************************************
-
-function _MOUSEUP(event) {
+function mouseUpWalls(event) {
   if (showRib) $('#boxScale').show(200)
   drag = 'off'
   cursor('default')
