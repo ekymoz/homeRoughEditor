@@ -878,6 +878,14 @@
             EXIT
           </button>
         </li>
+        <li>
+          <button
+            class="btn btn-light shadow"
+            onclick="exportFloorplan();"
+            title="Export">
+            EXPORT
+          </button>
+        </li>
         <!-- <li><button class="btn btn-light shadow fully " id="object_mode" onclick="$('.sub').hide();$('#energy_list').toggle(200);">ENERGY</button></li> -->
         <!-- <li><button class="btn btn-light shadow fully " id="object_mode" onclick="$('.sub').hide();$('#object_list').toggle(200);">FURNITURE</button></li> -->
         <!-- <li><button class="btn btn-light shadow fully " id="room_mode">CONFIG. ROOMS</button></li> -->
@@ -998,12 +1006,12 @@
         <div class="modal-content">
           <div class="modal-header">
             <h4 class="modal-title" id="myModalLabel">
-              Welcome Home Rough Editor v0.95
+              Floor Plan Manager
             </h4>
           </div>
           <div class="modal-body m-2">
             <div id="recover">
-              <p>A plan exists in historical, would you like recover him ?</p>
+              <p>An existing floor plan was found - would you like recover it?</p>
               <button
                 class="btn btn-success shadow"
                 data-bs-dismiss="modal"
@@ -1011,7 +1019,7 @@
                 YES
               </button>
               <hr />
-              <p>Or are you prefer start a new plan ?</p>
+              <p>Prefer to start a new plan instead?</p>
             </div>
             <div
               class="w-100 d-flex justify-content-center flex-column gap-4 flex-md-row">

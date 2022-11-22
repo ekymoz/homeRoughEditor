@@ -40,19 +40,18 @@ let originY_viewbox = 0
 let zoom = 9
 let factor = 1
 
-// **************************************************************************
-// *****************   LOAD / SAVE LOCALSTORAGE      ************************
-// **************************************************************************
-
 function initHistory(boot = false) {
   HISTORY.index = 0
-  if (!boot && localStorage.getItem('history'))
+  if (!boot && localStorage.getItem('history')) {
     localStorage.removeItem('history')
+  }
+
   if (localStorage.getItem('history') && boot === 'recovery') {
     let historyTemp = JSON.parse(localStorage.getItem('history'))
     load(historyTemp.length - 1, 'boot')
     save('boot')
   }
+
   if (boot === 'newSquare') {
     if (localStorage.getItem('history')) localStorage.removeItem('history')
     HISTORY.push({
@@ -191,6 +190,7 @@ function initHistory(boot = false) {
     load(0)
     save()
   }
+
   if (boot === 'newL') {
     if (localStorage.getItem('history')) localStorage.removeItem('history')
     HISTORY.push({
@@ -402,8 +402,65 @@ document.getElementById('undo').addEventListener('click', function () {
   if (HISTORY.index === 1) $('#undo').addClass('disabled')
 })
 
+function importFloorplan (floorplanJson) {
+  for (let k in OBJDATA) {
+    OBJDATA[k].graph.remove()
+  }
+
+  OBJDATA = []
+
+  for (let k in floorplanJson.objData) {
+    let OO = floorplanJson.objData[k]
+    // if (OO.family === 'energy') OO.family = 'byObject';
+    let obj = new editor.obj2D(
+      OO.family,
+      OO.class,
+      OO.type,
+      {
+        x: OO.x,
+        y: OO.y,
+      },
+      OO.angle,
+      OO.angleSign,
+      OO.size,
+      (OO.hinge = 'normal'),
+      OO.thick,
+      OO.value,
+    )
+    obj.limit = OO.limit
+    OBJDATA.push(obj)
+    $('#boxcarpentry').append(OBJDATA[OBJDATA.length - 1].graph)
+    obj.update()
+  }
+
+  WALLS = floorplanJson.wallData
+
+  for (let k in WALLS) {
+    if (WALLS[k].child != null) {
+      WALLS[k].child = WALLS[WALLS[k].child]
+    }
+    if (WALLS[k].parent != null) {
+      WALLS[k].parent = WALLS[WALLS[k].parent]
+    }
+  }
+
+  ROOM = floorplanJson.roomData
+  editor.architect(WALLS)
+  editor.showScaleBox()
+  rib()
+}
+
+function exportFloorplan () {
+  console.log(HISTORY[HISTORY.length - 1])
+}
+
+// REVIEW: What is `boot` for?
 function save(boot = false) {
-  if (boot) localStorage.removeItem('history')
+  if (boot) {
+    localStorage.removeItem('history')
+  }
+
+  // REVIEW: What does this mean?
   // FOR CYCLIC OBJ INTO LOCALSTORAGE !!!
   for (let k in WALLS) {
     if (WALLS[k].child != null) {
@@ -413,6 +470,8 @@ function save(boot = false) {
       WALLS[k].parent = WALLS.indexOf(WALLS[k].parent)
     }
   }
+
+  // REVIEW: What is this for?
   if (
     JSON.stringify({ objData: OBJDATA, wallData: WALLS, roomData: ROOM }) ===
     HISTORY[HISTORY.length - 1]
@@ -428,16 +487,31 @@ function save(boot = false) {
     return false
   }
 
+  // REVIEW: Why this condition?
   if (HISTORY.index < HISTORY.length) {
+
+    // REVIEW: What is this for?
     HISTORY.splice(HISTORY.index, HISTORY.length - HISTORY.index)
+
     $('#redo').addClass('disabled')
   }
+
+  // REVIEW: What is this for?
   HISTORY.push(
     JSON.stringify({ objData: OBJDATA, wallData: WALLS, roomData: ROOM }),
   )
+
+  // Record to local storage
   localStorage.setItem('history', JSON.stringify(HISTORY))
+
+  // REVIEW: What is this for?
   HISTORY.index++
-  if (HISTORY.index > 1) $('#undo').removeClass('disabled')
+
+  if (HISTORY.index > 1) {
+    $('#undo').removeClass('disabled')
+  }
+
+  // REVIEW: What is this for?
   for (let k in WALLS) {
     if (WALLS[k].child != null) {
       WALLS[k].child = WALLS[WALLS[k].child]
@@ -446,14 +520,20 @@ function save(boot = false) {
       WALLS[k].parent = WALLS[WALLS[k].parent]
     }
   }
+
+  // REVIEW: Why return true here?
   return true
 }
 
 function load(index = HISTORY.index, boot = false) {
-  if (HISTORY.length === 0 && !boot) return false
+  if (HISTORY.length === 0 && !boot) {
+    return false
+  }
+
   for (let k in OBJDATA) {
     OBJDATA[k].graph.remove()
   }
+
   OBJDATA = []
   let historyTemp = []
   historyTemp = JSON.parse(localStorage.getItem('history'))
@@ -482,7 +562,9 @@ function load(index = HISTORY.index, boot = false) {
     $('#boxcarpentry').append(OBJDATA[OBJDATA.length - 1].graph)
     obj.update()
   }
+
   WALLS = historyTemp.wallData
+
   for (let k in WALLS) {
     if (WALLS[k].child != null) {
       WALLS[k].child = WALLS[WALLS[k].child]
@@ -491,6 +573,7 @@ function load(index = HISTORY.index, boot = false) {
       WALLS[k].parent = WALLS[WALLS[k].parent]
     }
   }
+
   ROOM = historyTemp.roomData
   editor.architect(WALLS)
   editor.showScaleBox()
