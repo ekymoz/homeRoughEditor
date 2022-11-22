@@ -21,6 +21,15 @@ const visibleLayerCheckboxes = document.querySelectorAll(
   '[name="visible_layer"]',
 )
 
+function updateMouseEventHandlers (layer) {
+  const layerHandlers = mouseEventHandlers[layer]
+  MOUSE_DOWN_HANDLER = layerHandlers.mouseDown
+  MOUSE_MOVE_HANDLER = layerHandlers.mouseMove
+  MOUSE_UP_HANDLER = layerHandlers.mouseUp
+}
+
+updateMouseEventHandlers('walls')
+
 // Window Event Listeners
 window.addEventListener('resize', function (event) {
   width_viewbox = $('#lin').width()
