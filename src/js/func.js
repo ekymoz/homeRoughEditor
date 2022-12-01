@@ -402,6 +402,12 @@ document.getElementById('undo').addEventListener('click', function () {
   if (HISTORY.index === 1) $('#undo').addClass('disabled')
 })
 
+
+document.getElementById('button-new').addEventListener('click', function () {
+  const myModal = new bootstrap.Modal($('#myModal'))
+  myModal.show()
+})
+
 function importFloorplan (floorplanJson) {
   for (let k in OBJDATA) {
     OBJDATA[k].graph.remove()

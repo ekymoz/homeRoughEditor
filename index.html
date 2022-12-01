@@ -682,6 +682,11 @@
     <div id="panel" class="leftBox">
       <ul class="list-unstyled">
         <li>
+          <button class="btn btn-light shadow fully" id="button-new" title="new">
+            NEW
+          </button>
+        </li>
+        <li>
           <button class="btn disabled halfy" id="undo" title="undo">
             UNDO
           </button>
@@ -1010,17 +1015,7 @@
             </h4>
           </div>
           <div class="modal-body m-2">
-            <div id="recover">
-              <p>An existing floor plan was found - would you like recover it?</p>
-              <button
-                class="btn btn-success shadow"
-                data-bs-dismiss="modal"
-                onclick="initHistory('recovery');">
-                YES
-              </button>
-              <hr />
-              <p>Prefer to start a new plan instead?</p>
-            </div>
+            <p>Choose new floor plan template:</p>
             <div
               class="w-100 d-flex justify-content-center flex-column gap-4 flex-md-row">
               <div class="boxMouseOver">
@@ -1046,10 +1041,14 @@
               </div>
             </div>
           </div>
-          <!-- <div class="modal-footer">
-          <button type="button" class="btn btn-light shadow" data-dismiss="modal">CLOSE</button>
-          <button type="button" class="btn btn-primary">YES</button>
-        </div> -->
+          <div class="modal-footer">
+            <button
+              class="btn btn-light shadow"
+              onclick="$('#myModal').modal('hide');"
+            >
+              CLOSE
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -28,11 +28,12 @@ window.addEventListener('load', function () {
   //     document.getElementById('moveBox').style.transform = 'translateX(-165px)'
   //     document.getElementById('zoomBox').style.transform = 'translateX(-165px)'
   //   })
-  if (!localStorage.getItem('history')) {
-    $('#recover').html('<p>Select a plan type.</p>')
+  
+  if (localStorage.getItem('history')) {
+    let historyTemp = JSON.parse(localStorage.getItem('history'))
+    load(historyTemp.length - 1, 'boot')
+    save('boot')
   }
-  const myModal = new bootstrap.Modal($('#myModal'))
-  myModal.show()
 })
 
 document.addEventListener('keydown', function (event) {
