@@ -13,6 +13,14 @@ https://ekymoz.github.io/homeRoughEditor/
 - Garden
 - HVAC
 
+## Importing Floor Plan JSON
+
+In Chrome Developer Tools browser console:
+
+```
+importFloorplan({ ...{BROWSER_FLOORPLAN_JSON} })
+```
+
 ## Code Formatting / Linting
 
 Run a check of all files that will be formatted:
