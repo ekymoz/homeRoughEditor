@@ -53,6 +53,11 @@ const roomColorBtn = document.querySelectorAll('.roomColor')
 const objTrashBtn = document.querySelectorAll('.objTrash')
 const dropdownMenu = document.querySelectorAll('.dropdown-menu li a')
 
+document.getElementById('lin').setAttribute(
+  'viewBox',
+  `${originX_viewbox} ${originY_viewbox} ${width_viewbox} ${height_viewbox}`
+)
+
 // const visibleLayerCheckboxes = document.querySelectorAll(
 //   '[name="visible_layer"]',
 // )
@@ -80,10 +85,7 @@ const dropdownMenu = document.querySelectorAll('.dropdown-menu li a')
 //   if (HISTORY.index === 1) $('#undo').addClass('disabled')
 // })
 
-document.getElementById('lin').setAttribute(
-  'viewBox',
-  `${originX_viewbox} ${originY_viewbox} ${width_viewbox} ${height_viewbox}`
-)
+
 
 // document.getElementById('report_mode').addEventListener("click", function () {
 //     if (typeof (globalArea) === "undefined") return false;
@@ -1510,10 +1512,6 @@ function calcul_snap(event, state) {
     xMouse: x_mouse,
     yMouse: y_mouse,
   }
-}
-
-function minMoveGrid(mouse) {
-  return Math.abs(Math.abs(pox - mouse.x) + Math.abs(poy - mouse.y))
 }
 
 function intersectionOff() {
@@ -4051,7 +4049,7 @@ function mouseMove_mode_line_partition (event) {
     snap = calcul_snap(event, grid_snap)
     x = snap.x
     y = snap.y
-    starter = minMoveGrid(snap)
+    starter = minMoveGrid(snap, pox, poy)
 
     if (!$('#line_construc').length) {
       if ((wallNode = editor.nearWallNode(snap, 20))) {
@@ -5732,9 +5730,9 @@ function mouseUp_mode_text (event) {
   if (action == 0) {
     action = 1
     const textModal = new bootstrap.Modal($('#textToLayer'))
-
     textModal.show()
-    mode == 'edit_text_mode'
+
+    mode = 'edit_text_mode'
   }
 }
 
