@@ -1,4 +1,3 @@
-//init
 WALLS = []
 OBJDATA = []
 ROOM = []
@@ -15,28 +14,31 @@ let Rcirclebinder = 8
 let mode = 'select_mode'
 let modeOption
 let linElement = $('#lin')
-taille_w = linElement.width()
-taille_h = linElement.height()
+let taille_w = linElement.width()
+let taille_h = linElement.height()
 let offset = linElement.offset()
-grid = 20
+let grid = 20
 // showRib = true
-showArea = true
-meter = 60
-grid_snap = 'off'
-colorbackground = '#ffffff'
-colorline = '#fff'
-colorroom = '#f0daaf'
-colorWall = '#666'
-pox = 0
-poy = 0
-segment = 0
-xpath = 0
-ypath = 0
+let showArea = true
+let meter = 60
+let grid_snap = 'off'
+let colorbackground = '#ffffff'
+let colorline = '#fff'
+let colorroom = '#f0daaf'
+let colorWall = '#666'
+let pox = 0
+let poy = 0
+let segment = 0
+let xpath = 0
+let ypath = 0
+let tactile = false
 let width_viewbox = taille_w
 let height_viewbox = taille_h
 let ratio_viewbox = height_viewbox / width_viewbox
 let originX_viewbox = 0
 let originY_viewbox = 0
+let sizeText = []
+let showAllSizeStatus = 0
 
 const MIN_ZOOM = 0
 const MAX_ZOOM = 100
@@ -46,344 +48,16 @@ let zoom = 50
 // The ratio the screen is scaled
 let scaleFactor = 1
 
-function initHistory(boot = false) {
-  HISTORY.index = 0
-  if (!boot && localStorage.getItem('history')) {
-    localStorage.removeItem('history')
-  }
+// const visibleLayerCheckboxes = document.querySelectorAll(
+//   '[name="visible_layer"]',
+// )
 
-  if (localStorage.getItem('history') && boot === 'recovery') {
-    let historyTemp = JSON.parse(localStorage.getItem('history'))
-    load(historyTemp.length - 1, 'boot')
-    save('boot')
-  }
 
-  if (boot === 'newSquare') {
-    if (localStorage.getItem('history')) localStorage.removeItem('history')
-    HISTORY.push({
-      objData: [],
-      wallData: [
-        {
-          thick: 20,
-          start: { x: 540, y: 194 },
-          end: { x: 540, y: 734 },
-          type: 'normal',
-          parent: 3,
-          child: 1,
-          angle: 1.5707963267948966,
-          equations: {
-            up: { A: 'v', B: 550 },
-            down: { A: 'v', B: 530 },
-            base: { A: 'v', B: 540 },
-          },
-          coords: [
-            { x: 550, y: 204 },
-            { x: 530, y: 184 },
-            { x: 530, y: 744 },
-            { x: 550, y: 724 },
-          ],
-          graph: { 0: {}, context: {}, length: 1 },
-        },
-        {
-          thick: 20,
-          start: { x: 540, y: 734 },
-          end: { x: 1080, y: 734 },
-          type: 'normal',
-          parent: 0,
-          child: 2,
-          angle: 0,
-          equations: {
-            up: { A: 'h', B: 724 },
-            down: { A: 'h', B: 744 },
-            base: { A: 'h', B: 734 },
-          },
-          coords: [
-            { x: 550, y: 724 },
-            { x: 530, y: 744 },
-            { x: 1090, y: 744 },
-            { x: 1070, y: 724 },
-          ],
-          graph: { 0: {}, context: {}, length: 1 },
-        },
-        {
-          thick: 20,
-          start: { x: 1080, y: 734 },
-          end: { x: 1080, y: 194 },
-          type: 'normal',
-          parent: 1,
-          child: 3,
-          angle: -1.5707963267948966,
-          equations: {
-            up: { A: 'v', B: 1070 },
-            down: { A: 'v', B: 1090 },
-            base: { A: 'v', B: 1080 },
-          },
-          coords: [
-            { x: 1070, y: 724 },
-            { x: 1090, y: 744 },
-            { x: 1090, y: 184 },
-            { x: 1070, y: 204 },
-          ],
-          graph: { 0: {}, context: {}, length: 1 },
-        },
-        {
-          thick: 20,
-          start: { x: 1080, y: 194 },
-          end: { x: 540, y: 194 },
-          type: 'normal',
-          parent: 2,
-          child: 0,
-          angle: 3.141592653589793,
-          equations: {
-            up: { A: 'h', B: 204 },
-            down: { A: 'h', B: 184 },
-            base: { A: 'h', B: 194 },
-          },
-          coords: [
-            { x: 1070, y: 204 },
-            { x: 1090, y: 184 },
-            { x: 530, y: 184 },
-            { x: 550, y: 204 },
-          ],
-          graph: { 0: {}, context: {}, length: 1 },
-        },
-      ],
-      roomData: [
-        {
-          coords: [
-            { x: 540, y: 734 },
-            { x: 1080, y: 734 },
-            { x: 1080, y: 194 },
-            {
-              x: 540,
-              y: 194,
-            },
-            { x: 540, y: 734 },
-          ],
-          coordsOutside: [
-            { x: 1090, y: 744 },
-            { x: 1090, y: 184 },
-            { x: 530, y: 184 },
-            {
-              x: 530,
-              y: 744,
-            },
-            { x: 1090, y: 744 },
-          ],
-          coordsInside: [
-            { x: 1070, y: 724 },
-            { x: 1070, y: 204 },
-            { x: 550, y: 204 },
-            {
-              x: 550,
-              y: 724,
-            },
-            { x: 1070, y: 724 },
-          ],
-          inside: [],
-          way: ['0', '2', '3', '1', '0'],
-          area: 270400,
-          surface: '',
-          name: '',
-          color: 'gradientWhite',
-          showSurface: true,
-          action: 'add',
-        },
-      ],
-    })
-    HISTORY[0] = JSON.stringify(HISTORY[0])
-    localStorage.setItem('history', JSON.stringify(HISTORY))
-    load(0)
-    save()
-  }
 
-  if (boot === 'newL') {
-    if (localStorage.getItem('history')) localStorage.removeItem('history')
-    HISTORY.push({
-      objData: [],
-      wallData: [
-        {
-          thick: 20,
-          start: { x: 447, y: 458 },
-          end: { x: 447, y: 744 },
-          type: 'normal',
-          parent: 5,
-          child: 1,
-          angle: 1.5707963267948966,
-          equations: {
-            up: { A: 'v', B: 457 },
-            down: { A: 'v', B: 437 },
-            base: { A: 'v', B: 447 },
-          },
-          coords: [
-            { x: 457, y: 468 },
-            { x: 437, y: 448 },
-            { x: 437, y: 754 },
-            { x: 457, y: 734 },
-          ],
-          graph: { 0: {}, context: {}, length: 1 },
-        },
-        {
-          thick: 20,
-          start: { x: 447, y: 744 },
-          end: { x: 1347, y: 744 },
-          type: 'normal',
-          parent: 0,
-          child: 2,
-          angle: 0,
-          equations: {
-            up: { A: 'h', B: 734 },
-            down: { A: 'h', B: 754 },
-            base: { A: 'h', B: 744 },
-          },
-          coords: [
-            { x: 457, y: 734 },
-            { x: 437, y: 754 },
-            { x: 1357, y: 754 },
-            { x: 1337, y: 734 },
-          ],
-          graph: { 0: {}, context: {}, length: 1 },
-        },
-        {
-          thick: 20,
-          start: { x: 1347, y: 744 },
-          end: { x: 1347, y: 144 },
-          type: 'normal',
-          parent: 1,
-          child: 3,
-          angle: -1.5707963267948966,
-          equations: {
-            up: { A: 'v', B: 1337 },
-            down: { A: 'v', B: 1357 },
-            base: { A: 'v', B: 1347 },
-          },
-          coords: [
-            { x: 1337, y: 734 },
-            { x: 1357, y: 754 },
-            { x: 1357, y: 134 },
-            { x: 1337, y: 154 },
-          ],
-          graph: { 0: {}, context: {}, length: 1 },
-        },
-        {
-          thick: 20,
-          start: { x: 1347, y: 144 },
-          end: { x: 1020, y: 144 },
-          type: 'normal',
-          parent: 2,
-          child: 4,
-          angle: 3.141592653589793,
-          equations: {
-            up: { A: 'h', B: 154 },
-            down: { A: 'h', B: 134 },
-            base: { A: 'h', B: 144 },
-          },
-          coords: [
-            { x: 1337, y: 154 },
-            { x: 1357, y: 134 },
-            { x: 1010, y: 134 },
-            { x: 1030, y: 154 },
-          ],
-          graph: { 0: {}, context: {}, length: 1 },
-        },
-        {
-          thick: 20,
-          start: { x: 1020, y: 144 },
-          end: { x: 1020, y: 458 },
-          type: 'normal',
-          parent: 3,
-          child: 5,
-          angle: 1.5707963267948966,
-          equations: {
-            up: { A: 'v', B: 1030 },
-            down: { A: 'v', B: 1010 },
-            base: { A: 'v', B: 1020 },
-          },
-          coords: [
-            { x: 1030, y: 154 },
-            { x: 1010, y: 134 },
-            { x: 1010, y: 448 },
-            { x: 1030, y: 468 },
-          ],
-          graph: { 0: {}, context: {}, length: 1 },
-        },
-        {
-          thick: 20,
-          start: { x: 1020, y: 458 },
-          end: { x: 447, y: 458 },
-          type: 'normal',
-          parent: 4,
-          child: 0,
-          angle: 3.141592653589793,
-          equations: {
-            up: { A: 'h', B: 468 },
-            down: { A: 'h', B: 448 },
-            base: { A: 'h', B: 458 },
-          },
-          coords: [
-            { x: 1030, y: 468 },
-            { x: 1010, y: 448 },
-            { x: 437, y: 448 },
-            { x: 457, y: 468 },
-          ],
-          graph: { 0: {}, context: {}, length: 1 },
-        },
-      ],
-      roomData: [
-        {
-          coords: [
-            { x: 447, y: 744 },
-            { x: 1347, y: 744 },
-            { x: 1347, y: 144 },
-            {
-              x: 1020,
-              y: 144,
-            },
-            { x: 1020, y: 458 },
-            { x: 447, y: 458 },
-            { x: 447, y: 744 },
-          ],
-          coordsOutside: [
-            { x: 1357, y: 754 },
-            { x: 1357, y: 134 },
-            { x: 1010, y: 134 },
-            {
-              x: 1010,
-              y: 448,
-            },
-            { x: 437, y: 448 },
-            { x: 437, y: 754 },
-            { x: 1357, y: 754 },
-          ],
-          coordsInside: [
-            { x: 1337, y: 734 },
-            { x: 1337, y: 154 },
-            { x: 1030, y: 154 },
-            {
-              x: 1030,
-              y: 468,
-            },
-            { x: 457, y: 468 },
-            { x: 457, y: 734 },
-            { x: 1337, y: 734 },
-          ],
-          inside: [],
-          way: ['0', '2', '3', '4', '5', '1', '0'],
-          area: 330478,
-          surface: '',
-          name: '',
-          color: 'gradientWhite',
-          showSurface: true,
-          action: 'add',
-        },
-      ],
-    })
-    HISTORY[0] = JSON.stringify(HISTORY[0])
-    localStorage.setItem('history', JSON.stringify(HISTORY))
-    load(0)
-    save()
-  }
-}
+
+
+
+
 
 document.getElementById('redo').addEventListener('click', function () {
   if (HISTORY.index < HISTORY.length) {
@@ -414,184 +88,6 @@ document.getElementById('button-new').addEventListener('click', function () {
   myModal.show()
 })
 
-function importFloorplan (floorplanJson) {
-  for (let k in OBJDATA) {
-    OBJDATA[k].graph.remove()
-  }
-
-  OBJDATA = []
-
-  for (let k in floorplanJson.objData) {
-    let OO = floorplanJson.objData[k]
-    // if (OO.family === 'energy') OO.family = 'byObject';
-    let obj = new editor.obj2D(
-      OO.family,
-      OO.class,
-      OO.type,
-      {
-        x: OO.x,
-        y: OO.y,
-      },
-      OO.angle,
-      OO.angleSign,
-      OO.size,
-      (OO.hinge = 'normal'),
-      OO.thick,
-      OO.value,
-    )
-    obj.limit = OO.limit
-    OBJDATA.push(obj)
-    $('#boxcarpentry').append(OBJDATA[OBJDATA.length - 1].graph)
-    obj.update()
-  }
-
-  WALLS = floorplanJson.wallData
-
-  for (let k in WALLS) {
-    if (WALLS[k].child != null) {
-      WALLS[k].child = WALLS[WALLS[k].child]
-    }
-    if (WALLS[k].parent != null) {
-      WALLS[k].parent = WALLS[WALLS[k].parent]
-    }
-  }
-
-  ROOM = floorplanJson.roomData
-  editor.architect(WALLS)
-  editor.showScaleBox()
-  rib()
-}
-
-function exportFloorplan () {
-  console.log(HISTORY[HISTORY.length - 1])
-}
-
-// REVIEW: What is `boot` for?
-function save(boot = false) {
-  if (boot) {
-    localStorage.removeItem('history')
-  }
-
-  // REVIEW: What does this mean?
-  // FOR CYCLIC OBJ INTO LOCALSTORAGE !!!
-  for (let k in WALLS) {
-    if (WALLS[k].child != null) {
-      WALLS[k].child = WALLS.indexOf(WALLS[k].child)
-    }
-    if (WALLS[k].parent != null) {
-      WALLS[k].parent = WALLS.indexOf(WALLS[k].parent)
-    }
-  }
-
-  // REVIEW: What is this for?
-  if (
-    JSON.stringify({ objData: OBJDATA, wallData: WALLS, roomData: ROOM }) ===
-    HISTORY[HISTORY.length - 1]
-  ) {
-    for (let k in WALLS) {
-      if (WALLS[k].child != null) {
-        WALLS[k].child = WALLS[WALLS[k].child]
-      }
-      if (WALLS[k].parent != null) {
-        WALLS[k].parent = WALLS[WALLS[k].parent]
-      }
-    }
-    return false
-  }
-
-  // REVIEW: Why this condition?
-  if (HISTORY.index < HISTORY.length) {
-
-    // REVIEW: What is this for?
-    HISTORY.splice(HISTORY.index, HISTORY.length - HISTORY.index)
-
-    $('#redo').addClass('disabled')
-  }
-
-  // REVIEW: What is this for?
-  HISTORY.push(
-    JSON.stringify({ objData: OBJDATA, wallData: WALLS, roomData: ROOM }),
-  )
-
-  // Record to local storage
-  localStorage.setItem('history', JSON.stringify(HISTORY))
-
-  // REVIEW: What is this for?
-  HISTORY.index++
-
-  if (HISTORY.index > 1) {
-    $('#undo').removeClass('disabled')
-  }
-
-  // REVIEW: What is this for?
-  for (let k in WALLS) {
-    if (WALLS[k].child != null) {
-      WALLS[k].child = WALLS[WALLS[k].child]
-    }
-    if (WALLS[k].parent != null) {
-      WALLS[k].parent = WALLS[WALLS[k].parent]
-    }
-  }
-
-  // REVIEW: Why return true here?
-  return true
-}
-
-function load(index = HISTORY.index, boot = false) {
-  if (HISTORY.length === 0 && !boot) {
-    return false
-  }
-
-  for (let k in OBJDATA) {
-    OBJDATA[k].graph.remove()
-  }
-
-  OBJDATA = []
-  let historyTemp = []
-  historyTemp = JSON.parse(localStorage.getItem('history'))
-  historyTemp = JSON.parse(historyTemp[index])
-
-  for (let k in historyTemp.objData) {
-    let OO = historyTemp.objData[k]
-    // if (OO.family === 'energy') OO.family = 'byObject';
-    let obj = new editor.obj2D(
-      OO.family,
-      OO.class,
-      OO.type,
-      {
-        x: OO.x,
-        y: OO.y,
-      },
-      OO.angle,
-      OO.angleSign,
-      OO.size,
-      (OO.hinge = 'normal'),
-      OO.thick,
-      OO.value,
-    )
-    obj.limit = OO.limit
-    OBJDATA.push(obj)
-    $('#boxcarpentry').append(OBJDATA[OBJDATA.length - 1].graph)
-    obj.update()
-  }
-
-  WALLS = historyTemp.wallData
-
-  for (let k in WALLS) {
-    if (WALLS[k].child != null) {
-      WALLS[k].child = WALLS[WALLS[k].child]
-    }
-    if (WALLS[k].parent != null) {
-      WALLS[k].parent = WALLS[WALLS[k].parent]
-    }
-  }
-
-  ROOM = historyTemp.roomData
-  editor.architect(WALLS)
-  editor.showScaleBox()
-  rib()
-}
-
 $('svg').each(function () {
   $(this)[0].setAttribute(
     'viewBox',
@@ -604,10 +100,6 @@ $('svg').each(function () {
       height_viewbox,
   )
 })
-
-// **************************************************************************
-// *****************   FUNCTIONS ON BUTTON click     ************************
-// **************************************************************************
 
 // document.getElementById('report_mode').addEventListener("click", function () {
 //     if (typeof (globalArea) === "undefined") return false;
@@ -1022,65 +514,6 @@ $('#textToLayer').on('hidden.bs.modal', function (e) {
   document.getElementById('sizePolice').value = 15
 })
 
-if (!Array.prototype.includes) {
-  Object.defineProperty(Array.prototype, 'includes', {
-    value: function (searchElement, fromIndex) {
-      if (this === null) {
-        throw new TypeError('"this" is null or not defined')
-      }
-
-      let o = Object(this)
-      let len = o.length >>> 0
-      if (len === 0) {
-        return false
-      }
-      let n = fromIndex | 0
-      let k = Math.max(n >= 0 ? n : len - Math.abs(n), 0)
-
-      while (k < len) {
-        if (o[k] === searchElement) {
-          return true
-        }
-        k++
-      }
-      return false
-    },
-  })
-}
-
-function isObjectsEquals(a, b, message = false) {
-  if (message) console.log(message)
-  let isOK = true
-  for (let prop in a) {
-    if (a[prop] !== b[prop]) {
-      isOK = false
-      break
-    }
-  }
-  return isOK
-}
-
-function throttle(callback, delay) {
-  let last
-  let timer
-  return function () {
-    let context = this
-    let now = +new Date()
-    let args = arguments
-    if (last && now < last + delay) {
-      // le délai n'est pas écoulé on reset le timer
-      clearTimeout(timer)
-      timer = setTimeout(function () {
-        last = now
-        callback.apply(context, args)
-      }, delay)
-    } else {
-      last = now
-      callback.apply(context, args)
-    }
-  }
-}
-
 document.getElementById('lin').addEventListener('wheel', (event) => {
   event.preventDefault()
   if (event.deltaY > 0) {
@@ -1202,6 +635,822 @@ document.getElementById('wallTrash').addEventListener('click', function () {
   mode = 'select_mode'
   $('#panel').show(200)
 })
+
+document.addEventListener('fullscreenchange', function () {
+  if (
+    !document.fullscreenElement &&
+    !document.webkitFullscreenElement &&
+    !document.mozFullScreenElement &&
+    !document.msFullscreenElement
+  ) {
+    $('#nofull_mode').display = 'none'
+    $('#full_mode').show()
+  }
+})
+
+$('#distance_mode').click(function () {
+  linElement.css('cursor', 'crosshair')
+  $('#boxinfo').html('Add a measurement')
+  fonc_button('distance_mode')
+})
+
+$('#room_mode').click(function () {
+  linElement.css('cursor', 'pointer')
+  $('#boxinfo').html('Config. of rooms')
+  fonc_button('room_mode')
+})
+
+$('#select_mode').click(function () {
+  $('#boxinfo').html('Mode "select"')
+  if (typeof binder != 'undefined') {
+    binder.remove()
+    delete binder
+  }
+
+  fonc_button('select_mode')
+})
+
+$('#line_mode').click(function () {
+  linElement.css('cursor', 'crosshair')
+  $('#boxinfo').html('Creation of wall(s)')
+  multi = 0
+  action = 0
+  // snap = calcul_snap(event, grid_snap);
+  //
+  // pox = snap.x;
+  // poy = snap.y;
+  fonc_button('line_mode')
+})
+
+$('#partition_mode').click(function () {
+  linElement.css('cursor', 'crosshair')
+  $('#boxinfo').html('Creation of thin wall(s)')
+  multi = 0
+  fonc_button('partition_mode')
+})
+
+$('#rect_mode').click(function () {
+  linElement.css('cursor', 'crosshair')
+  $('#boxinfo').html('Room(s) creation')
+  fonc_button('rect_mode')
+})
+
+$('.door').click(function () {
+  linElement.css('cursor', 'crosshair')
+  $('#boxinfo').html('Add a door')
+  $('#door_list').hide(200)
+  fonc_button('door_mode', this.id)
+})
+
+$('.electrical').click(function () {
+  linElement.css('cursor', 'crosshair')
+  $('#boxinfo').html('Add electrical')
+  $('#electrical_list').hide(200)
+  fonc_button('electrical_mode', this.id)
+})
+
+$('.network').click(function () {
+  linElement.css('cursor', 'crosshair')
+  $('#boxinfo').html('Add network')
+  $('#network_list').hide(200)
+  fonc_button('network_mode', this.id)
+})
+
+$('.window').click(function () {
+  linElement.css('cursor', 'crosshair')
+  $('#boxinfo').html('Add a window')
+  $('#door_list').hide(200)
+  $('#window_list').hide(200)
+  fonc_button('door_mode', this.id)
+})
+
+$('.object').click(function () {
+  cursor('move')
+  $('#boxinfo').html('Add an object')
+  fonc_button('object_mode', this.id)
+})
+
+$('#stair_mode').click(function () {
+  cursor('move')
+  $('#boxinfo').html('Add stair')
+  fonc_button('object_mode', 'simpleStair')
+})
+
+$('#node_mode').click(function () {
+  $('#boxinfo').html(
+    'Cut a wall<br/><span style="font-size:0.7em">Warning : Cutting the wall of a room can cancel its ' +
+      'configuration</span>',
+  )
+  fonc_button('node_mode')
+})
+
+$('#text_mode').click(function () {
+  $('#boxinfo').html(
+    'Add text<br/><span style="font-size:0.7em">Place the cursor to the desired location, then ' +
+      'type your text.</span>',
+  )
+  fonc_button('text_mode')
+})
+
+$('#grid_mode').click(function () {
+  if (grid_snap === 'on') {
+    grid_snap = 'off'
+    $('#boxinfo').html('Help grid off')
+    $('#grid_mode').removeClass('btn-success')
+    $('#grid_mode').addClass('btn-warning')
+    $('#grid_mode').html('GRID OFF')
+    $('#boxgrid').css('opacity', '0.5')
+  } else {
+    grid_snap = 'on'
+    $('#boxinfo').html('Help grid on')
+    $('#grid_mode').removeClass('btn-warning')
+    $('#grid_mode').addClass('btn-success')
+    $('#grid_mode').html('GRID ON <i class="fa fa-th" aria-hidden="true"></i>')
+    $('#boxgrid').css('opacity', '1')
+  }
+})
+
+// Window Event Listeners
+window.addEventListener('resize', function (event) {
+  width_viewbox = $('#lin').width()
+  height_viewbox = $('#lin').height()
+  document
+    .querySelector('#lin')
+    .setAttribute(
+      'viewBox',
+      originX_viewbox +
+        ' ' +
+        originY_viewbox +
+        ' ' +
+        width_viewbox +
+        ' ' +
+        height_viewbox,
+    )
+})
+
+window.addEventListener('load', function () {
+  if (localStorage.getItem('history')) {
+    let historyTemp = JSON.parse(localStorage.getItem('history'))
+    load(historyTemp.length - 1, 'boot')
+    save('boot')
+  }
+})
+
+document.addEventListener('keydown', function (event) {
+  if (mode === 'text_mode') {
+    return
+  }
+
+  switch (event.keyCode) {
+    case 37:  // left arrow
+      zoom_maker('zoomleft', 100, 30)
+      break;
+    case 38:  // up arrow
+      zoom_maker('zoomtop', 100, 30)
+      break;
+    case 39:  // right arrow
+      zoom_maker('zoomright', 100, 30)
+      break;
+    case 40:  // down arrow
+      zoom_maker('zoombottom', 100, 30)
+      break;
+    case 107: // +
+      zoom_maker('zoomin', 20, 50)
+      break;
+    case 109: // -
+      zoom_maker('zoomout', 20, 50)
+      break;
+  }
+})
+
+document.querySelector('#lin').addEventListener('mousedown', mouseDownHandler, true)
+document.querySelector('#lin').addEventListener(
+  'mousemove',
+  throttle(function (event) {
+    mouseMoveHandler(event)
+  }, 30),
+)
+document.querySelector('#lin').addEventListener('mouseup', mouseUpHandler)
+
+$(document).on('click', '#lin', function (event) {
+  event.preventDefault()
+})
+
+// for (let checkbox of visibleLayerCheckboxes) {
+//   checkbox.addEventListener('click', function (event) {
+//     const layer = event.currentTarget.value
+//     if (visibleLayers.has(layer)) {
+//       visibleLayers.delete(layer)
+//     } else {
+//       visibleLayers.add(layer)
+//     }
+//   })
+// }
+
+// REVIEW: What does this do?
+document
+  .querySelector('#panel')
+  .addEventListener('mousemove', function (event) {
+    if ((mode == 'line_mode' || mode == 'partition_mode') && action == 1) {
+      action = 0
+      if (typeof binder != 'undefined') {
+        binder.remove()
+        delete binder
+      }
+      $('#linetemp').remove()
+      $('#line_construc').remove()
+      lengthTemp.remove()
+      delete lengthTemp
+    }
+  })
+
+
+
+
+
+
+
+function initHistory(boot = false) {
+  HISTORY.index = 0
+  if (!boot && localStorage.getItem('history')) {
+    localStorage.removeItem('history')
+  }
+
+  if (localStorage.getItem('history') && boot === 'recovery') {
+    let historyTemp = JSON.parse(localStorage.getItem('history'))
+    load(historyTemp.length - 1, 'boot')
+    save('boot')
+  }
+
+  if (boot === 'newSquare') {
+    if (localStorage.getItem('history')) localStorage.removeItem('history')
+    HISTORY.push({
+      objData: [],
+      wallData: [
+        {
+          thick: 20,
+          start: { x: 540, y: 194 },
+          end: { x: 540, y: 734 },
+          type: 'normal',
+          parent: 3,
+          child: 1,
+          angle: 1.5707963267948966,
+          equations: {
+            up: { A: 'v', B: 550 },
+            down: { A: 'v', B: 530 },
+            base: { A: 'v', B: 540 },
+          },
+          coords: [
+            { x: 550, y: 204 },
+            { x: 530, y: 184 },
+            { x: 530, y: 744 },
+            { x: 550, y: 724 },
+          ],
+          graph: { 0: {}, context: {}, length: 1 },
+        },
+        {
+          thick: 20,
+          start: { x: 540, y: 734 },
+          end: { x: 1080, y: 734 },
+          type: 'normal',
+          parent: 0,
+          child: 2,
+          angle: 0,
+          equations: {
+            up: { A: 'h', B: 724 },
+            down: { A: 'h', B: 744 },
+            base: { A: 'h', B: 734 },
+          },
+          coords: [
+            { x: 550, y: 724 },
+            { x: 530, y: 744 },
+            { x: 1090, y: 744 },
+            { x: 1070, y: 724 },
+          ],
+          graph: { 0: {}, context: {}, length: 1 },
+        },
+        {
+          thick: 20,
+          start: { x: 1080, y: 734 },
+          end: { x: 1080, y: 194 },
+          type: 'normal',
+          parent: 1,
+          child: 3,
+          angle: -1.5707963267948966,
+          equations: {
+            up: { A: 'v', B: 1070 },
+            down: { A: 'v', B: 1090 },
+            base: { A: 'v', B: 1080 },
+          },
+          coords: [
+            { x: 1070, y: 724 },
+            { x: 1090, y: 744 },
+            { x: 1090, y: 184 },
+            { x: 1070, y: 204 },
+          ],
+          graph: { 0: {}, context: {}, length: 1 },
+        },
+        {
+          thick: 20,
+          start: { x: 1080, y: 194 },
+          end: { x: 540, y: 194 },
+          type: 'normal',
+          parent: 2,
+          child: 0,
+          angle: 3.141592653589793,
+          equations: {
+            up: { A: 'h', B: 204 },
+            down: { A: 'h', B: 184 },
+            base: { A: 'h', B: 194 },
+          },
+          coords: [
+            { x: 1070, y: 204 },
+            { x: 1090, y: 184 },
+            { x: 530, y: 184 },
+            { x: 550, y: 204 },
+          ],
+          graph: { 0: {}, context: {}, length: 1 },
+        },
+      ],
+      roomData: [
+        {
+          coords: [
+            { x: 540, y: 734 },
+            { x: 1080, y: 734 },
+            { x: 1080, y: 194 },
+            {
+              x: 540,
+              y: 194,
+            },
+            { x: 540, y: 734 },
+          ],
+          coordsOutside: [
+            { x: 1090, y: 744 },
+            { x: 1090, y: 184 },
+            { x: 530, y: 184 },
+            {
+              x: 530,
+              y: 744,
+            },
+            { x: 1090, y: 744 },
+          ],
+          coordsInside: [
+            { x: 1070, y: 724 },
+            { x: 1070, y: 204 },
+            { x: 550, y: 204 },
+            {
+              x: 550,
+              y: 724,
+            },
+            { x: 1070, y: 724 },
+          ],
+          inside: [],
+          way: ['0', '2', '3', '1', '0'],
+          area: 270400,
+          surface: '',
+          name: '',
+          color: 'gradientWhite',
+          showSurface: true,
+          action: 'add',
+        },
+      ],
+    })
+    HISTORY[0] = JSON.stringify(HISTORY[0])
+    localStorage.setItem('history', JSON.stringify(HISTORY))
+    load(0)
+    save()
+  }
+
+  if (boot === 'newL') {
+    if (localStorage.getItem('history')) localStorage.removeItem('history')
+    HISTORY.push({
+      objData: [],
+      wallData: [
+        {
+          thick: 20,
+          start: { x: 447, y: 458 },
+          end: { x: 447, y: 744 },
+          type: 'normal',
+          parent: 5,
+          child: 1,
+          angle: 1.5707963267948966,
+          equations: {
+            up: { A: 'v', B: 457 },
+            down: { A: 'v', B: 437 },
+            base: { A: 'v', B: 447 },
+          },
+          coords: [
+            { x: 457, y: 468 },
+            { x: 437, y: 448 },
+            { x: 437, y: 754 },
+            { x: 457, y: 734 },
+          ],
+          graph: { 0: {}, context: {}, length: 1 },
+        },
+        {
+          thick: 20,
+          start: { x: 447, y: 744 },
+          end: { x: 1347, y: 744 },
+          type: 'normal',
+          parent: 0,
+          child: 2,
+          angle: 0,
+          equations: {
+            up: { A: 'h', B: 734 },
+            down: { A: 'h', B: 754 },
+            base: { A: 'h', B: 744 },
+          },
+          coords: [
+            { x: 457, y: 734 },
+            { x: 437, y: 754 },
+            { x: 1357, y: 754 },
+            { x: 1337, y: 734 },
+          ],
+          graph: { 0: {}, context: {}, length: 1 },
+        },
+        {
+          thick: 20,
+          start: { x: 1347, y: 744 },
+          end: { x: 1347, y: 144 },
+          type: 'normal',
+          parent: 1,
+          child: 3,
+          angle: -1.5707963267948966,
+          equations: {
+            up: { A: 'v', B: 1337 },
+            down: { A: 'v', B: 1357 },
+            base: { A: 'v', B: 1347 },
+          },
+          coords: [
+            { x: 1337, y: 734 },
+            { x: 1357, y: 754 },
+            { x: 1357, y: 134 },
+            { x: 1337, y: 154 },
+          ],
+          graph: { 0: {}, context: {}, length: 1 },
+        },
+        {
+          thick: 20,
+          start: { x: 1347, y: 144 },
+          end: { x: 1020, y: 144 },
+          type: 'normal',
+          parent: 2,
+          child: 4,
+          angle: 3.141592653589793,
+          equations: {
+            up: { A: 'h', B: 154 },
+            down: { A: 'h', B: 134 },
+            base: { A: 'h', B: 144 },
+          },
+          coords: [
+            { x: 1337, y: 154 },
+            { x: 1357, y: 134 },
+            { x: 1010, y: 134 },
+            { x: 1030, y: 154 },
+          ],
+          graph: { 0: {}, context: {}, length: 1 },
+        },
+        {
+          thick: 20,
+          start: { x: 1020, y: 144 },
+          end: { x: 1020, y: 458 },
+          type: 'normal',
+          parent: 3,
+          child: 5,
+          angle: 1.5707963267948966,
+          equations: {
+            up: { A: 'v', B: 1030 },
+            down: { A: 'v', B: 1010 },
+            base: { A: 'v', B: 1020 },
+          },
+          coords: [
+            { x: 1030, y: 154 },
+            { x: 1010, y: 134 },
+            { x: 1010, y: 448 },
+            { x: 1030, y: 468 },
+          ],
+          graph: { 0: {}, context: {}, length: 1 },
+        },
+        {
+          thick: 20,
+          start: { x: 1020, y: 458 },
+          end: { x: 447, y: 458 },
+          type: 'normal',
+          parent: 4,
+          child: 0,
+          angle: 3.141592653589793,
+          equations: {
+            up: { A: 'h', B: 468 },
+            down: { A: 'h', B: 448 },
+            base: { A: 'h', B: 458 },
+          },
+          coords: [
+            { x: 1030, y: 468 },
+            { x: 1010, y: 448 },
+            { x: 437, y: 448 },
+            { x: 457, y: 468 },
+          ],
+          graph: { 0: {}, context: {}, length: 1 },
+        },
+      ],
+      roomData: [
+        {
+          coords: [
+            { x: 447, y: 744 },
+            { x: 1347, y: 744 },
+            { x: 1347, y: 144 },
+            {
+              x: 1020,
+              y: 144,
+            },
+            { x: 1020, y: 458 },
+            { x: 447, y: 458 },
+            { x: 447, y: 744 },
+          ],
+          coordsOutside: [
+            { x: 1357, y: 754 },
+            { x: 1357, y: 134 },
+            { x: 1010, y: 134 },
+            {
+              x: 1010,
+              y: 448,
+            },
+            { x: 437, y: 448 },
+            { x: 437, y: 754 },
+            { x: 1357, y: 754 },
+          ],
+          coordsInside: [
+            { x: 1337, y: 734 },
+            { x: 1337, y: 154 },
+            { x: 1030, y: 154 },
+            {
+              x: 1030,
+              y: 468,
+            },
+            { x: 457, y: 468 },
+            { x: 457, y: 734 },
+            { x: 1337, y: 734 },
+          ],
+          inside: [],
+          way: ['0', '2', '3', '4', '5', '1', '0'],
+          area: 330478,
+          surface: '',
+          name: '',
+          color: 'gradientWhite',
+          showSurface: true,
+          action: 'add',
+        },
+      ],
+    })
+    HISTORY[0] = JSON.stringify(HISTORY[0])
+    localStorage.setItem('history', JSON.stringify(HISTORY))
+    load(0)
+    save()
+  }
+}
+
+function importFloorplan (floorplanJson) {
+  for (let k in OBJDATA) {
+    OBJDATA[k].graph.remove()
+  }
+
+  OBJDATA = []
+
+  for (let k in floorplanJson.objData) {
+    let OO = floorplanJson.objData[k]
+    // if (OO.family === 'energy') OO.family = 'byObject';
+    let obj = new editor.obj2D(
+      OO.family,
+      OO.class,
+      OO.type,
+      {
+        x: OO.x,
+        y: OO.y,
+      },
+      OO.angle,
+      OO.angleSign,
+      OO.size,
+      (OO.hinge = 'normal'),
+      OO.thick,
+      OO.value,
+    )
+    obj.limit = OO.limit
+    OBJDATA.push(obj)
+    $('#boxcarpentry').append(OBJDATA[OBJDATA.length - 1].graph)
+    obj.update()
+  }
+
+  WALLS = floorplanJson.wallData
+
+  for (let k in WALLS) {
+    if (WALLS[k].child != null) {
+      WALLS[k].child = WALLS[WALLS[k].child]
+    }
+    if (WALLS[k].parent != null) {
+      WALLS[k].parent = WALLS[WALLS[k].parent]
+    }
+  }
+
+  ROOM = floorplanJson.roomData
+  editor.architect(WALLS)
+  editor.showScaleBox()
+  rib()
+}
+
+function exportFloorplan () {
+  console.log(HISTORY[HISTORY.length - 1])
+}
+
+// REVIEW: What is `boot` for?
+function save(boot = false) {
+  if (boot) {
+    localStorage.removeItem('history')
+  }
+
+  // REVIEW: What does this mean?
+  // FOR CYCLIC OBJ INTO LOCALSTORAGE !!!
+  for (let k in WALLS) {
+    if (WALLS[k].child != null) {
+      WALLS[k].child = WALLS.indexOf(WALLS[k].child)
+    }
+    if (WALLS[k].parent != null) {
+      WALLS[k].parent = WALLS.indexOf(WALLS[k].parent)
+    }
+  }
+
+  // REVIEW: What is this for?
+  if (
+    JSON.stringify({ objData: OBJDATA, wallData: WALLS, roomData: ROOM }) ===
+    HISTORY[HISTORY.length - 1]
+  ) {
+    for (let k in WALLS) {
+      if (WALLS[k].child != null) {
+        WALLS[k].child = WALLS[WALLS[k].child]
+      }
+      if (WALLS[k].parent != null) {
+        WALLS[k].parent = WALLS[WALLS[k].parent]
+      }
+    }
+    return false
+  }
+
+  // REVIEW: Why this condition?
+  if (HISTORY.index < HISTORY.length) {
+
+    // REVIEW: What is this for?
+    HISTORY.splice(HISTORY.index, HISTORY.length - HISTORY.index)
+
+    $('#redo').addClass('disabled')
+  }
+
+  // REVIEW: What is this for?
+  HISTORY.push(
+    JSON.stringify({ objData: OBJDATA, wallData: WALLS, roomData: ROOM }),
+  )
+
+  // Record to local storage
+  localStorage.setItem('history', JSON.stringify(HISTORY))
+
+  // REVIEW: What is this for?
+  HISTORY.index++
+
+  if (HISTORY.index > 1) {
+    $('#undo').removeClass('disabled')
+  }
+
+  // REVIEW: What is this for?
+  for (let k in WALLS) {
+    if (WALLS[k].child != null) {
+      WALLS[k].child = WALLS[WALLS[k].child]
+    }
+    if (WALLS[k].parent != null) {
+      WALLS[k].parent = WALLS[WALLS[k].parent]
+    }
+  }
+
+  // REVIEW: Why return true here?
+  return true
+}
+
+function load(index = HISTORY.index, boot = false) {
+  if (HISTORY.length === 0 && !boot) {
+    return false
+  }
+
+  for (let k in OBJDATA) {
+    OBJDATA[k].graph.remove()
+  }
+
+  OBJDATA = []
+  let historyTemp = []
+  historyTemp = JSON.parse(localStorage.getItem('history'))
+  historyTemp = JSON.parse(historyTemp[index])
+
+  for (let k in historyTemp.objData) {
+    let OO = historyTemp.objData[k]
+    // if (OO.family === 'energy') OO.family = 'byObject';
+    let obj = new editor.obj2D(
+      OO.family,
+      OO.class,
+      OO.type,
+      {
+        x: OO.x,
+        y: OO.y,
+      },
+      OO.angle,
+      OO.angleSign,
+      OO.size,
+      (OO.hinge = 'normal'),
+      OO.thick,
+      OO.value,
+    )
+    obj.limit = OO.limit
+    OBJDATA.push(obj)
+    $('#boxcarpentry').append(OBJDATA[OBJDATA.length - 1].graph)
+    obj.update()
+  }
+
+  WALLS = historyTemp.wallData
+
+  for (let k in WALLS) {
+    if (WALLS[k].child != null) {
+      WALLS[k].child = WALLS[WALLS[k].child]
+    }
+    if (WALLS[k].parent != null) {
+      WALLS[k].parent = WALLS[WALLS[k].parent]
+    }
+  }
+
+  ROOM = historyTemp.roomData
+  editor.architect(WALLS)
+  editor.showScaleBox()
+  rib()
+}
+
+// if (!Array.prototype.includes) {
+//   Object.defineProperty(Array.prototype, 'includes', {
+//     value: function (searchElement, fromIndex) {
+//       if (this === null) {
+//         throw new TypeError('"this" is null or not defined')
+//       }
+//
+//       let o = Object(this)
+//       let len = o.length >>> 0
+//       if (len === 0) {
+//         return false
+//       }
+//       let n = fromIndex | 0
+//       let k = Math.max(n >= 0 ? n : len - Math.abs(n), 0)
+//
+//       while (k < len) {
+//         if (o[k] === searchElement) {
+//           return true
+//         }
+//         k++
+//       }
+//       return false
+//     },
+//   })
+// }
+
+function isObjectsEquals(a, b, message = false) {
+  if (message) console.log(message)
+  let isOK = true
+  for (let prop in a) {
+    if (a[prop] !== b[prop]) {
+      isOK = false
+      break
+    }
+  }
+  return isOK
+}
+
+function throttle(callback, delay) {
+  let last
+  let timer
+  return function () {
+    let context = this
+    let now = +new Date()
+    let args = arguments
+    if (last && now < last + delay) {
+      // le délai n'est pas écoulé on reset le timer
+      clearTimeout(timer)
+      timer = setTimeout(function () {
+        last = now
+        callback.apply(context, args)
+      }, delay)
+    } else {
+      last = now
+      callback.apply(context, args)
+    }
+  }
+}
+
+
+
+
+
+
 
 let textEditorColorBtn = document.querySelectorAll('.textEditorColor')
 for (let k = 0; k < textEditorColorBtn.length; k++) {
@@ -1356,8 +1605,6 @@ function zoom_maker(operation, xmove, xview) {
   )
 }
 
-tactile = false
-
 function calcul_snap(event, state) {
   if (event.touches) {
     let touches = event.changedTouches
@@ -1387,7 +1634,7 @@ function calcul_snap(event, state) {
   }
 }
 
-minMoveGrid = function (mouse) {
+function minMoveGrid(mouse) {
   return Math.abs(Math.abs(pox - mouse.x) + Math.abs(poy - mouse.y))
 }
 
@@ -1597,13 +1844,6 @@ function showJunction() {
     debugPoint({ x: junction[i].values[0], y: junction[i].values[1] }, i)
   }
 }
-
-$('.visu').mouseover(function () {
-  console.log(this.id)
-})
-
-let sizeText = []
-let showAllSizeStatus = 0
 
 function hideAllSize() {
   $('#boxbind').empty()
@@ -2162,18 +2402,6 @@ function outFullscreen() {
   }
 }
 
-document.addEventListener('fullscreenchange', function () {
-  if (
-    !document.fullscreenElement &&
-    !document.webkitFullscreenElement &&
-    !document.mozFullScreenElement &&
-    !document.msFullscreenElement
-  ) {
-    $('#nofull_mode').display = 'none'
-    $('#full_mode').show()
-  }
-})
-
 function raz_button() {
   $('#rect_mode').removeClass('btn-success')
   $('#rect_mode').addClass('btn-default')
@@ -2216,128 +2444,6 @@ function fonc_button(modesetting, option) {
     delete lineIntersectionP
   }
 }
-
-$('#distance_mode').click(function () {
-  linElement.css('cursor', 'crosshair')
-  $('#boxinfo').html('Add a measurement')
-  fonc_button('distance_mode')
-})
-
-$('#room_mode').click(function () {
-  linElement.css('cursor', 'pointer')
-  $('#boxinfo').html('Config. of rooms')
-  fonc_button('room_mode')
-})
-
-$('#select_mode').click(function () {
-  $('#boxinfo').html('Mode "select"')
-  if (typeof binder != 'undefined') {
-    binder.remove()
-    delete binder
-  }
-
-  fonc_button('select_mode')
-})
-
-$('#line_mode').click(function () {
-  linElement.css('cursor', 'crosshair')
-  $('#boxinfo').html('Creation of wall(s)')
-  multi = 0
-  action = 0
-  // snap = calcul_snap(event, grid_snap);
-  //
-  // pox = snap.x;
-  // poy = snap.y;
-  fonc_button('line_mode')
-})
-
-$('#partition_mode').click(function () {
-  linElement.css('cursor', 'crosshair')
-  $('#boxinfo').html('Creation of thin wall(s)')
-  multi = 0
-  fonc_button('partition_mode')
-})
-
-$('#rect_mode').click(function () {
-  linElement.css('cursor', 'crosshair')
-  $('#boxinfo').html('Room(s) creation')
-  fonc_button('rect_mode')
-})
-
-$('.door').click(function () {
-  linElement.css('cursor', 'crosshair')
-  $('#boxinfo').html('Add a door')
-  $('#door_list').hide(200)
-  fonc_button('door_mode', this.id)
-})
-
-$('.electrical').click(function () {
-  linElement.css('cursor', 'crosshair')
-  $('#boxinfo').html('Add electrical')
-  $('#electrical_list').hide(200)
-  fonc_button('electrical_mode', this.id)
-})
-
-$('.network').click(function () {
-  linElement.css('cursor', 'crosshair')
-  $('#boxinfo').html('Add network')
-  $('#network_list').hide(200)
-  fonc_button('network_mode', this.id)
-})
-
-$('.window').click(function () {
-  linElement.css('cursor', 'crosshair')
-  $('#boxinfo').html('Add a window')
-  $('#door_list').hide(200)
-  $('#window_list').hide(200)
-  fonc_button('door_mode', this.id)
-})
-
-$('.object').click(function () {
-  cursor('move')
-  $('#boxinfo').html('Add an object')
-  fonc_button('object_mode', this.id)
-})
-
-$('#stair_mode').click(function () {
-  cursor('move')
-  $('#boxinfo').html('Add stair')
-  fonc_button('object_mode', 'simpleStair')
-})
-
-$('#node_mode').click(function () {
-  $('#boxinfo').html(
-    'Cut a wall<br/><span style="font-size:0.7em">Warning : Cutting the wall of a room can cancel its ' +
-      'configuration</span>',
-  )
-  fonc_button('node_mode')
-})
-
-$('#text_mode').click(function () {
-  $('#boxinfo').html(
-    'Add text<br/><span style="font-size:0.7em">Place the cursor to the desired location, then ' +
-      'type your text.</span>',
-  )
-  fonc_button('text_mode')
-})
-
-$('#grid_mode').click(function () {
-  if (grid_snap === 'on') {
-    grid_snap = 'off'
-    $('#boxinfo').html('Help grid off')
-    $('#grid_mode').removeClass('btn-success')
-    $('#grid_mode').addClass('btn-warning')
-    $('#grid_mode').html('GRID OFF')
-    $('#boxgrid').css('opacity', '0.5')
-  } else {
-    grid_snap = 'on'
-    $('#boxinfo').html('Help grid on')
-    $('#grid_mode').removeClass('btn-warning')
-    $('#grid_mode').addClass('btn-success')
-    $('#grid_mode').html('GRID ON <i class="fa fa-th" aria-hidden="true"></i>')
-    $('#boxgrid').css('opacity', '1')
-  }
-})
 
 //  RETURN PATH(s) ARRAY FOR OBJECT + PROPERTY params => bindBox (false = open sideTool), move, resize, rotate
 function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
@@ -3418,105 +3524,6 @@ function pushToConstruc(construc, path, fill, stroke, strokeDashArray) {
     strokeDashArray: strokeDashArray,
   })
 }
-
-
-// const visibleLayerCheckboxes = document.querySelectorAll(
-//   '[name="visible_layer"]',
-// )
-
-// Window Event Listeners
-window.addEventListener('resize', function (event) {
-  width_viewbox = $('#lin').width()
-  height_viewbox = $('#lin').height()
-  document
-    .querySelector('#lin')
-    .setAttribute(
-      'viewBox',
-      originX_viewbox +
-        ' ' +
-        originY_viewbox +
-        ' ' +
-        width_viewbox +
-        ' ' +
-        height_viewbox,
-    )
-})
-
-window.addEventListener('load', function () {
-  if (localStorage.getItem('history')) {
-    let historyTemp = JSON.parse(localStorage.getItem('history'))
-    load(historyTemp.length - 1, 'boot')
-    save('boot')
-  }
-})
-
-document.addEventListener('keydown', function (event) {
-  if (mode === 'text_mode') {
-    return
-  }
-
-  switch (event.keyCode) {
-    case 37:  // left arrow
-      zoom_maker('zoomleft', 100, 30)
-      break;
-    case 38:  // up arrow
-      zoom_maker('zoomtop', 100, 30)
-      break;
-    case 39:  // right arrow
-      zoom_maker('zoomright', 100, 30)
-      break;
-    case 40:  // down arrow
-      zoom_maker('zoombottom', 100, 30)
-      break;
-    case 107: // +
-      zoom_maker('zoomin', 20, 50)
-      break;
-    case 109: // -
-      zoom_maker('zoomout', 20, 50)
-      break;
-  }
-})
-
-document.querySelector('#lin').addEventListener('mousedown', mouseDownHandler, true)
-document.querySelector('#lin').addEventListener(
-  'mousemove',
-  throttle(function (event) {
-    mouseMoveHandler(event)
-  }, 30),
-)
-document.querySelector('#lin').addEventListener('mouseup', mouseUpHandler)
-
-$(document).on('click', '#lin', function (event) {
-  event.preventDefault()
-})
-
-// for (let checkbox of visibleLayerCheckboxes) {
-//   checkbox.addEventListener('click', function (event) {
-//     const layer = event.currentTarget.value
-//     if (visibleLayers.has(layer)) {
-//       visibleLayers.delete(layer)
-//     } else {
-//       visibleLayers.add(layer)
-//     }
-//   })
-// }
-
-// REVIEW: What does this do?
-document
-  .querySelector('#panel')
-  .addEventListener('mousemove', function (event) {
-    if ((mode == 'line_mode' || mode == 'partition_mode') && action == 1) {
-      action = 0
-      if (typeof binder != 'undefined') {
-        binder.remove()
-        delete binder
-      }
-      $('#linetemp').remove()
-      $('#line_construc').remove()
-      lengthTemp.remove()
-      delete lengthTemp
-    }
-  })
 
 function mouseDown_mode_select (event) {
   if (mode !== 'select_mode') {
