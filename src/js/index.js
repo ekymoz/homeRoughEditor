@@ -1686,17 +1686,6 @@ function intersection(snap, range = Infinity, except = ['']) {
   }
 }
 
-function debugPoint(point, name, color = '#00ff00') {
-  qSVG.create('boxDebug', 'circle', {
-    cx: point.x,
-    cy: point.y,
-    r: 7,
-    fill: color,
-    id: name,
-    class: 'visu',
-  })
-}
-
 function hideAllSize() {
   $('#boxbind').empty()
   sizeText = []
