@@ -1348,18 +1348,6 @@ function load(index = HISTORY.index, boot = false) {
   rib()
 }
 
-function isObjectsEquals(a, b, message = false) {
-  if (message) console.log(message)
-  let isOK = true
-  for (let prop in a) {
-    if (a[prop] !== b[prop]) {
-      isOK = false
-      break
-    }
-  }
-  return isOK
-}
-
 for (let k = 0; k < textEditorColorBtn.length; k++) {
   textEditorColorBtn[k].addEventListener('click', function () {
     document.getElementById('labelBox').style.color = this.style.color
