@@ -80,12 +80,6 @@ const dropdownMenu = document.querySelectorAll('.dropdown-menu li a')
 //   if (HISTORY.index === 1) $('#undo').addClass('disabled')
 // })
 
-
-document.getElementById('button-new').addEventListener('click', function () {
-  const myModal = new bootstrap.Modal($('#myModal'))
-  myModal.show()
-})
-
 document.getElementById('lin').setAttribute(
   'viewBox',
   `${originX_viewbox} ${originY_viewbox} ${width_viewbox} ${height_viewbox}`
@@ -626,17 +620,7 @@ document.getElementById('wallTrash').addEventListener('click', function () {
   $('#panel').show(200)
 })
 
-document.addEventListener('fullscreenchange', function () {
-  if (
-    !document.fullscreenElement &&
-    !document.webkitFullscreenElement &&
-    !document.mozFullScreenElement &&
-    !document.msFullscreenElement
-  ) {
-    $('#nofull_mode').display = 'none'
-    $('#full_mode').show()
-  }
-})
+
 
 // $('#distance_mode').click(function () {
 //   linElement.css('cursor', 'crosshair')
@@ -815,12 +799,7 @@ document.addEventListener('keydown', function (event) {
 
 document.querySelector('#lin').addEventListener('mousedown', mouseDownHandler, true)
 document.querySelector('#lin').addEventListener('mousemove', mouseMoveHandler, true)
-
 document.querySelector('#lin').addEventListener('mouseup', mouseUpHandler)
-
-$(document).on('click', '#lin', function (event) {
-  event.preventDefault()
-})
 
 // for (let checkbox of visibleLayerCheckboxes) {
 //   checkbox.addEventListener('click', function (event) {
