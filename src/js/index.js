@@ -3416,7 +3416,7 @@ function mouseDown_mode_select (event) {
           }
           if (found) {
             var newWall
-            if (isObjectsEquals(wall.parent.end, wall.start, '1')) {
+            if (isObjectsEquals(wall.parent.end, wall.start)) {
               newWall = new editor.wall(
                 wall.parent.end,
                 wall.start,
@@ -3433,7 +3433,7 @@ function mouseDown_mode_select (event) {
                 wall.start.x,
                 wall.start.y,
               )
-            } else if (isObjectsEquals(wall.parent.start, wall.start, '2')) {
+            } else if (isObjectsEquals(wall.parent.start, wall.start)) {
               newWall = new editor.wall(
                 wall.parent.start,
                 wall.start,
@@ -3559,7 +3559,7 @@ function mouseDown_mode_select (event) {
         for (var k in WALLS) {
           if (
             qSVG.rayCasting(wall.end, WALLS[k].coords) &&
-            !isObjectsEquals(WALLS[k].coords, wall.coords, '4')
+            !isObjectsEquals(WALLS[k].coords, wall.coords)
           ) {
             var angleFollow = qSVG.angleBetweenEquations(
               WALLS[k].equations.base.A,
