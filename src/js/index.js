@@ -48,39 +48,37 @@ let zoom = 50
 // The ratio the screen is scaled
 let scaleFactor = 1
 
+const textEditorColorBtn = document.querySelectorAll('.textEditorColor')
+const roomColorBtn = document.querySelectorAll('.roomColor')
+const objTrashBtn = document.querySelectorAll('.objTrash')
+const dropdownMenu = document.querySelectorAll('.dropdown-menu li a')
+
 // const visibleLayerCheckboxes = document.querySelectorAll(
 //   '[name="visible_layer"]',
 // )
 
-
-
-
-
-
-
-
-document.getElementById('redo').addEventListener('click', function () {
-  if (HISTORY.index < HISTORY.length) {
-    load(HISTORY.index)
-    HISTORY.index++
-    $('#undo').removeClass('disabled')
-    if (HISTORY.index === HISTORY.length) {
-      $('#redo').addClass('disabled')
-    }
-  }
-})
-
-document.getElementById('undo').addEventListener('click', function () {
-  if (HISTORY.index > 0) {
-    $('#undo').removeClass('disabled')
-    if (HISTORY.index - 1 > 0) {
-      HISTORY.index--
-      load(HISTORY.index - 1)
-      $('#redo').removeClass('disabled')
-    }
-  }
-  if (HISTORY.index === 1) $('#undo').addClass('disabled')
-})
+// document.getElementById('redo').addEventListener('click', function () {
+//   if (HISTORY.index < HISTORY.length) {
+//     load(HISTORY.index)
+//     HISTORY.index++
+//     $('#undo').removeClass('disabled')
+//     if (HISTORY.index === HISTORY.length) {
+//       $('#redo').addClass('disabled')
+//     }
+//   }
+// })
+//
+// document.getElementById('undo').addEventListener('click', function () {
+//   if (HISTORY.index > 0) {
+//     $('#undo').removeClass('disabled')
+//     if (HISTORY.index - 1 > 0) {
+//       HISTORY.index--
+//       load(HISTORY.index - 1)
+//       $('#redo').removeClass('disabled')
+//     }
+//   }
+//   if (HISTORY.index === 1) $('#undo').addClass('disabled')
+// })
 
 
 document.getElementById('button-new').addEventListener('click', function () {
@@ -88,18 +86,10 @@ document.getElementById('button-new').addEventListener('click', function () {
   myModal.show()
 })
 
-$('svg').each(function () {
-  $(this)[0].setAttribute(
-    'viewBox',
-    originX_viewbox +
-      ' ' +
-      originY_viewbox +
-      ' ' +
-      width_viewbox +
-      ' ' +
-      height_viewbox,
-  )
-})
+document.getElementById('lin').setAttribute(
+  'viewBox',
+  `${originX_viewbox} ${originY_viewbox} ${width_viewbox} ${height_viewbox}`
+)
 
 // document.getElementById('report_mode').addEventListener("click", function () {
 //     if (typeof (globalArea) === "undefined") return false;
@@ -359,19 +349,19 @@ $('svg').each(function () {
 //
 // });
 
-document.getElementById('wallWidth').addEventListener('input', function () {
-  let sliderValue = this.value
-  binder.wall.thick = sliderValue
-  binder.wall.type = 'normal'
-  editor.architect(WALLS)
-  let objWall = editor.objFromWall(binder.wall) // LIST OBJ ON EDGE
-  for (let w = 0; w < objWall.length; w++) {
-    objWall[w].thick = sliderValue
-    objWall[w].update()
-  }
-  rib()
-  document.getElementById('wallWidthVal').textContent = sliderValue
-})
+// document.getElementById('wallWidth').addEventListener('input', function () {
+//   let sliderValue = this.value
+//   binder.wall.thick = sliderValue
+//   binder.wall.type = 'normal'
+//   editor.architect(WALLS)
+//   let objWall = editor.objFromWall(binder.wall) // LIST OBJ ON EDGE
+//   for (let w = 0; w < objWall.length; w++) {
+//     objWall[w].thick = sliderValue
+//     objWall[w].update()
+//   }
+//   rib()
+//   document.getElementById('wallWidthVal').textContent = sliderValue
+// })
 
 document.getElementById('bboxTrash').addEventListener('click', function () {
   binder.obj.graph.remove()
@@ -385,134 +375,134 @@ document.getElementById('bboxTrash').addEventListener('click', function () {
   rib()
 })
 
-document.getElementById('bboxStepsAdd').addEventListener('click', function () {
-  let newValue = document.getElementById('bboxStepsVal').textContent
-  if (newValue < 15) {
-    newValue++
-    binder.obj.value = newValue
-    binder.obj.update()
-    document.getElementById('bboxStepsVal').textContent = newValue
-  }
-})
+// document.getElementById('bboxStepsAdd').addEventListener('click', function () {
+//   let newValue = document.getElementById('bboxStepsVal').textContent
+//   if (newValue < 15) {
+//     newValue++
+//     binder.obj.value = newValue
+//     binder.obj.update()
+//     document.getElementById('bboxStepsVal').textContent = newValue
+//   }
+// })
+//
+// document
+//   .getElementById('bboxStepsMinus')
+//   .addEventListener('click', function () {
+//     let newValue = document.getElementById('bboxStepsVal').textContent
+//     if (newValue > 2) {
+//       newValue--
+//       binder.obj.value = newValue
+//       binder.obj.update()
+//       document.getElementById('bboxStepsVal').textContent = newValue
+//     }
+//   })
 
-document
-  .getElementById('bboxStepsMinus')
-  .addEventListener('click', function () {
-    let newValue = document.getElementById('bboxStepsVal').textContent
-    if (newValue > 2) {
-      newValue--
-      binder.obj.value = newValue
-      binder.obj.update()
-      document.getElementById('bboxStepsVal').textContent = newValue
-    }
-  })
+// document.getElementById('bboxWidth').addEventListener('input', function () {
+//   let sliderValue = this.value
+//   let objTarget = binder.obj
+//   objTarget.size = (sliderValue / 100) * meter
+//   objTarget.update()
+//   binder.size = (sliderValue / 100) * meter
+//   binder.update()
+//   document.getElementById('bboxWidthVal').textContent = sliderValue
+// })
+//
+// document.getElementById('bboxHeight').addEventListener('input', function () {
+//   let sliderValue = this.value
+//   let objTarget = binder.obj
+//   objTarget.thick = (sliderValue / 100) * meter
+//   objTarget.update()
+//   binder.thick = (sliderValue / 100) * meter
+//   binder.update()
+//   document.getElementById('bboxHeightVal').textContent = sliderValue
+// })
+//
+// document.getElementById('bboxRotation').addEventListener('input', function () {
+//   let sliderValue = this.value
+//   let objTarget = binder.obj
+//   objTarget.angle = sliderValue
+//   objTarget.update()
+//   binder.angle = sliderValue
+//   binder.update()
+//   document.getElementById('bboxRotationVal').textContent = sliderValue
+// })
+//
+// document
+//   .getElementById('doorWindowWidth')
+//   .addEventListener('input', function () {
+//     let sliderValue = this.value
+//     let objTarget = binder.obj
+//     let wallBind = editor.rayCastingWalls(objTarget, WALLS)
+//     if (wallBind.length > 1) {
+//       wallBind = wallBind[wallBind.length - 1]
+//     }
+//     let limits = limitObj(wallBind.equations.base, sliderValue, objTarget)
+//     if (
+//       qSVG.btwn(limits[1].x, wallBind.start.x, wallBind.end.x) &&
+//       qSVG.btwn(limits[1].y, wallBind.start.y, wallBind.end.y) &&
+//       qSVG.btwn(limits[0].x, wallBind.start.x, wallBind.end.x) &&
+//       qSVG.btwn(limits[0].y, wallBind.start.y, wallBind.end.y)
+//     ) {
+//       objTarget.size = sliderValue
+//       objTarget.limit = limits
+//       objTarget.update()
+//       binder.size = sliderValue
+//       binder.limit = limits
+//       binder.update()
+//       document.getElementById('doorWindowWidthVal').textContent = sliderValue
+//     }
+//     inWallRib(wallBind)
+//   })
 
-document.getElementById('bboxWidth').addEventListener('input', function () {
-  let sliderValue = this.value
-  let objTarget = binder.obj
-  objTarget.size = (sliderValue / 100) * meter
-  objTarget.update()
-  binder.size = (sliderValue / 100) * meter
-  binder.update()
-  document.getElementById('bboxWidthVal').textContent = sliderValue
-})
+// document.getElementById('objToolsHinge').addEventListener('click', function () {
+//   let objTarget = binder.obj
+//   let hingeStatus = objTarget.hinge // normal - reverse
+//   if (hingeStatus === 'normal') {
+//     objTarget.hinge = 'reverse'
+//   } else objTarget.hinge = 'normal'
+//   objTarget.update()
+// })
 
-document.getElementById('bboxHeight').addEventListener('input', function () {
-  let sliderValue = this.value
-  let objTarget = binder.obj
-  objTarget.thick = (sliderValue / 100) * meter
-  objTarget.update()
-  binder.thick = (sliderValue / 100) * meter
-  binder.update()
-  document.getElementById('bboxHeightVal').textContent = sliderValue
-})
+// document.getElementById('sizePolice').addEventListener('input', function () {
+//   document.getElementById('labelBox').style.fontSize = this.value + 'px'
+// })
 
-document.getElementById('bboxRotation').addEventListener('input', function () {
-  let sliderValue = this.value
-  let objTarget = binder.obj
-  objTarget.angle = sliderValue
-  objTarget.update()
-  binder.angle = sliderValue
-  binder.update()
-  document.getElementById('bboxRotationVal').textContent = sliderValue
-})
-
-document
-  .getElementById('doorWindowWidth')
-  .addEventListener('input', function () {
-    let sliderValue = this.value
-    let objTarget = binder.obj
-    let wallBind = editor.rayCastingWalls(objTarget, WALLS)
-    if (wallBind.length > 1) {
-      wallBind = wallBind[wallBind.length - 1]
-    }
-    let limits = limitObj(wallBind.equations.base, sliderValue, objTarget)
-    if (
-      qSVG.btwn(limits[1].x, wallBind.start.x, wallBind.end.x) &&
-      qSVG.btwn(limits[1].y, wallBind.start.y, wallBind.end.y) &&
-      qSVG.btwn(limits[0].x, wallBind.start.x, wallBind.end.x) &&
-      qSVG.btwn(limits[0].y, wallBind.start.y, wallBind.end.y)
-    ) {
-      objTarget.size = sliderValue
-      objTarget.limit = limits
-      objTarget.update()
-      binder.size = sliderValue
-      binder.limit = limits
-      binder.update()
-      document.getElementById('doorWindowWidthVal').textContent = sliderValue
-    }
-    inWallRib(wallBind)
-  })
-
-document.getElementById('objToolsHinge').addEventListener('click', function () {
-  let objTarget = binder.obj
-  let hingeStatus = objTarget.hinge // normal - reverse
-  if (hingeStatus === 'normal') {
-    objTarget.hinge = 'reverse'
-  } else objTarget.hinge = 'normal'
-  objTarget.update()
-})
-
-document.getElementById('sizePolice').addEventListener('input', function () {
-  document.getElementById('labelBox').style.fontSize = this.value + 'px'
-})
-
-$('#textToLayer').on('hidden.bs.modal', function (e) {
-  fonc_button('select_mode')
-  action = 0
-  let textToMake = document.getElementById('labelBox').textContent
-  if (textToMake != '' && textToMake != 'Your text') {
-    binder = new editor.obj2D(
-      'free',
-      'text',
-      document.getElementById('labelBox').style.color,
-      snap,
-      0,
-      0,
-      0,
-      'normal',
-      0,
-      {
-        text: textToMake,
-        size: document.getElementById('sizePolice').value,
-      },
-    )
-    binder.update()
-    OBJDATA.push(binder)
-    binder.graph.remove()
-    $('#boxText').append(OBJDATA[OBJDATA.length - 1].graph)
-    OBJDATA[OBJDATA.length - 1].update()
-    delete binder
-    $('#boxinfo').html('Added text')
-    save()
-  } else {
-    $('#boxinfo').html('Selection mode')
-  }
-  document.getElementById('labelBox').textContent = 'Your text'
-  document.getElementById('labelBox').style.color = '#333333'
-  document.getElementById('labelBox').style.fontSize = '15px'
-  document.getElementById('sizePolice').value = 15
-})
+// $('#textToLayer').on('hidden.bs.modal', function (e) {
+//   fonc_button('select_mode')
+//   action = 0
+//   let textToMake = document.getElementById('labelBox').textContent
+//   if (textToMake != '' && textToMake != 'Your text') {
+//     binder = new editor.obj2D(
+//       'free',
+//       'text',
+//       document.getElementById('labelBox').style.color,
+//       snap,
+//       0,
+//       0,
+//       0,
+//       'normal',
+//       0,
+//       {
+//         text: textToMake,
+//         size: document.getElementById('sizePolice').value,
+//       },
+//     )
+//     binder.update()
+//     OBJDATA.push(binder)
+//     binder.graph.remove()
+//     $('#boxText').append(OBJDATA[OBJDATA.length - 1].graph)
+//     OBJDATA[OBJDATA.length - 1].update()
+//     delete binder
+//     $('#boxinfo').html('Added text')
+//     save()
+//   } else {
+//     $('#boxinfo').html('Selection mode')
+//   }
+//   document.getElementById('labelBox').textContent = 'Your text'
+//   document.getElementById('labelBox').style.color = '#333333'
+//   document.getElementById('labelBox').style.fontSize = '15px'
+//   document.getElementById('sizePolice').value = 15
+// })
 
 document.getElementById('lin').addEventListener('wheel', (event) => {
   event.preventDefault()
@@ -570,53 +560,53 @@ document.getElementById('lin').addEventListener('wheel', (event) => {
 //   }
 // });
 
-document.getElementById('applySurface').addEventListener('click', function () {
-  $('#roomTools').hide(100)
-  $('#panel').show(200)
-  binder.remove()
-  delete binder
-  let id = $('#roomIndex').val()
-  //COLOR
-  let data = $('#roomBackground').val()
-  ROOM[id].color = data
-  //ROOM NAME
-  let roomName = $('#roomName').val()
-  if (roomName === 'None') {
-    roomName = ''
-  }
-  ROOM[id].name = roomName
-  //ROOM SURFACE
-  let area = $('#roomSurface').val()
-  ROOM[id].surface = area
-  //SHOW SURFACE
-  let show = document.querySelector('#seeArea').checked
-  ROOM[id].showSurface = show
-  //ACTION PARAM
-  let action = document.querySelector('input[type=radio]:checked').value
-  ROOM[id].action = action
-  if (action === 'sub') {
-    ROOM[id].color = 'hatch'
-  }
-  if (action != 'sub' && data === 'hatch') {
-    ROOM[id].color = 'gradientNeutral'
-  }
-  $('#boxRoom').empty()
-  $('#boxSurface').empty()
-  editor.roomMaker(Rooms)
-  $('#boxinfo').html('Updated room')
-  fonc_button('select_mode')
-})
+// document.getElementById('applySurface').addEventListener('click', function () {
+//   $('#roomTools').hide(100)
+//   $('#panel').show(200)
+//   binder.remove()
+//   delete binder
+//   let id = $('#roomIndex').val()
+//   //COLOR
+//   let data = $('#roomBackground').val()
+//   ROOM[id].color = data
+//   //ROOM NAME
+//   let roomName = $('#roomName').val()
+//   if (roomName === 'None') {
+//     roomName = ''
+//   }
+//   ROOM[id].name = roomName
+//   //ROOM SURFACE
+//   let area = $('#roomSurface').val()
+//   ROOM[id].surface = area
+//   //SHOW SURFACE
+//   let show = document.querySelector('#seeArea').checked
+//   ROOM[id].showSurface = show
+//   //ACTION PARAM
+//   let action = document.querySelector('input[type=radio]:checked').value
+//   ROOM[id].action = action
+//   if (action === 'sub') {
+//     ROOM[id].color = 'hatch'
+//   }
+//   if (action != 'sub' && data === 'hatch') {
+//     ROOM[id].color = 'gradientNeutral'
+//   }
+//   $('#boxRoom').empty()
+//   $('#boxSurface').empty()
+//   editor.roomMaker(Rooms)
+//   $('#boxinfo').html('Updated room')
+//   fonc_button('select_mode')
+// })
 
-document
-  .getElementById('resetRoomTools')
-  .addEventListener('click', function () {
-    $('#roomTools').hide(100)
-    $('#panel').show(200)
-    binder.remove()
-    delete binder
-    $('#boxinfo').html('Updated room')
-    fonc_button('select_mode')
-  })
+// document
+//   .getElementById('resetRoomTools')
+//   .addEventListener('click', function () {
+//     $('#roomTools').hide(100)
+//     $('#panel').show(200)
+//     binder.remove()
+//     delete binder
+//     $('#boxinfo').html('Updated room')
+//     fonc_button('select_mode')
+//   })
 
 document.getElementById('wallTrash').addEventListener('click', function () {
   let wall = binder.wall
@@ -648,11 +638,11 @@ document.addEventListener('fullscreenchange', function () {
   }
 })
 
-$('#distance_mode').click(function () {
-  linElement.css('cursor', 'crosshair')
-  $('#boxinfo').html('Add a measurement')
-  fonc_button('distance_mode')
-})
+// $('#distance_mode').click(function () {
+//   linElement.css('cursor', 'crosshair')
+//   $('#boxinfo').html('Add a measurement')
+//   fonc_button('distance_mode')
+// })
 
 $('#room_mode').click(function () {
   linElement.css('cursor', 'pointer')
@@ -724,17 +714,17 @@ $('.window').click(function () {
   fonc_button('door_mode', this.id)
 })
 
-$('.object').click(function () {
-  cursor('move')
-  $('#boxinfo').html('Add an object')
-  fonc_button('object_mode', this.id)
-})
+// $('.object').click(function () {
+//   cursor('move')
+//   $('#boxinfo').html('Add an object')
+//   fonc_button('object_mode', this.id)
+// })
 
-$('#stair_mode').click(function () {
-  cursor('move')
-  $('#boxinfo').html('Add stair')
-  fonc_button('object_mode', 'simpleStair')
-})
+// $('#stair_mode').click(function () {
+//   cursor('move')
+//   $('#boxinfo').html('Add stair')
+//   fonc_button('object_mode', 'simpleStair')
+// })
 
 $('#node_mode').click(function () {
   $('#boxinfo').html(
@@ -752,23 +742,23 @@ $('#text_mode').click(function () {
   fonc_button('text_mode')
 })
 
-$('#grid_mode').click(function () {
-  if (grid_snap === 'on') {
-    grid_snap = 'off'
-    $('#boxinfo').html('Help grid off')
-    $('#grid_mode').removeClass('btn-success')
-    $('#grid_mode').addClass('btn-warning')
-    $('#grid_mode').html('GRID OFF')
-    $('#boxgrid').css('opacity', '0.5')
-  } else {
-    grid_snap = 'on'
-    $('#boxinfo').html('Help grid on')
-    $('#grid_mode').removeClass('btn-warning')
-    $('#grid_mode').addClass('btn-success')
-    $('#grid_mode').html('GRID ON <i class="fa fa-th" aria-hidden="true"></i>')
-    $('#boxgrid').css('opacity', '1')
-  }
-})
+// $('#grid_mode').click(function () {
+//   if (grid_snap === 'on') {
+//     grid_snap = 'off'
+//     $('#boxinfo').html('Help grid off')
+//     $('#grid_mode').removeClass('btn-success')
+//     $('#grid_mode').addClass('btn-warning')
+//     $('#grid_mode').html('GRID OFF')
+//     $('#boxgrid').css('opacity', '0.5')
+//   } else {
+//     grid_snap = 'on'
+//     $('#boxinfo').html('Help grid on')
+//     $('#grid_mode').removeClass('btn-warning')
+//     $('#grid_mode').addClass('btn-success')
+//     $('#grid_mode').html('GRID ON <i class="fa fa-th" aria-hidden="true"></i>')
+//     $('#boxgrid').css('opacity', '1')
+//   }
+// })
 
 // Window Event Listeners
 window.addEventListener('resize', function (event) {
@@ -824,12 +814,8 @@ document.addEventListener('keydown', function (event) {
 })
 
 document.querySelector('#lin').addEventListener('mousedown', mouseDownHandler, true)
-document.querySelector('#lin').addEventListener(
-  'mousemove',
-  throttle(function (event) {
-    mouseMoveHandler(event)
-  }, 30),
-)
+document.querySelector('#lin').addEventListener('mousemove', mouseMoveHandler, true)
+
 document.querySelector('#lin').addEventListener('mouseup', mouseUpHandler)
 
 $(document).on('click', '#lin', function (event) {
@@ -863,12 +849,6 @@ document
       delete lengthTemp
     }
   })
-
-
-
-
-
-
 
 function initHistory(boot = false) {
   HISTORY.index = 0
@@ -1387,32 +1367,6 @@ function load(index = HISTORY.index, boot = false) {
   rib()
 }
 
-// if (!Array.prototype.includes) {
-//   Object.defineProperty(Array.prototype, 'includes', {
-//     value: function (searchElement, fromIndex) {
-//       if (this === null) {
-//         throw new TypeError('"this" is null or not defined')
-//       }
-//
-//       let o = Object(this)
-//       let len = o.length >>> 0
-//       if (len === 0) {
-//         return false
-//       }
-//       let n = fromIndex | 0
-//       let k = Math.max(n >= 0 ? n : len - Math.abs(n), 0)
-//
-//       while (k < len) {
-//         if (o[k] === searchElement) {
-//           return true
-//         }
-//         k++
-//       }
-//       return false
-//     },
-//   })
-// }
-
 function isObjectsEquals(a, b, message = false) {
   if (message) console.log(message)
   let isOK = true
@@ -1425,41 +1379,12 @@ function isObjectsEquals(a, b, message = false) {
   return isOK
 }
 
-function throttle(callback, delay) {
-  let last
-  let timer
-  return function () {
-    let context = this
-    let now = +new Date()
-    let args = arguments
-    if (last && now < last + delay) {
-      // le délai n'est pas écoulé on reset le timer
-      clearTimeout(timer)
-      timer = setTimeout(function () {
-        last = now
-        callback.apply(context, args)
-      }, delay)
-    } else {
-      last = now
-      callback.apply(context, args)
-    }
-  }
-}
-
-
-
-
-
-
-
-let textEditorColorBtn = document.querySelectorAll('.textEditorColor')
 for (let k = 0; k < textEditorColorBtn.length; k++) {
   textEditorColorBtn[k].addEventListener('click', function () {
     document.getElementById('labelBox').style.color = this.style.color
   })
 }
 
-let roomColorBtn = document.querySelectorAll('.roomColor')
 for (let k = 0; k < roomColorBtn.length; k++) {
   roomColorBtn[k].addEventListener('click', function () {
     let data = this.getAttribute('data-type')
@@ -1468,7 +1393,6 @@ for (let k = 0; k < roomColorBtn.length; k++) {
   })
 }
 
-let objTrashBtn = document.querySelectorAll('.objTrash')
 for (let k = 0; k < objTrashBtn.length; k++) {
   objTrashBtn[k].addEventListener('click', function () {
     $('#objTools').hide('100')
@@ -1485,7 +1409,6 @@ for (let k = 0; k < objTrashBtn.length; k++) {
   })
 }
 
-let dropdownMenu = document.querySelectorAll('.dropdown-menu li a')
 for (let k = 0; k < dropdownMenu.length; k++) {
   dropdownMenu[k].addEventListener('click', function () {
     let selText = this.textContent
@@ -1496,30 +1419,6 @@ for (let k = 0; k < dropdownMenu.length; k++) {
     if (selText != 'None') $('#roomName').val(selText)
     else $('#roomName').val('')
   })
-}
-
-// TRY MATRIX CALC FOR BBOX REAL COORDS WITH TRAS + ROT.
-function matrixCalc(el, message = false) {
-  if (message) console.log('matrixCalc called by -> ' + message)
-  let m = el.getCTM()
-  let bb = el.getBBox()
-  let tpts = [
-    matrixXY(m, bb.x, bb.y),
-    matrixXY(m, bb.x + bb.width, bb.y),
-    matrixXY(m, bb.x + bb.width, bb.y + bb.height),
-    matrixXY(m, bb.x, bb.y + bb.height),
-  ]
-  return tpts
-}
-
-function matrixXY(m, x, y) {
-  return { x: x * m.a + y * m.c + m.e, y: x * m.b + y * m.d + m.f }
-}
-
-function realBboxShow(coords) {
-  for (let k in coords) {
-    debugPoint(coords[k])
-  }
 }
 
 function limitObj(equation, size, coords, message = false) {
@@ -1833,29 +1732,10 @@ function debugPoint(point, name, color = '#00ff00') {
   })
 }
 
-function showVertex() {
-  for (let i = 0; i < vertex.length; i++) {
-    debugPoint(vertex[i], i)
-  }
-}
-
-function showJunction() {
-  for (let i = 0; i < junction.length; i++) {
-    debugPoint({ x: junction[i].values[0], y: junction[i].values[1] }, i)
-  }
-}
-
 function hideAllSize() {
   $('#boxbind').empty()
   sizeText = []
   showAllSizeStatus = 0
-}
-
-function allRib() {
-  $('#boxRib').empty()
-  for (let i in WALLS) {
-    inWallRib(WALLS[i], 'all')
-  }
 }
 
 function inWallRib(wall, option = false) {
@@ -2363,19 +2243,20 @@ function rib(shift = 5) {
 }
 
 function cursor(tool) {
-  if (tool === 'grab')
-    tool =
-      "url('https://wiki.openmrs.org/s/en_GB/7502/b9217199c27dd617c8d51f6186067d7767c5001b/_/images/icons/emoticons/add.png') 8 8, auto"
-  if (tool === 'scissor')
-    tool =
-      "url('https://maxcdn.icons8.com/windows10/PNG/64/Hands/hand_scissors-64.png'), auto"
-  if (tool === 'trash')
-    tool =
-      "url('https://cdn4.iconfinder.com/data/icons/common-toolbar/36/Cancel-32.png'), auto"
-  if (tool === 'validation')
-    tool =
-      "url('https://images.fatguymedia.com/wp-content/uploads/2015/09/check.png'), auto"
-  linElement.css('cursor', tool)
+  // REVIEW: Comment out for now until I can grab these resources
+  // if (tool === 'grab')
+  //   tool =
+  //     "url('https://wiki.openmrs.org/s/en_GB/7502/b9217199c27dd617c8d51f6186067d7767c5001b/_/images/icons/emoticons/add.png') 8 8, auto"
+  // if (tool === 'scissor')
+  //   tool =
+  //     "url('https://maxcdn.icons8.com/windows10/PNG/64/Hands/hand_scissors-64.png'), auto"
+  // if (tool === 'trash')
+  //   tool =
+  //     "url('https://cdn4.iconfinder.com/data/icons/common-toolbar/36/Cancel-32.png'), auto"
+  // if (tool === 'validation')
+  //   tool =
+  //     "url('https://images.fatguymedia.com/wp-content/uploads/2015/09/check.png'), auto"
+  // linElement.css('cursor', tool)
 }
 
 function fullscreen() {
