@@ -37,8 +37,14 @@ let height_viewbox = taille_h
 let ratio_viewbox = height_viewbox / width_viewbox
 let originX_viewbox = 0
 let originY_viewbox = 0
-let zoom = 9
-let factor = 1
+
+const MIN_ZOOM = 0
+const MAX_ZOOM = 100
+
+// Used to track This is the initial zoom level
+let zoom = 50
+// The ratio the screen is scaled
+let scaleFactor = 1
 
 function initHistory(boot = false) {
   HISTORY.index = 0
@@ -1075,17 +1081,14 @@ function throttle(callback, delay) {
   }
 }
 
-// HIDE MOUSEWHEEL FUNCTIONALITY FOR NOW SINCE THERE IS AN ISSUE WITH ZOOM AND MOUSE MOVE
-// linElement.mousewheel(
-//   throttle(function (event) {
-//     event.preventDefault()
-//     if (event.deltaY > 0) {
-//       zoom_maker('zoomin', 200)
-//     } else {
-//       zoom_maker('zoomout', 200)
-//     }
-//   }, 100),
-// )
+document.getElementById('lin').addEventListener('wheel', (event) => {
+  event.preventDefault()
+  if (event.deltaY > 0) {
+    zoom_maker('zoomout', 20)
+  } else {
+    zoom_maker('zoomin', 20)
+  }
+})
 
 // document.getElementById('showRib').addEventListener('click', function () {
 //   if (document.getElementById('showRib').checked) {
@@ -1106,8 +1109,6 @@ function throttle(callback, delay) {
 //     $('#boxArea').hide(100)
 //   }
 // })
-
-
 
 // document.getElementById('showLayerRoom').addEventListener('click', function () {
 //   if (document.getElementById('showLayerRoom').checked) {
@@ -1209,14 +1210,6 @@ for (let k = 0; k < textEditorColorBtn.length; k++) {
   })
 }
 
-let zoomBtn = document.querySelectorAll('.zoom')
-for (let k = 0; k < zoomBtn.length; k++) {
-  zoomBtn[k].addEventListener('click', function () {
-    let lens = this.getAttribute('data-zoom')
-    zoom_maker(lens, 200, 50)
-  })
-}
-
 let roomColorBtn = document.querySelectorAll('.roomColor')
 for (let k = 0; k < roomColorBtn.length; k++) {
   roomColorBtn[k].addEventListener('click', function () {
@@ -1308,65 +1301,59 @@ function limitObj(equation, size, coords, message = false) {
   return [pos1, pos2]
 }
 
-function zoom_maker(lens, xmove, xview) {
-  if (lens === 'zoomout' && zoom > 1 && zoom < 17) {
-    zoom--
-    width_viewbox += xmove
-    let ratioWidthZoom = taille_w / width_viewbox
-    height_viewbox = width_viewbox * ratio_viewbox
-    myDiv = document.getElementById('scaleVal')
-    myDiv.style.width = 60 * ratioWidthZoom + 'px'
-    originX_viewbox = originX_viewbox - xmove / 2
-    originY_viewbox = originY_viewbox - (xmove / 2) * ratio_viewbox
+// REVIEW: The name for this function could be made more clear to what it actually does. It does not only handle zoom functionality, as its name might suggest
+function zoom_maker(operation, xmove, xview) {
+  switch (operation) {
+    case 'zoomout':
+      if (zoom > MIN_ZOOM) {
+        zoom--
+        width_viewbox += xmove
+        const ratioWidthZoom = taille_w / width_viewbox
+        height_viewbox = width_viewbox * ratio_viewbox
+        originX_viewbox = originX_viewbox - xmove / 2
+        originY_viewbox = originY_viewbox - (xmove / 2) * ratio_viewbox
+        scaleFactor = width_viewbox / taille_w
+      }
+      break;
+    case 'zoomin':
+      if (zoom < MAX_ZOOM) {
+        zoom++
+        width_viewbox -= xmove
+        const ratioWidthZoom = taille_w / width_viewbox
+        height_viewbox = width_viewbox * ratio_viewbox
+        originX_viewbox = originX_viewbox + xmove / 2
+        originY_viewbox = originY_viewbox + (xmove / 2) * ratio_viewbox
+        scaleFactor = width_viewbox / taille_w
+      }
+      break;
+    case 'zoomreset':
+      originX_viewbox = 0
+      originY_viewbox = 0
+      width_viewbox = taille_w
+      height_viewbox = taille_h
+      scaleFactor = 1
+      break;
+    case 'zoomright':
+      originX_viewbox += xview
+      break;
+    case 'zoomleft':
+      originX_viewbox -= xview
+      break;
+    case 'zoomtop':
+      originY_viewbox -= xview
+      break;
+    case 'zoombottom':
+      originY_viewbox += xview
+      break;
+    case 'zoomdrag':
+      originX_viewbox -= xmove
+      originY_viewbox -= xview
+      break;
   }
-  if (lens === 'zoomin' && zoom < 14 && zoom > 0) {
-    zoom++
-    let oldWidth = width_viewbox
-    width_viewbox -= xmove
-    let ratioWidthZoom = taille_w / width_viewbox
-    height_viewbox = width_viewbox * ratio_viewbox
-    myDiv = document.getElementById('scaleVal')
-    myDiv.style.width = 60 * ratioWidthZoom + 'px'
 
-    originX_viewbox = originX_viewbox + xmove / 2
-    originY_viewbox = originY_viewbox + (xmove / 2) * ratio_viewbox
-  }
-  factor = width_viewbox / taille_w
-  if (lens === 'zoomreset') {
-    originX_viewbox = 0
-    originY_viewbox = 0
-    width_viewbox = taille_w
-    height_viewbox = taille_h
-    factor = 1
-  }
-  if (lens === 'zoomright') {
-    originX_viewbox += xview
-  }
-  if (lens === 'zoomleft') {
-    originX_viewbox -= xview
-  }
-  if (lens === 'zoomtop') {
-    originY_viewbox -= xview
-  }
-  if (lens === 'zoombottom') {
-    originY_viewbox += xview
-  }
-  if (lens === 'zoomdrag') {
-    originX_viewbox -= xmove
-    originY_viewbox -= xview
-  }
-  $('svg').each(function () {
-    $(this)[0].setAttribute(
-      'viewBox',
-      originX_viewbox +
-        ' ' +
-        originY_viewbox +
-        ' ' +
-        width_viewbox +
-        ' ' +
-        height_viewbox,
-    )
-  })
+  document.getElementById('lin').setAttribute(
+    'viewBox', `${originX_viewbox} ${originY_viewbox} ${width_viewbox} ${height_viewbox}`
+  )
 }
 
 tactile = false
@@ -1381,8 +1368,8 @@ function calcul_snap(event, state) {
     eX = event.pageX
     eY = event.pageY
   }
-  x_mouse = eX * factor - offset.left * factor + originX_viewbox
-  y_mouse = eY * factor - offset.top * factor + originY_viewbox
+  x_mouse = eX * scaleFactor - offset.left * scaleFactor + originX_viewbox
+  y_mouse = eY * scaleFactor - offset.top * scaleFactor + originY_viewbox
 
   if (state === 'on') {
     x_grid = Math.round(x_mouse / grid) * grid

@@ -882,8 +882,8 @@ var editor = {
       this.graph.append(blank)
     } // ENDFOR
     var bbox = this.graph.get(0).getBoundingClientRect()
-    bbox.x = bbox.x * factor - offset.left * factor + originX_viewbox
-    bbox.y = bbox.y * factor - offset.top * factor + originY_viewbox
+    bbox.x = bbox.x * scaleFactor - offset.left * scaleFactor + originX_viewbox
+    bbox.y = bbox.y * scaleFactor - offset.top * scaleFactor + originY_viewbox
     bbox.origin = { x: this.x, y: this.y }
     this.bbox = bbox
     this.realBbox = [
@@ -931,8 +931,8 @@ var editor = {
           ', 1)',
       })
       var bbox = this.graph.get(0).getBoundingClientRect()
-      bbox.x = bbox.x * factor - offset.left * factor + originX_viewbox
-      bbox.y = bbox.y * factor - offset.top * factor + originY_viewbox
+      bbox.x = bbox.x * scaleFactor - offset.left * scaleFactor + originX_viewbox
+      bbox.y = bbox.y * scaleFactor - offset.top * scaleFactor + originY_viewbox
       bbox.origin = { x: this.x, y: this.y }
       this.bbox = bbox
 

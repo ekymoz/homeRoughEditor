@@ -21,14 +21,6 @@ window.addEventListener('resize', function (event) {
 })
 
 window.addEventListener('load', function () {
-  // HIDE MOVE AND ZOOM CONTROLS
-  // document
-  //   .getElementById('panel')
-  //   .addEventListener('transitionend', function () {
-  //     document.getElementById('moveBox').style.transform = 'translateX(-165px)'
-  //     document.getElementById('zoomBox').style.transform = 'translateX(-165px)'
-  //   })
-  
   if (localStorage.getItem('history')) {
     let historyTemp = JSON.parse(localStorage.getItem('history'))
     load(historyTemp.length - 1, 'boot')
@@ -37,31 +29,29 @@ window.addEventListener('load', function () {
 })
 
 document.addEventListener('keydown', function (event) {
-  if (mode != 'text_mode') {
-    if (event.keyCode == '37') {
-      //LEFT
+  if (mode === 'text_mode') {
+    return
+  }
+
+  switch (event.keyCode) {
+    case 37:  // left arrow
       zoom_maker('zoomleft', 100, 30)
-    }
-    if (event.keyCode == '38') {
-      //UP
+      break;
+    case 38:  // up arrow
       zoom_maker('zoomtop', 100, 30)
-    }
-    if (event.keyCode == '39') {
-      //RIGHT
+      break;
+    case 39:  // right arrow
       zoom_maker('zoomright', 100, 30)
-    }
-    if (event.keyCode == '40') {
-      //DOWN
+      break;
+    case 40:  // down arrow
       zoom_maker('zoombottom', 100, 30)
-    }
-    if (event.keyCode == '107') {
-      //+
+      break;
+    case 107: // +
       zoom_maker('zoomin', 20, 50)
-    }
-    if (event.keyCode == '109') {
-      //-
+      break;
+    case 109: // -
       zoom_maker('zoomout', 20, 50)
-    }
+      break;
   }
 })
 
@@ -713,10 +703,15 @@ function mouseMove_mode_select (event) {
       }
     }
   } else if (drag === 'on') {
-    snap = calcul_snap(event, grid_snap)
+
     $('#lin').css('cursor', 'move')
-    distX = (snap.xMouse - pox) * factor
-    distY = (snap.yMouse - poy) * factor
+
+    const xxx_mouse = event.pageX * scaleFactor - offset.left * scaleFactor + originX_viewbox
+    const yyy_mouse = event.pageY * scaleFactor - offset.top * scaleFactor + originY_viewbox
+
+    distX = (xxx_mouse - pox) * scaleFactor
+    distY = (yyy_mouse - poy) * scaleFactor
+
     zoom_maker('zoomdrag', distX, distY)
   }
 }
@@ -2225,8 +2220,8 @@ function mouseUp_mode_distance (event) {
     action = 0
     // MODIFY BBOX FOR BINDER ZONE (TXT)
     var bbox = labelMeasure.get(0).getBoundingClientRect()
-    bbox.x = bbox.x * factor - offset.left * factor + originX_viewbox
-    bbox.y = bbox.y * factor - offset.top * factor + originY_viewbox
+    bbox.x = bbox.x * scaleFactor - offset.left * scaleFactor + originX_viewbox
+    bbox.y = bbox.y * scaleFactor - offset.top * scaleFactor + originY_viewbox
     bbox.origin = { x: bbox.x + bbox.width / 2, y: bbox.y + bbox.height / 2 }
     binder.bbox = bbox
     binder.realBbox = [
