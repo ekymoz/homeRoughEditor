@@ -70,7 +70,7 @@ document.getElementById('bboxTrash').addEventListener('click', function () {
   $('#panel').show(200)
   fonc_button('select_mode')
   $('#boxinfo').html('Deleted object')
-  delete binder
+  binder = undefined
   rib()
 })
 
@@ -111,7 +111,7 @@ $('#select_mode').click(function () {
   $('#boxinfo').html('Mode "select"')
   if (typeof binder != 'undefined') {
     binder.remove()
-    delete binder
+    binder = undefined
   }
 
   fonc_button('select_mode')
@@ -263,12 +263,12 @@ document
       action = 0
       if (typeof binder != 'undefined') {
         binder.remove()
-        delete binder
+        binder = undefined
       }
       $('#linetemp').remove()
       $('#line_construc').remove()
       lengthTemp.remove()
-      delete lengthTemp
+      lengthTemp = undefined
     }
   })
 
@@ -813,7 +813,7 @@ for (let k = 0; k < objTrashBtn.length; k++) {
     $('#boxinfo').html('Selection mode')
     $('#panel').show('200')
     binder.graph.remove()
-    delete binder
+    binder = undefined
     rib()
     $('#panel').show('300')
   })
@@ -946,7 +946,7 @@ function calcul_snap(event, state) {
 function intersectionOff() {
   if (typeof lineIntersectionP != 'undefined') {
     lineIntersectionP.remove()
-    delete lineIntersectionP
+    lineIntersectionP = undefined
   }
 }
 
@@ -959,7 +959,7 @@ function intersection(snap, range = Infinity, except = ['']) {
 
   if (typeof lineIntersectionP != 'undefined') {
     lineIntersectionP.remove()
-    delete lineIntersectionP
+    lineIntersectionP = undefined
   }
 
   lineIntersectionP = qSVG.create('boxbind', 'path', {
@@ -1653,7 +1653,7 @@ function fonc_button(modesetting, option) {
 
   if (typeof lineIntersectionP != 'undefined') {
     lineIntersectionP.remove()
-    delete lineIntersectionP
+    lineIntersectionP = undefined
   }
 }
 
@@ -3153,7 +3153,7 @@ function mouseMove_mode_select (event) {
     if (objTarget !== false) {
       if (typeof binder != 'undefined' && binder.type == 'segment') {
         binder.graph.remove()
-        delete binder
+        binder = undefined
         cursor('default')
       }
       if (objTarget.params.bindBox) {
@@ -3221,7 +3221,7 @@ function mouseMove_mode_select (event) {
       if (typeof binder != 'undefined') {
         if (typeof binder.graph != 'undefined') binder.graph.remove()
         if (binder.type == 'node') binder.remove()
-        delete binder
+        binder = undefined
         cursor('default')
         rib()
       }
@@ -3252,7 +3252,7 @@ function mouseMove_mode_select (event) {
     } else {
       if (typeof binder != 'undefined' && binder.type == 'node') {
         binder.remove()
-        delete binder
+        binder = undefined
         hideAllSize()
         cursor('default')
         rib()
@@ -3336,7 +3336,7 @@ function mouseMove_mode_select (event) {
       } else {
         if (typeof binder != 'undefined' && binder.type == 'segment') {
           binder.graph.remove()
-          delete binder
+          binder = undefined
           hideAllSize()
           cursor('default')
           rib()
@@ -3396,7 +3396,7 @@ function mouseMove_mode_line_partition (event) {
       if (typeof binder != 'undefined') {
         if (binder.graph) binder.graph.remove()
         else binder.remove()
-        delete binder
+        binder = undefined
       }
     }
   } else if (action == 1) {
@@ -3499,7 +3499,7 @@ function mouseMove_mode_line_partition (event) {
         } else {
           if (typeof binder != 'undefined') {
             binder.remove()
-            delete binder
+            binder = undefined
           }
           if (wallEndConstruc === false) cursor('crosshair')
         }
@@ -3697,7 +3697,7 @@ function mouseMove_mode_door (event) {
   } else {
     if (typeof binder != 'undefined') {
       binder.graph.remove()
-      delete binder
+      binder = undefined
     }
   }
 }
@@ -3813,7 +3813,7 @@ function mouseMove_mode_network (event) {
   } else {
     if (typeof binder != 'undefined') {
       binder.graph.remove()
-      delete binder
+      binder = undefined
     }
   }
 }
@@ -3929,7 +3929,7 @@ function mouseMove_mode_electrical (event) {
   } else {
     if (typeof binder != 'undefined') {
       binder.graph.remove()
-      delete binder
+      binder = undefined
     }
   }
 }
@@ -4063,11 +4063,11 @@ function mouseMove_mode_node (event) {
         binder.data = addNode
       } else {
         binder.remove()
-        delete binder
+        binder = undefined
       }
     } else {
       binder.remove()
-      delete binder
+      binder = undefined
     }
   }
 }
@@ -4186,7 +4186,7 @@ function mouseMove_mode_bind (event) {
         objTarget.update()
       } else {
         objTarget.graph.remove()
-        delete objTarget
+        objTarget = undefined
         OBJDATA.splice(wall.indexObj, 1)
         wallListObj.splice(k, 1)
       }
@@ -4379,7 +4379,7 @@ function mouseMove_mode_bind (event) {
           !qSVG.btwn(limits[1].y, WALLS[k].start.y, WALLS[k].end.y)
         ) {
           objTarget.graph.remove()
-          delete objTarget
+          objTarget = undefined
           var indexObj = OBJDATA.indexOf(objTarget)
           OBJDATA.splice(indexObj, 1)
         }
@@ -4651,7 +4651,7 @@ function mouseMove_mode_room (event) {
   if ((roomTarget = editor.rayCastingRoom(snap))) {
     if (typeof binder != 'undefined') {
       binder.remove()
-      delete binder
+      binder = undefined
     }
 
     var pathSurface = roomTarget.coords
@@ -4704,7 +4704,7 @@ function mouseMove_mode_room (event) {
   } else {
     if (typeof binder != 'undefined') {
       binder.remove()
-      delete binder
+      binder = undefined
     }
   }
 }
@@ -4735,7 +4735,7 @@ function mouseUp_mode_select (event) {
 
   if (typeof binder != 'undefined') {
     binder.remove()
-    delete binder
+    binder = undefined
     save()
   }
 }
@@ -4773,10 +4773,10 @@ function mouseUp_mode_line_partition (event) {
     )
     $('#line_construc').remove() // DEL LINE CONSTRUC HELP TO VIEW NEW SEG PATH
     lengthTemp.remove()
-    delete lengthTemp
+    lengthTemp = undefined
     construc = 0
     if (wallEndConstruc) action = 0
-    delete wallEndConstruc
+    wallEndConstruc = undefined
     pox = x
     poy = y
     save()
@@ -4787,7 +4787,7 @@ function mouseUp_mode_line_partition (event) {
     fonc_button('select_mode')
     if (typeof binder != 'undefined') {
       binder.remove()
-      delete binder
+      binder = undefined
     }
     snap = calcul_snap(event, grid_snap)
     pox = snap.x
@@ -4808,7 +4808,7 @@ function mouseUp_mode_electrical (event) {
   OBJDATA.push(binder)
   binder.graph.remove()
   $('#boxcarpentry').append(OBJDATA[OBJDATA.length - 1].graph)
-  delete binder
+  binder = undefined
   $('#boxinfo').html('Element added')
   fonc_button('select_mode')
   save()
@@ -4827,7 +4827,7 @@ function mouseUp_mode_network (event) {
   OBJDATA.push(binder)
   binder.graph.remove()
   $('#boxcarpentry').append(OBJDATA[OBJDATA.length - 1].graph)
-  delete binder
+  binder = undefined
   $('#boxinfo').html('Element added')
   fonc_button('select_mode')
   save()
@@ -4846,7 +4846,7 @@ function mouseUp_mode_door (event) {
   OBJDATA.push(binder)
   binder.graph.remove()
   $('#boxcarpentry').append(OBJDATA[OBJDATA.length - 1].graph)
-  delete binder
+  binder = undefined
   $('#boxinfo').html('Element added')
   fonc_button('select_mode')
   save()
@@ -4880,10 +4880,10 @@ function mouseUp_mode_distance (event) {
     OBJDATA.push(binder)
     binder.graph.remove()
     $('#boxcarpentry').append(OBJDATA[OBJDATA.length - 1].graph)
-    delete binder
-    delete labelMeasure
+    binder = undefined
+    labelMeasure = undefined
     cross.remove()
-    delete cross
+    cross = undefined
     $('#boxinfo').html('Measure added')
     fonc_button('select_mode')
     save()
@@ -4907,7 +4907,7 @@ function mouseUp_mode_node (event) {
     WALLS.push(newWall)
     binder.data.wall.end = { x: binder.data.x, y: binder.data.y }
     binder.remove()
-    delete binder
+    binder = undefined
     editor.architect(WALLS)
     save()
   }
@@ -4965,10 +4965,10 @@ function mouseUp_mode_bind (event) {
           binder.wall.thick
         mode = 'edit_wall_mode'
       }
-      delete equation1
-      delete equation2
-      delete equation3
-      delete intersectionFollowers
+      equation1 = undefined
+      equation2 = undefined
+      equation3 = undefined
+      intersectionFollowers = undefined
     }
 
     if (binder.type == 'obj') {
@@ -4999,7 +4999,7 @@ function mouseUp_mode_bind (event) {
         mode = 'select_mode'
         action = 0
         binder.graph.remove()
-        delete binder
+        binder = undefined
       }
     }
 
@@ -5063,13 +5063,13 @@ function mouseUp_mode_bind (event) {
         mode = 'select_mode'
         action = 0
         binder.graph.remove()
-        delete binder
+        binder = undefined
       }
     }
 
     if (mode == 'bind_mode') {
       binder.remove()
-      delete binder
+      binder = undefined
     }
   }
 
@@ -5102,7 +5102,7 @@ function mouseUp_mode_object (event) {
   if (OBJDATA[OBJDATA.length - 1].class == 'furniture')
     targetBox = 'boxFurniture'
   $('#' + targetBox).append(OBJDATA[OBJDATA.length - 1].graph)
-  delete binder
+  binder = undefined
   $('#boxinfo').html('Object added')
   fonc_button('select_mode')
   save()
