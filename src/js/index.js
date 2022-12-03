@@ -74,7 +74,7 @@ Application.prototype.initialize = function () {
     this.OBJDATA.splice(this.OBJDATA.indexOf(this.binder.obj), 1)
     $('#objBoundingBox').hide(100)
     $('#panel').show(200)
-    fonc_button('select_mode')
+    this.fonc_button('select_mode')
     $('#boxinfo').html('Deleted object')
     this.binder = undefined
     this.rib()
@@ -99,74 +99,74 @@ Application.prototype.initialize = function () {
     }
     this.WALLS.splice(this.WALLS.indexOf(wall), 1)
     $('#wallTools').hide(100)
-    this.wall.graph.remove()
+    wall.graph.remove()
     this.binder.graph.remove()
-    this.editor.architect(WALLS)
+    this.editor.architect(this.WALLS)
     this.rib()
     this.mode = 'select_mode'
     $('#panel').show(200)
   })
 
-  // $('#room_mode').click(() => {
-  //   this.linElement.css('cursor', 'pointer')
-  //   $('#boxinfo').html('Config. of rooms')
-  //   fonc_button('room_mode')
-  // })
-  //
-  // $('#select_mode').click(() => {
-  //   $('#boxinfo').html('Mode "select"')
-  //   if (typeof this.binder != 'undefined') {
-  //     this.binder.remove()
-  //     this.binder = undefined
-  //   }
-  //
-  //   fonc_button('select_mode')
-  // })
-  //
-  // $('#line_mode').click(() => {
-  //   this.linElement.css('cursor', 'crosshair')
-  //   $('#boxinfo').html('Creation of wall(s)')
-  //   this.multi = 0
-  //   this.action = 0
-  //   // snap = calcul_snap(event, grid_snap);
-  //   //
-  //   // pox = snap.x;
-  //   // poy = snap.y;
-  //   fonc_button('line_mode')
-  // })
-  //
-  // $('#partition_mode').click(() => {
-  //   this.linElement.css('cursor', 'crosshair')
-  //   $('#boxinfo').html('Creation of thin wall(s)')
-  //   this.multi = 0
-  //   fonc_button('partition_mode')
-  // })
-  //
-  // $('#rect_mode').click(() => {
-  //   this.linElement.css('cursor', 'crosshair')
-  //   $('#boxinfo').html('Room(s) creation')
-  //   fonc_button('rect_mode')
-  // })
-  //
+  $('#room_mode').click(() => {
+    this.linElement.css('cursor', 'pointer')
+    $('#boxinfo').html('Config. of rooms')
+    this.fonc_button('room_mode')
+  })
+
+  $('#select_mode').click(() => {
+    $('#boxinfo').html('Mode "select"')
+    if (typeof this.binder != 'undefined') {
+      this.binder.remove()
+      this.binder = undefined
+    }
+
+    this.fonc_button('select_mode')
+  })
+
+  $('#line_mode').click(() => {
+    this.linElement.css('cursor', 'crosshair')
+    $('#boxinfo').html('Creation of wall(s)')
+    this.multi = 0
+    this.action = 0
+    // snap = calcul_snap(event, grid_snap);
+    //
+    // pox = snap.x;
+    // poy = snap.y;
+    this.fonc_button('line_mode')
+  })
+
+  $('#partition_mode').click(() => {
+    this.linElement.css('cursor', 'crosshair')
+    $('#boxinfo').html('Creation of thin wall(s)')
+    this.multi = 0
+    this.fonc_button('partition_mode')
+  })
+
+  $('#rect_mode').click(() => {
+    this.linElement.css('cursor', 'crosshair')
+    $('#boxinfo').html('Room(s) creation')
+    this.fonc_button('rect_mode')
+  })
+
   // $('.door').click(() => {
   //   this.linElement.css('cursor', 'crosshair')
   //   $('#boxinfo').html('Add a door')
   //   $('#door_list').hide(200)
-  //   fonc_button('door_mode', this.id)
+  //   this.fonc_button('door_mode', this.id)
   // })
   //
   // $('.electrical').click(() => {
   //   this.linElement.css('cursor', 'crosshair')
   //   $('#boxinfo').html('Add electrical')
   //   $('#electrical_list').hide(200)
-  //   fonc_button('electrical_mode', this.id)
+  //   this.fonc_button('electrical_mode', this.id)
   // })
   //
   // $('.network').click(() => {
   //   this.linElement.css('cursor', 'crosshair')
   //   $('#boxinfo').html('Add network')
   //   $('#network_list').hide(200)
-  //   fonc_button('network_mode', this.id)
+  //   this.fonc_button('network_mode', this.id)
   // })
   //
   // $('.window').click(() => {
@@ -174,24 +174,24 @@ Application.prototype.initialize = function () {
   //   $('#boxinfo').html('Add a window')
   //   $('#door_list').hide(200)
   //   $('#window_list').hide(200)
-  //   fonc_button('door_mode', this.id)
+  //   this.fonc_button('door_mode', this.id)
   // })
-  //
-  // $('#node_mode').click(() => {
-  //   $('#boxinfo').html(
-  //     'Cut a wall<br/><span style="font-size:0.7em">Warning : Cutting the wall of a room can cancel its ' +
-  //       'configuration</span>',
-  //   )
-  //   fonc_button('node_mode')
-  // })
-  //
-  // $('#text_mode').click(() => {
-  //   $('#boxinfo').html(
-  //     'Add text<br/><span style="font-size:0.7em">Place the cursor to the desired location, then ' +
-  //       'type your text.</span>',
-  //   )
-  //   fonc_button('text_mode')
-  // })
+
+  $('#node_mode').click(() => {
+    $('#boxinfo').html(
+      'Cut a wall<br/><span style="font-size:0.7em">Warning : Cutting the wall of a room can cancel its ' +
+        'configuration</span>',
+    )
+    this.fonc_button('node_mode')
+  })
+
+  $('#text_mode').click(() => {
+    $('#boxinfo').html(
+      'Add text<br/><span style="font-size:0.7em">Place the cursor to the desired location, then ' +
+        'type your text.</span>',
+    )
+    this.fonc_button('text_mode')
+  })
 
   // Window Event Listeners
   window.addEventListener('resize', (event) => {
@@ -292,7 +292,7 @@ Application.prototype.initialize = function () {
       let obj = this.binder.obj
       obj.graph.remove()
       this.OBJDATA.splice(this.OBJDATA.indexOf(obj), 1)
-      fonc_button('select_mode')
+      this.fonc_button('select_mode')
       $('#boxinfo').html('Selection mode')
       $('#panel').show('200')
       this.binder.graph.remove()
@@ -1257,7 +1257,6 @@ Application.prototype.inWallRib = function (wall, option = false) {
 }
 
 Application.prototype.rib = function (shift = 5) {
-  // return false;
   let ribMaster = []
   ribMaster.push([])
   ribMaster.push([])
@@ -1613,9 +1612,8 @@ Application.prototype.rib = function (shift = 5) {
   }
 }
 
-/*
-function fonc_button(modesetting, option) {
-  save()
+Application.prototype.fonc_button = function (modesetting, option) {
+  this.save()
 
   $('.sub').hide()
   raz_button()
@@ -1623,15 +1621,16 @@ function fonc_button(modesetting, option) {
     $('#' + modesetting).removeClass('btn-default')
     $('#' + modesetting).addClass('btn-success')
   }
-  mode = modesetting
-  modeOption = option
+  this.mode = modesetting
+  this.modeOption = option
 
-  if (typeof lineIntersectionP != 'undefined') {
-    lineIntersectionP.remove()
-    lineIntersectionP = undefined
+  if (typeof this.lineIntersectionP != 'undefined') {
+    this.lineIntersectionP.remove()
+    this.lineIntersectionP = undefined
   }
 }
 
+/*
 //  RETURN PATH(s) ARRAY FOR OBJECT + PROPERTY params => bindBox (false = open sideTool), move, resize, rotate
 function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
   let construc = []
@@ -4755,7 +4754,7 @@ function mouseUp_mode_line_partition (event) {
     action = 0
     construc = 0
     $('#boxinfo').html('Select mode')
-    fonc_button('select_mode')
+    this.fonc_button('select_mode')
     if (typeof binder != 'undefined') {
       binder.remove()
       binder = undefined
@@ -4773,7 +4772,7 @@ function mouseUp_mode_electrical (event) {
 
   if (typeof binder == 'undefined') {
     $('#boxinfo').html('The plan currently contains no wall.')
-    fonc_button('select_mode')
+    this.fonc_button('select_mode')
     return false
   }
   OBJDATA.push(binder)
@@ -4781,7 +4780,7 @@ function mouseUp_mode_electrical (event) {
   $('#boxcarpentry').append(OBJDATA[OBJDATA.length - 1].graph)
   binder = undefined
   $('#boxinfo').html('Element added')
-  fonc_button('select_mode')
+  this.fonc_button('select_mode')
   save()
 }
 
@@ -4792,7 +4791,7 @@ function mouseUp_mode_network (event) {
 
   if (typeof binder == 'undefined') {
     $('#boxinfo').html('The plan currently contains no wall.')
-    fonc_button('select_mode')
+    this.fonc_button('select_mode')
     return false
   }
   OBJDATA.push(binder)
@@ -4800,7 +4799,7 @@ function mouseUp_mode_network (event) {
   $('#boxcarpentry').append(OBJDATA[OBJDATA.length - 1].graph)
   binder = undefined
   $('#boxinfo').html('Element added')
-  fonc_button('select_mode')
+  this.fonc_button('select_mode')
   save()
 }
 
@@ -4811,7 +4810,7 @@ function mouseUp_mode_door (event) {
 
   if (typeof binder == 'undefined') {
     $('#boxinfo').html('The plan currently contains no wall.')
-    fonc_button('select_mode')
+    this.fonc_button('select_mode')
     return false
   }
   OBJDATA.push(binder)
@@ -4819,7 +4818,7 @@ function mouseUp_mode_door (event) {
   $('#boxcarpentry').append(OBJDATA[OBJDATA.length - 1].graph)
   binder = undefined
   $('#boxinfo').html('Element added')
-  fonc_button('select_mode')
+  this.fonc_button('select_mode')
   save()
 }
 
@@ -4856,7 +4855,7 @@ function mouseUp_mode_distance (event) {
     cross.remove()
     cross = undefined
     $('#boxinfo').html('Measure added')
-    fonc_button('select_mode')
+    this.fonc_button('select_mode')
     save()
   }
 }
@@ -4883,7 +4882,7 @@ function mouseUp_mode_node (event) {
     save()
   }
 
-  fonc_button('select_mode')
+  this.fonc_button('select_mode')
 }
 
 // This is for when an SVG element is being interacted with
@@ -4894,7 +4893,7 @@ function mouseUp_mode_bind (event) {
   action = 0
   construc = 0 // CONSTRUC 0 TO FREE BINDER GROUP NODE WALL MOVING
   if (typeof binder != 'undefined') {
-    fonc_button('select_mode')
+    this.fonc_button('select_mode')
     if (binder.type == 'node') {
     } // END BINDER NODE
 
@@ -5075,7 +5074,7 @@ function mouseUp_mode_object (event) {
   $('#' + targetBox).append(OBJDATA[OBJDATA.length - 1].graph)
   binder = undefined
   $('#boxinfo').html('Object added')
-  fonc_button('select_mode')
+  this.fonc_button('select_mode')
   save()
 }
 
