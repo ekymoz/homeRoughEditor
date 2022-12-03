@@ -1,292 +1,333 @@
-WALLS = []
-OBJDATA = []
-ROOM = []
-HISTORY = []
-wallSize = 20
-partitionSize = 8
-const visibleLayers = new Set(['walls'])
-let activeLayer = 'walls'
-let drag = 'off'
-let action = 0
-let magnetic = 0
-let construc = 0
-let Rcirclebinder = 8
-let mode = 'select_mode'
-let modeOption
-let linElement = $('#lin')
-let taille_w = linElement.width()
-let taille_h = linElement.height()
-let offset = linElement.offset()
-let grid = 20
-// showRib = true
-let showArea = true
-let meter = 60
-let grid_snap = 'off'
-let colorbackground = '#ffffff'
-let colorline = '#fff'
-let colorroom = '#f0daaf'
-let colorWall = '#666'
-let pox = 0
-let poy = 0
-let segment = 0
-let xpath = 0
-let ypath = 0
-let tactile = false
-let width_viewbox = taille_w
-let height_viewbox = taille_h
-let ratio_viewbox = height_viewbox / width_viewbox
-let originX_viewbox = 0
-let originY_viewbox = 0
-let sizeText = []
-let showAllSizeStatus = 0
+function Application() {
 
-const MIN_ZOOM = 0
-const MAX_ZOOM = 100
+  // REVIEW: Which of these are actually used in the application?
+  this.WALLS = []
+  this.OBJDATA = []
+  this.ROOM = []
+  this.HISTORY = []
+  this.wallSize = 20
+  this.partitionSize = 8
+  this.visibleLayers = new Set(['walls'])
+  this.activeLayer = 'walls'
+  this.drag = 'off'
+  this.action = 0
+  this.magnetic = 0
+  this.construc = 0
+  this.Rcirclebinder = 8
+  this.mode = 'select_mode'
+  this.modeOption
+  this.linElement = $('#lin')
+  this.taille_w = this.linElement.width()
+  this.taille_h = this.linElement.height()
+  this.offset = this.linElement.offset()
+  this.grid = 20
+  // showRib = true
+  this.showArea = true
+  this.meter = 60
+  this.grid_snap = 'off'
+  this.colorbackground = '#ffffff'
+  this.colorline = '#fff'
+  this.colorroom = '#f0daaf'
+  this.colorWall = '#666'
+  this.pox = 0
+  this.poy = 0
+  this.segment = 0
+  this.xpath = 0
+  this.ypath = 0
+  this.tactile = false
+  this.width_viewbox = this.taille_w
+  this.height_viewbox = this.taille_h
+  this.ratio_viewbox = this.height_viewbox / this.width_viewbox
+  this.originX_viewbox = 0
+  this.originY_viewbox = 0
+  this.sizeText = []
+  this.showAllSizeStatus = 0
 
-// Used to track This is the initial zoom level
-let zoom = 50
-// The ratio the screen is scaled
-let scaleFactor = 1
+  const MIN_ZOOM = 0
+  const MAX_ZOOM = 100
 
-const textEditorColorBtn = document.querySelectorAll('.textEditorColor')
-const roomColorBtn = document.querySelectorAll('.roomColor')
-const objTrashBtn = document.querySelectorAll('.objTrash')
-const dropdownMenu = document.querySelectorAll('.dropdown-menu li a')
+  // Used to track This is the initial zoom level
+  this.zoom = 50
+  // The ratio the screen is scaled
+  this.scaleFactor = 1
+}
 
-document.getElementById('lin').setAttribute(
-  'viewBox',
-  `${originX_viewbox} ${originY_viewbox} ${width_viewbox} ${height_viewbox}`
-)
+Application.prototype.initialize = function () {
+  const textEditorColorBtn = document.querySelectorAll('.textEditorColor')
+  const roomColorBtn = document.querySelectorAll('.roomColor')
+  const objTrashBtn = document.querySelectorAll('.objTrash')
+  const dropdownMenu = document.querySelectorAll('.dropdown-menu li a')
+  // const visibleLayerCheckboxes = document.querySelectorAll(
+  //   '[name="visible_layer"]',
+  // )
 
-// const visibleLayerCheckboxes = document.querySelectorAll(
-//   '[name="visible_layer"]',
-// )
+  document.getElementById('lin').setAttribute(
+    'viewBox',
+    `${this.originX_viewbox} ${this.originY_viewbox} ${this.width_viewbox} ${this.height_viewbox}`
+  )
 
-document.getElementById('bboxTrash').addEventListener('click', function () {
-  binder.obj.graph.remove()
-  binder.graph.remove()
-  OBJDATA.splice(OBJDATA.indexOf(binder.obj), 1)
-  $('#objBoundingBox').hide(100)
-  $('#panel').show(200)
-  fonc_button('select_mode')
-  $('#boxinfo').html('Deleted object')
-  binder = undefined
-  rib()
-})
-
-document.getElementById('lin').addEventListener('wheel', (event) => {
-  event.preventDefault()
-  if (event.deltaY > 0) {
-    zoom_maker('zoomout', 20)
-  } else {
-    zoom_maker('zoomin', 20)
-  }
-})
-
-document.getElementById('wallTrash').addEventListener('click', function () {
-  let wall = binder.wall
-  for (let k in WALLS) {
-    if (isObjectsEquals(WALLS[k].child, wall)) WALLS[k].child = null
-    if (isObjectsEquals(WALLS[k].parent, wall)) {
-      WALLS[k].parent = null
-    }
-  }
-  WALLS.splice(WALLS.indexOf(wall), 1)
-  $('#wallTools').hide(100)
-  wall.graph.remove()
-  binder.graph.remove()
-  editor.architect(WALLS)
-  rib()
-  mode = 'select_mode'
-  $('#panel').show(200)
-})
-
-$('#room_mode').click(function () {
-  linElement.css('cursor', 'pointer')
-  $('#boxinfo').html('Config. of rooms')
-  fonc_button('room_mode')
-})
-
-$('#select_mode').click(function () {
-  $('#boxinfo').html('Mode "select"')
-  if (typeof binder != 'undefined') {
-    binder.remove()
-    binder = undefined
-  }
-
-  fonc_button('select_mode')
-})
-
-$('#line_mode').click(function () {
-  linElement.css('cursor', 'crosshair')
-  $('#boxinfo').html('Creation of wall(s)')
-  multi = 0
-  action = 0
-  // snap = calcul_snap(event, grid_snap);
+  // document.getElementById('bboxTrash').addEventListener('click', () => {
+  //   this.binder.obj.graph.remove()
+  //   this.binder.graph.remove()
+  //   this.OBJDATA.splice(this.OBJDATA.indexOf(this.binder.obj), 1)
+  //   $('#objBoundingBox').hide(100)
+  //   $('#panel').show(200)
+  //   fonc_button('select_mode')
+  //   $('#boxinfo').html('Deleted object')
+  //   this.binder = undefined
+  //   rib()
+  // })
   //
-  // pox = snap.x;
-  // poy = snap.y;
-  fonc_button('line_mode')
-})
+  // document.getElementById('lin').addEventListener('wheel', (event) => {
+  //   event.preventDefault()
+  //   if (event.deltaY > 0) {
+  //     zoom_maker('zoomout', 20)
+  //   } else {
+  //     zoom_maker('zoomin', 20)
+  //   }
+  // })
+  //
+  // document.getElementById('wallTrash').addEventListener('click', () => {
+  //   let wall = this.binder.wall
+  //   for (let k in this.WALLS) {
+  //     if (isObjectsEquals(this.WALLS[k].child, wall)) this.WALLS[k].child = null
+  //     if (isObjectsEquals(this.WALLS[k].parent, wall)) {
+  //       this.WALLS[k].parent = null
+  //     }
+  //   }
+  //   this.WALLS.splice(this.WALLS.indexOf(wall), 1)
+  //   $('#wallTools').hide(100)
+  //   this.wall.graph.remove()
+  //   this.binder.graph.remove()
+  //   this.editor.architect(WALLS)
+  //   rib()
+  //   this.mode = 'select_mode'
+  //   $('#panel').show(200)
+  // })
+  //
+  // $('#room_mode').click(() => {
+  //   this.linElement.css('cursor', 'pointer')
+  //   $('#boxinfo').html('Config. of rooms')
+  //   fonc_button('room_mode')
+  // })
+  //
+  // $('#select_mode').click(() => {
+  //   $('#boxinfo').html('Mode "select"')
+  //   if (typeof this.binder != 'undefined') {
+  //     this.binder.remove()
+  //     this.binder = undefined
+  //   }
+  //
+  //   fonc_button('select_mode')
+  // })
+  //
+  // $('#line_mode').click(() => {
+  //   this.linElement.css('cursor', 'crosshair')
+  //   $('#boxinfo').html('Creation of wall(s)')
+  //   this.multi = 0
+  //   this.action = 0
+  //   // snap = calcul_snap(event, grid_snap);
+  //   //
+  //   // pox = snap.x;
+  //   // poy = snap.y;
+  //   fonc_button('line_mode')
+  // })
+  //
+  // $('#partition_mode').click(() => {
+  //   this.linElement.css('cursor', 'crosshair')
+  //   $('#boxinfo').html('Creation of thin wall(s)')
+  //   this.multi = 0
+  //   fonc_button('partition_mode')
+  // })
+  //
+  // $('#rect_mode').click(() => {
+  //   this.linElement.css('cursor', 'crosshair')
+  //   $('#boxinfo').html('Room(s) creation')
+  //   fonc_button('rect_mode')
+  // })
+  //
+  // $('.door').click(() => {
+  //   this.linElement.css('cursor', 'crosshair')
+  //   $('#boxinfo').html('Add a door')
+  //   $('#door_list').hide(200)
+  //   fonc_button('door_mode', this.id)
+  // })
+  //
+  // $('.electrical').click(() => {
+  //   this.linElement.css('cursor', 'crosshair')
+  //   $('#boxinfo').html('Add electrical')
+  //   $('#electrical_list').hide(200)
+  //   fonc_button('electrical_mode', this.id)
+  // })
+  //
+  // $('.network').click(() => {
+  //   this.linElement.css('cursor', 'crosshair')
+  //   $('#boxinfo').html('Add network')
+  //   $('#network_list').hide(200)
+  //   fonc_button('network_mode', this.id)
+  // })
+  //
+  // $('.window').click(() => {
+  //   this.linElement.css('cursor', 'crosshair')
+  //   $('#boxinfo').html('Add a window')
+  //   $('#door_list').hide(200)
+  //   $('#window_list').hide(200)
+  //   fonc_button('door_mode', this.id)
+  // })
+  //
+  // $('#node_mode').click(() => {
+  //   $('#boxinfo').html(
+  //     'Cut a wall<br/><span style="font-size:0.7em">Warning : Cutting the wall of a room can cancel its ' +
+  //       'configuration</span>',
+  //   )
+  //   fonc_button('node_mode')
+  // })
+  //
+  // $('#text_mode').click(() => {
+  //   $('#boxinfo').html(
+  //     'Add text<br/><span style="font-size:0.7em">Place the cursor to the desired location, then ' +
+  //       'type your text.</span>',
+  //   )
+  //   fonc_button('text_mode')
+  // })
 
-$('#partition_mode').click(function () {
-  linElement.css('cursor', 'crosshair')
-  $('#boxinfo').html('Creation of thin wall(s)')
-  multi = 0
-  fonc_button('partition_mode')
-})
+  // Window Event Listeners
+  window.addEventListener('resize', (event) => {
+    this.width_viewbox = $('#lin').width()
+    this.height_viewbox = $('#lin').height()
+    document
+      .getElementById('lin')
+      .setAttribute(
+        'viewBox',
+        `${this.originX_viewbox} ${this.originY_viewbox} ${this.width_viewbox} ${this.height_viewbox}`
+      )
+  })
 
-$('#rect_mode').click(function () {
-  linElement.css('cursor', 'crosshair')
-  $('#boxinfo').html('Room(s) creation')
-  fonc_button('rect_mode')
-})
-
-$('.door').click(function () {
-  linElement.css('cursor', 'crosshair')
-  $('#boxinfo').html('Add a door')
-  $('#door_list').hide(200)
-  fonc_button('door_mode', this.id)
-})
-
-$('.electrical').click(function () {
-  linElement.css('cursor', 'crosshair')
-  $('#boxinfo').html('Add electrical')
-  $('#electrical_list').hide(200)
-  fonc_button('electrical_mode', this.id)
-})
-
-$('.network').click(function () {
-  linElement.css('cursor', 'crosshair')
-  $('#boxinfo').html('Add network')
-  $('#network_list').hide(200)
-  fonc_button('network_mode', this.id)
-})
-
-$('.window').click(function () {
-  linElement.css('cursor', 'crosshair')
-  $('#boxinfo').html('Add a window')
-  $('#door_list').hide(200)
-  $('#window_list').hide(200)
-  fonc_button('door_mode', this.id)
-})
-
-$('#node_mode').click(function () {
-  $('#boxinfo').html(
-    'Cut a wall<br/><span style="font-size:0.7em">Warning : Cutting the wall of a room can cancel its ' +
-      'configuration</span>',
-  )
-  fonc_button('node_mode')
-})
-
-$('#text_mode').click(function () {
-  $('#boxinfo').html(
-    'Add text<br/><span style="font-size:0.7em">Place the cursor to the desired location, then ' +
-      'type your text.</span>',
-  )
-  fonc_button('text_mode')
-})
-
-// Window Event Listeners
-window.addEventListener('resize', function (event) {
-  width_viewbox = $('#lin').width()
-  height_viewbox = $('#lin').height()
-  document
-    .querySelector('#lin')
-    .setAttribute(
-      'viewBox',
-      originX_viewbox +
-        ' ' +
-        originY_viewbox +
-        ' ' +
-        width_viewbox +
-        ' ' +
-        height_viewbox,
-    )
-})
-
-window.addEventListener('load', function () {
-  if (localStorage.getItem('history')) {
-    let historyTemp = JSON.parse(localStorage.getItem('history'))
-    load(historyTemp.length - 1, 'boot')
-    save('boot')
-  }
-})
-
-document.addEventListener('keydown', function (event) {
-  if (mode === 'text_mode') {
-    return
-  }
-
-  switch (event.keyCode) {
-    case 37:  // left arrow
-      zoom_maker('zoomleft', 100, 30)
-      break;
-    case 38:  // up arrow
-      zoom_maker('zoomtop', 100, 30)
-      break;
-    case 39:  // right arrow
-      zoom_maker('zoomright', 100, 30)
-      break;
-    case 40:  // down arrow
-      zoom_maker('zoombottom', 100, 30)
-      break;
-    case 107: // +
-      zoom_maker('zoomin', 20, 50)
-      break;
-    case 109: // -
-      zoom_maker('zoomout', 20, 50)
-      break;
-  }
-})
-
-document.querySelector('#lin').addEventListener('mousedown', mouseDownHandler, true)
-document.querySelector('#lin').addEventListener('mousemove', mouseMoveHandler, true)
-document.querySelector('#lin').addEventListener('mouseup', mouseUpHandler)
-
-// for (let checkbox of visibleLayerCheckboxes) {
-//   checkbox.addEventListener('click', function (event) {
-//     const layer = event.currentTarget.value
-//     if (visibleLayers.has(layer)) {
-//       visibleLayers.delete(layer)
-//     } else {
-//       visibleLayers.add(layer)
-//     }
-//   })
-// }
-
-// REVIEW: What does this do?
-document
-  .querySelector('#panel')
-  .addEventListener('mousemove', function (event) {
-    if ((mode == 'line_mode' || mode == 'partition_mode') && action == 1) {
-      action = 0
-      if (typeof binder != 'undefined') {
-        binder.remove()
-        binder = undefined
-      }
-      $('#linetemp').remove()
-      $('#line_construc').remove()
-      lengthTemp.remove()
-      lengthTemp = undefined
+  window.addEventListener('load', () => {
+    if (localStorage.getItem('history')) {
+      const historyTemp = JSON.parse(localStorage.getItem('history'))
+      this.load(historyTemp.length - 1, 'boot')
+      this.save('boot')
     }
   })
 
-function initHistory(boot = false) {
-  HISTORY.index = 0
+  document.addEventListener('keydown', (event) => {
+    if (this.mode === 'text_mode') {
+      return
+    }
+
+    // switch (event.keyCode) {
+    //   case 37:  // left arrow
+    //     zoom_maker('zoomleft', 100, 30)
+    //     break;
+    //   case 38:  // up arrow
+    //     zoom_maker('zoomtop', 100, 30)
+    //     break;
+    //   case 39:  // right arrow
+    //     zoom_maker('zoomright', 100, 30)
+    //     break;
+    //   case 40:  // down arrow
+    //     zoom_maker('zoombottom', 100, 30)
+    //     break;
+    //   case 107: // +
+    //     zoom_maker('zoomin', 20, 50)
+    //     break;
+    //   case 109: // -
+    //     zoom_maker('zoomout', 20, 50)
+    //     break;
+    // }
+  })
+
+  // document.querySelector('#lin').addEventListener('mousedown', mouseDownHandler, true)
+  // document.querySelector('#lin').addEventListener('mousemove', mouseMoveHandler, true)
+  // document.querySelector('#lin').addEventListener('mouseup', mouseUpHandler)
+
+  // for (let checkbox of visibleLayerCheckboxes) {
+  //   checkbox.addEventListener('click', function (event) {
+  //     const layer = event.currentTarget.value
+  //     if (visibleLayers.has(layer)) {
+  //       visibleLayers.delete(layer)
+  //     } else {
+  //       visibleLayers.add(layer)
+  //     }
+  //   })
+  // }
+
+  // REVIEW: What does this do?
+  document
+    .querySelector('#panel')
+    .addEventListener('mousemove', function (event) {
+      if ((this.mode == 'line_mode' || this.mode == 'partition_mode') && this.action == 1) {
+        this.action = 0
+        if (typeof this.binder != 'undefined') {
+          this.binder.remove()
+          this.binder = undefined
+        }
+        $('#linetemp').remove()
+        $('#line_construc').remove()
+        this.lengthTemp.remove()
+        this.lengthTemp = undefined
+      }
+    })
+
+  for (let k = 0; k < textEditorColorBtn.length; k++) {
+    textEditorColorBtn[k].addEventListener('click', () => {
+      document.getElementById('labelBox').style.color = this.style.color
+    })
+  }
+
+  for (let k = 0; k < roomColorBtn.length; k++) {
+    roomColorBtn[k].addEventListener('click', () => {
+      const data = this.getAttribute('data-type')
+      $('#roomBackground').val(data)
+      this.binder.attr({ fill: 'url(#' + data + ')' })
+    })
+  }
+
+  for (let k = 0; k < objTrashBtn.length; k++) {
+    objTrashBtn[k].addEventListener('click', () => {
+      $('#objTools').hide('100')
+      let obj = this.binder.obj
+      obj.graph.remove()
+      this.OBJDATA.splice(this.OBJDATA.indexOf(obj), 1)
+      fonc_button('select_mode')
+      $('#boxinfo').html('Selection mode')
+      $('#panel').show('200')
+      this.binder.graph.remove()
+      this.binder = undefined
+      rib()
+      $('#panel').show('300')
+    })
+  }
+
+  for (let k = 0; k < dropdownMenu.length; k++) {
+    dropdownMenu[k].addEventListener('click', () => {
+      let selText = this.textContent
+      $(this)
+        .parents('.btn-group')
+        .find('.dropdown-toggle')
+        .html(selText + ' <span class="caret"></span>')
+      if (selText != 'None') $('#roomName').val(selText)
+      else $('#roomName').val('')
+    })
+  }
+}
+
+Application.prototype.initHistory = function (boot = false) {
+  this.HISTORY.index = 0
   if (!boot && localStorage.getItem('history')) {
     localStorage.removeItem('history')
   }
 
-  if (localStorage.getItem('history') && boot === 'recovery') {
+  if (localStorage.getItem('history') && this.boot === 'recovery') {
     let historyTemp = JSON.parse(localStorage.getItem('history'))
-    load(historyTemp.length - 1, 'boot')
-    save('boot')
+    this.load(historyTemp.length - 1, 'boot')
+    this.save('boot')
   }
 
   if (boot === 'newSquare') {
     if (localStorage.getItem('history')) localStorage.removeItem('history')
-    HISTORY.push({
+    this.HISTORY.push({
       objData: [],
       wallData: [
         {
@@ -417,15 +458,15 @@ function initHistory(boot = false) {
         },
       ],
     })
-    HISTORY[0] = JSON.stringify(HISTORY[0])
-    localStorage.setItem('history', JSON.stringify(HISTORY))
-    load(0)
-    save()
+    this.HISTORY[0] = JSON.stringify(this.HISTORY[0])
+    localStorage.setItem('history', JSON.stringify(this.HISTORY))
+    this.load(0)
+    this.save()
   }
 
   if (boot === 'newL') {
     if (localStorage.getItem('history')) localStorage.removeItem('history')
-    HISTORY.push({
+    this.HISTORY.push({
       objData: [],
       wallData: [
         {
@@ -604,19 +645,19 @@ function initHistory(boot = false) {
         },
       ],
     })
-    HISTORY[0] = JSON.stringify(HISTORY[0])
-    localStorage.setItem('history', JSON.stringify(HISTORY))
-    load(0)
-    save()
+    this.HISTORY[0] = JSON.stringify(this.HISTORY[0])
+    localStorage.setItem('history', JSON.stringify(this.HISTORY))
+    this.load(0)
+    this.save()
   }
 }
 
-function importFloorplan (floorplanJson) {
-  for (let k in OBJDATA) {
-    OBJDATA[k].graph.remove()
+Application.prototype.importFloorplan = function (floorplanJson) {
+  for (let k in this.OBJDATA) {
+    this.OBJDATA[k].graph.remove()
   }
 
-  OBJDATA = []
+  this.OBJDATA = []
 
   for (let k in floorplanJson.objData) {
     let OO = floorplanJson.objData[k]
@@ -637,96 +678,96 @@ function importFloorplan (floorplanJson) {
       OO.value,
     )
     obj.limit = OO.limit
-    OBJDATA.push(obj)
-    $('#boxcarpentry').append(OBJDATA[OBJDATA.length - 1].graph)
+    this.OBJDATA.push(obj)
+    $('#boxcarpentry').append(this.OBJDATA[this.OBJDATA.length - 1].graph)
     obj.update()
   }
 
-  WALLS = floorplanJson.wallData
+  this.WALLS = floorplanJson.wallData
 
-  for (let k in WALLS) {
-    if (WALLS[k].child != null) {
-      WALLS[k].child = WALLS[WALLS[k].child]
+  for (let k in this.WALLS) {
+    if (this.WALLS[k].child != null) {
+      this.WALLS[k].child = this.WALLS[this.WALLS[k].child]
     }
-    if (WALLS[k].parent != null) {
-      WALLS[k].parent = WALLS[WALLS[k].parent]
+    if (this.WALLS[k].parent != null) {
+      this.WALLS[k].parent = this.WALLS[this.WALLS[k].parent]
     }
   }
 
-  ROOM = floorplanJson.roomData
-  editor.architect(WALLS)
-  editor.showScaleBox()
-  rib()
+  this.ROOM = floorplanJson.roomData
+  // editor.architect(this.WALLS)
+  // editor.showScaleBox()
+  // rib()
 }
 
-function exportFloorplan () {
-  console.log(HISTORY[HISTORY.length - 1])
+Application.prototype.exportFloorplan = function () {
+  console.log(this.HISTORY[this.HISTORY.length - 1])
 }
 
 // REVIEW: What is `boot` for?
-function save(boot = false) {
+Application.prototype.save = function (boot = false) {
   if (boot) {
     localStorage.removeItem('history')
   }
 
   // REVIEW: What does this mean?
   // FOR CYCLIC OBJ INTO LOCALSTORAGE !!!
-  for (let k in WALLS) {
-    if (WALLS[k].child != null) {
-      WALLS[k].child = WALLS.indexOf(WALLS[k].child)
+  for (let k in this.WALLS) {
+    if (this.WALLS[k].child != null) {
+      this.WALLS[k].child = this.WALLS.indexOf(this.WALLS[k].child)
     }
-    if (WALLS[k].parent != null) {
-      WALLS[k].parent = WALLS.indexOf(WALLS[k].parent)
+    if (this.WALLS[k].parent != null) {
+      this.WALLS[k].parent = this.WALLS.indexOf(this.WALLS[k].parent)
     }
   }
 
   // REVIEW: What is this for?
   if (
-    JSON.stringify({ objData: OBJDATA, wallData: WALLS, roomData: ROOM }) ===
-    HISTORY[HISTORY.length - 1]
+    JSON.stringify({ objData: this.OBJDATA, wallData: this.WALLS, roomData: this.ROOM }) ===
+    this.HISTORY[this.HISTORY.length - 1]
   ) {
-    for (let k in WALLS) {
-      if (WALLS[k].child != null) {
-        WALLS[k].child = WALLS[WALLS[k].child]
+    for (let k in this.WALLS) {
+      if (this.WALLS[k].child != null) {
+        this.WALLS[k].child = this.WALLS[this.WALLS[k].child]
       }
-      if (WALLS[k].parent != null) {
-        WALLS[k].parent = WALLS[WALLS[k].parent]
+      if (this.WALLS[k].parent != null) {
+        this.WALLS[k].parent = this.WALLS[this.WALLS[k].parent]
       }
     }
     return false
   }
 
   // REVIEW: Why this condition?
-  if (HISTORY.index < HISTORY.length) {
+  if (this.HISTORY.index < this.HISTORY.length) {
 
     // REVIEW: What is this for?
-    HISTORY.splice(HISTORY.index, HISTORY.length - HISTORY.index)
+    this.HISTORY.splice(this.HISTORY.index, this.HISTORY.length - this.HISTORY.index)
 
     $('#redo').addClass('disabled')
   }
 
   // REVIEW: What is this for?
-  HISTORY.push(
-    JSON.stringify({ objData: OBJDATA, wallData: WALLS, roomData: ROOM }),
+  this.HISTORY.push(
+    JSON.stringify({ objData: this.OBJDATA, wallData: this.WALLS, roomData: this.ROOM }),
   )
 
   // Record to local storage
-  localStorage.setItem('history', JSON.stringify(HISTORY))
+  localStorage.setItem('history', JSON.stringify(this.HISTORY))
 
   // REVIEW: What is this for?
-  HISTORY.index++
+  this.HISTORY.index++
 
-  if (HISTORY.index > 1) {
+  if (this.HISTORY.index > 1) {
     $('#undo').removeClass('disabled')
   }
 
   // REVIEW: What is this for?
-  for (let k in WALLS) {
-    if (WALLS[k].child != null) {
-      WALLS[k].child = WALLS[WALLS[k].child]
+  for (let k in this.WALLS) {
+    if (this.WALLS[k].child != null) {
+      this.WALLS[k].child = this.WALLS[this.WALLS[k].child]
     }
-    if (WALLS[k].parent != null) {
-      WALLS[k].parent = WALLS[WALLS[k].parent]
+    if (this.WALLS[k].parent != null) {
+      this.WALLS[k].parent = this.WALLS[this.WALLS[k].parent]
     }
   }
 
@@ -734,16 +775,16 @@ function save(boot = false) {
   return true
 }
 
-function load(index = HISTORY.index, boot = false) {
-  if (HISTORY.length === 0 && !boot) {
+Application.prototype.load = function(index = this.HISTORY.index, boot = false) {
+  if (this.HISTORY.length === 0 && !boot) {
     return false
   }
 
-  for (let k in OBJDATA) {
-    OBJDATA[k].graph.remove()
+  for (let k in this.OBJDATA) {
+    this.OBJDATA[k].graph.remove()
   }
 
-  OBJDATA = []
+  this.OBJDATA = []
   let historyTemp = []
   historyTemp = JSON.parse(localStorage.getItem('history'))
   historyTemp = JSON.parse(historyTemp[index])
@@ -767,70 +808,29 @@ function load(index = HISTORY.index, boot = false) {
       OO.value,
     )
     obj.limit = OO.limit
-    OBJDATA.push(obj)
-    $('#boxcarpentry').append(OBJDATA[OBJDATA.length - 1].graph)
+    this.OBJDATA.push(obj)
+    $('#boxcarpentry').append(this.OBJDATA[this.OBJDATA.length - 1].graph)
     obj.update()
   }
 
-  WALLS = historyTemp.wallData
+  this.WALLS = historyTemp.wallData
 
-  for (let k in WALLS) {
-    if (WALLS[k].child != null) {
-      WALLS[k].child = WALLS[WALLS[k].child]
+  for (let k in this.WALLS) {
+    if (this.WALLS[k].child != null) {
+      this.WALLS[k].child = this.WALLS[this.WALLS[k].child]
     }
-    if (WALLS[k].parent != null) {
-      WALLS[k].parent = WALLS[WALLS[k].parent]
+    if (this.WALLS[k].parent != null) {
+      this.WALLS[k].parent = this.WALLS[this.WALLS[k].parent]
     }
   }
 
-  ROOM = historyTemp.roomData
-  editor.architect(WALLS)
-  editor.showScaleBox()
-  rib()
+  this.ROOM = historyTemp.roomData
+  // editor.architect(this.WALLS)
+  // editor.showScaleBox()
+  // rib()
 }
 
-for (let k = 0; k < textEditorColorBtn.length; k++) {
-  textEditorColorBtn[k].addEventListener('click', function () {
-    document.getElementById('labelBox').style.color = this.style.color
-  })
-}
-
-for (let k = 0; k < roomColorBtn.length; k++) {
-  roomColorBtn[k].addEventListener('click', function () {
-    let data = this.getAttribute('data-type')
-    $('#roomBackground').val(data)
-    binder.attr({ fill: 'url(#' + data + ')' })
-  })
-}
-
-for (let k = 0; k < objTrashBtn.length; k++) {
-  objTrashBtn[k].addEventListener('click', function () {
-    $('#objTools').hide('100')
-    let obj = binder.obj
-    obj.graph.remove()
-    OBJDATA.splice(OBJDATA.indexOf(obj), 1)
-    fonc_button('select_mode')
-    $('#boxinfo').html('Selection mode')
-    $('#panel').show('200')
-    binder.graph.remove()
-    binder = undefined
-    rib()
-    $('#panel').show('300')
-  })
-}
-
-for (let k = 0; k < dropdownMenu.length; k++) {
-  dropdownMenu[k].addEventListener('click', function () {
-    let selText = this.textContent
-    $(this)
-      .parents('.btn-group')
-      .find('.dropdown-toggle')
-      .html(selText + ' <span class="caret"></span>')
-    if (selText != 'None') $('#roomName').val(selText)
-    else $('#roomName').val('')
-  })
-}
-
+/*
 function limitObj(equation, size, coords, message = false) {
   if (message) {
     console.log(message)
@@ -5173,8 +5173,6 @@ function mouseUpHandler(event) {
   }
 }
 
-
-
 var editor = {
   wall: function (start, end, type, thick) {
     this.thick = thick
@@ -6551,3 +6549,28 @@ var editor = {
     }
   },
 }
+*/
+
+function DomReady(fn, context) {
+    function onReady(event) {
+        window.removeEventListener('DOMContentLoaded', onReady)
+        fn.call(context, event)
+    }
+
+    function onReadyIe(event) {
+        if (window.readyState === 'complete') {
+            window.detachEvent('onreadystatechange', onReadyIe)
+            fn.call(context, event)
+        }
+    }
+
+    ;(window.addEventListener && window.addEventListener('DOMContentLoaded', onReady, false)) ||
+        (window.attachEvent && window.attachEvent('onreadystatechange', onReadyIe, false))
+}
+
+var inst = new Application()
+DomReady(function () {
+  inst.initialize()
+})
+
+window.Floorplan = inst

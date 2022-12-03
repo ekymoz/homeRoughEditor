@@ -875,7 +875,7 @@
           <button
             class="btn btn-light shadow"
             style="display: none"
-            onclick="outFullscreen();this.style.display='none';$('#full_mode').show();"
+            onclick="Floorplan.outFullscreen();this.style.display='none';$('#full_mode').show();"
             id="nofull_mode"
             data-toggle="tooltip"
             data-placement="right"
@@ -886,7 +886,7 @@
         <li>
           <button
             class="btn btn-light shadow"
-            onclick="exportFloorplan();"
+            onclick="Floorplan.exportFloorplan();"
             title="Export">
             EXPORT
           </button>
@@ -1022,21 +1022,21 @@
                 <img
                   src="src/img/newPlanEmpty.jpg"
                   class="img-fluid"
-                  onclick="initHistory();"
+                  onclick="Floorplan.initHistory();"
                   data-bs-dismiss="modal" />
               </div>
               <div class="boxMouseOver">
                 <img
                   src="src/img/newPlanSquare.jpg"
                   class="img-fluid"
-                  onclick="initHistory('newSquare');"
+                  onclick="Floorplan.initHistory('newSquare');"
                   data-bs-dismiss="modal" />
               </div>
               <div class="boxMouseOver">
                 <img
                   src="src/img/newPlanL.jpg"
                   class="img-fluid"
-                  onclick="initHistory('newL');"
+                  onclick="Floorplan.initHistory('newL');"
                   data-bs-dismiss="modal" />
               </div>
             </div>
