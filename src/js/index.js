@@ -5109,7 +5109,7 @@ Application.prototype.mouseUpHandler = function (event) {
 
   this.drag = 'off'
 
-  // cursor('default')
+  cursor('default')
 
   this.mouseUp_mode_select(event)
   // mouseUp_mode_line_partition(event)
@@ -5125,7 +5125,7 @@ Application.prototype.mouseUpHandler = function (event) {
 
   if (this.mode != 'edit_room_mode') {
     this.editor.showScaleBox()
-    // rib()
+    this.rib()
   }
 }
 
