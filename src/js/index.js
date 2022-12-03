@@ -1,3 +1,6 @@
+const MIN_ZOOM = 0
+const MAX_ZOOM = 100
+
 function Application() {
 
   // REVIEW: Which of these are actually used in the application?
@@ -45,9 +48,6 @@ function Application() {
   this.editor = this.editorFactory()
   this.qSVG = this.qSVGFactory()
 
-  const MIN_ZOOM = 0
-  const MAX_ZOOM = 100
-
   // Used to track This is the initial zoom level
   this.zoom = 50
   // The ratio the screen is scaled
@@ -79,16 +79,16 @@ Application.prototype.initialize = function () {
   //   this.binder = undefined
   //   rib()
   // })
-  //
-  // document.getElementById('lin').addEventListener('wheel', (event) => {
-  //   event.preventDefault()
-  //   if (event.deltaY > 0) {
-  //     zoom_maker('zoomout', 20)
-  //   } else {
-  //     zoom_maker('zoomin', 20)
-  //   }
-  // })
-  //
+
+  document.getElementById('lin').addEventListener('wheel', (event) => {
+    event.preventDefault()
+    if (event.deltaY > 0) {
+      this.zoom_maker('zoomout', 20)
+    } else {
+      this.zoom_maker('zoomin', 20)
+    }
+  })
+
   // document.getElementById('wallTrash').addEventListener('click', () => {
   //   let wall = this.binder.wall
   //   for (let k in this.WALLS) {
@@ -218,26 +218,26 @@ Application.prototype.initialize = function () {
       return
     }
 
-    // switch (event.keyCode) {
-    //   case 37:  // left arrow
-    //     zoom_maker('zoomleft', 100, 30)
-    //     break;
-    //   case 38:  // up arrow
-    //     zoom_maker('zoomtop', 100, 30)
-    //     break;
-    //   case 39:  // right arrow
-    //     zoom_maker('zoomright', 100, 30)
-    //     break;
-    //   case 40:  // down arrow
-    //     zoom_maker('zoombottom', 100, 30)
-    //     break;
-    //   case 107: // +
-    //     zoom_maker('zoomin', 20, 50)
-    //     break;
-    //   case 109: // -
-    //     zoom_maker('zoomout', 20, 50)
-    //     break;
-    // }
+    switch (event.keyCode) {
+      case 37:  // left arrow
+        this.zoom_maker('zoomleft', 100, 30)
+        break;
+      case 38:  // up arrow
+        this.zoom_maker('zoomtop', 100, 30)
+        break;
+      case 39:  // right arrow
+        this.zoom_maker('zoomright', 100, 30)
+        break;
+      case 40:  // down arrow
+        this.zoom_maker('zoombottom', 100, 30)
+        break;
+      case 107: // +
+        this.zoom_maker('zoomin', 20, 50)
+        break;
+      case 109: // -
+        this.zoom_maker('zoomout', 20, 50)
+        break;
+    }
   })
 
   // document.querySelector('#lin').addEventListener('mousedown', mouseDownHandler, true)
@@ -860,62 +860,62 @@ function limitObj(equation, size, coords, message = false) {
   }
   return [pos1, pos2]
 }
+*/
 
 // REVIEW: The name for this function could be made more clear to what it actually does. It does not only handle zoom functionality, as its name might suggest
-function zoom_maker(operation, xmove, xview) {
+Application.prototype.zoom_maker = function (operation, xmove, xview) {
   switch (operation) {
     case 'zoomout':
-      if (zoom > MIN_ZOOM) {
-        zoom--
-        width_viewbox += xmove
-        const ratioWidthZoom = taille_w / width_viewbox
-        height_viewbox = width_viewbox * ratio_viewbox
-        originX_viewbox = originX_viewbox - xmove / 2
-        originY_viewbox = originY_viewbox - (xmove / 2) * ratio_viewbox
-        scaleFactor = width_viewbox / taille_w
+      if (this.zoom > MIN_ZOOM) {
+        this.zoom--
+        this.width_viewbox += xmove
+        this.height_viewbox = this.width_viewbox * this.ratio_viewbox
+        this.originX_viewbox = this.originX_viewbox - xmove / 2
+        this.originY_viewbox = this.originY_viewbox - (xmove / 2) * this.ratio_viewbox
+        this.scaleFactor = this.width_viewbox / this.taille_w
       }
       break;
     case 'zoomin':
-      if (zoom < MAX_ZOOM) {
-        zoom++
-        width_viewbox -= xmove
-        const ratioWidthZoom = taille_w / width_viewbox
-        height_viewbox = width_viewbox * ratio_viewbox
-        originX_viewbox = originX_viewbox + xmove / 2
-        originY_viewbox = originY_viewbox + (xmove / 2) * ratio_viewbox
-        scaleFactor = width_viewbox / taille_w
+      if (this.zoom < MAX_ZOOM) {
+        this.zoom++
+        this.width_viewbox -= xmove
+        this.height_viewbox = this.width_viewbox * this.ratio_viewbox
+        this.originX_viewbox = this.originX_viewbox + xmove / 2
+        this.originY_viewbox = this.originY_viewbox + (xmove / 2) * this.ratio_viewbox
+        this.scaleFactor = this.width_viewbox / this.taille_w
       }
       break;
     case 'zoomreset':
-      originX_viewbox = 0
-      originY_viewbox = 0
-      width_viewbox = taille_w
-      height_viewbox = taille_h
-      scaleFactor = 1
+      this.originX_viewbox = 0
+      this.originY_viewbox = 0
+      this.width_viewbox = this.taille_w
+      this.height_viewbox = this.taille_h
+      this.scaleFactor = 1
       break;
     case 'zoomright':
-      originX_viewbox += xview
+      this.originX_viewbox += xview
       break;
     case 'zoomleft':
-      originX_viewbox -= xview
+      this.originX_viewbox -= xview
       break;
     case 'zoomtop':
-      originY_viewbox -= xview
+      this.originY_viewbox -= xview
       break;
     case 'zoombottom':
-      originY_viewbox += xview
+      this.originY_viewbox += xview
       break;
     case 'zoomdrag':
-      originX_viewbox -= xmove
-      originY_viewbox -= xview
+      this.originX_viewbox -= xmove
+      this.originY_viewbox -= xview
       break;
   }
 
   document.getElementById('lin').setAttribute(
-    'viewBox', `${originX_viewbox} ${originY_viewbox} ${width_viewbox} ${height_viewbox}`
+    'viewBox', `${this.originX_viewbox} ${this.originY_viewbox} ${this.width_viewbox} ${this.height_viewbox}`
   )
 }
 
+/*
 function calcul_snap(event, state) {
   if (event.touches) {
     let touches = event.changedTouches
