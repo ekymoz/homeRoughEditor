@@ -61,10 +61,10 @@
 //     }
 //     let limits = limitObj(wallBind.equations.base, sliderValue, objTarget)
 //     if (
-//       qSVG.btwn(limits[1].x, wallBind.start.x, wallBind.end.x) &&
-//       qSVG.btwn(limits[1].y, wallBind.start.y, wallBind.end.y) &&
-//       qSVG.btwn(limits[0].x, wallBind.start.x, wallBind.end.x) &&
-//       qSVG.btwn(limits[0].y, wallBind.start.y, wallBind.end.y)
+//       this.qSVG.btwn(limits[1].x, wallBind.start.x, wallBind.end.x) &&
+//       this.qSVG.btwn(limits[1].y, wallBind.start.y, wallBind.end.y) &&
+//       this.qSVG.btwn(limits[0].x, wallBind.start.x, wallBind.end.x) &&
+//       this.qSVG.btwn(limits[0].y, wallBind.start.y, wallBind.end.y)
 //     ) {
 //       objTarget.size = sliderValue
 //       objTarget.limit = limits
