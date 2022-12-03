@@ -917,14 +917,14 @@ Application.prototype.calcul_snap = function(event, state) {
   }
 }
 
-/*
-function intersectionOff() {
-  if (typeof lineIntersectionP != 'undefined') {
-    lineIntersectionP.remove()
-    lineIntersectionP = undefined
+Application.prototype.intersectionOff = function () {
+  if (typeof this.lineIntersectionP != 'undefined') {
+    this.lineIntersectionP.remove()
+    this.lineIntersectionP = undefined
   }
 }
 
+/*
 function intersection(snap, range = Infinity, except = ['']) {
   // ORANGE LINES 90° NEAR SEGMENT
   let bestEqPoint = {}
@@ -3361,7 +3361,7 @@ function mouseMove_mode_line_partition (event) {
           r: Rcirclebinder / 1.5,
         })
       }
-      intersectionOff()
+      this.intersectionOff()
     } else {
       if (!helpConstruc) cursor('crosshair')
       if (typeof binder != 'undefined') {
@@ -3458,7 +3458,7 @@ function mouseMove_mode_line_partition (event) {
           x = wallNode.x
           y = wallNode.y
           wallEndConstruc = true
-          intersectionOff()
+          this.intersectionOff()
           if (
             wallNode.bestWall == WALLS.length - 1 &&
             document.getElementById('multi').checked
@@ -4717,7 +4717,7 @@ function mouseUp_mode_line_partition (event) {
   }
 
   $('#linetemp').remove() // DEL LINE HELP CONSTRUC 0 45 90
-  intersectionOff()
+  this.intersectionOff()
 
   var sizeWall = this.qSVG.measure({ x: x, y: y }, { x: pox, y: poy })
   sizeWall = sizeWall / meter
