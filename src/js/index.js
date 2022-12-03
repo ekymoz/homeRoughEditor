@@ -1101,13 +1101,13 @@ function intersection(snap, range = Infinity, except = ['']) {
     return false
   }
 }
-
-function hideAllSize() {
-  $('#boxbind').empty()
-  sizeText = []
-  showAllSizeStatus = 0
-}
 */
+
+Application.prototype.hideAllSize = function () {
+  $('#boxbind').empty()
+  this.sizeText = []
+  this.showAllSizeStatus = 0
+}
 
 Application.prototype.inWallRib = function (wall, option = false) {
   if (!this.option) $('#boxRib').empty()
@@ -3223,7 +3223,7 @@ Application.prototype.mouseMove_mode_select = function (event) {
       if (typeof this.binder != 'undefined' && this.binder.type == 'node') {
         this.binder.remove()
         this.binder = undefined
-        hideAllSize()
+        this.hideAllSize()
         cursor('default')
         this.rib()
       }
@@ -3307,7 +3307,7 @@ Application.prototype.mouseMove_mode_select = function (event) {
         if (typeof this.binder != 'undefined' && this.binder.type == 'segment') {
           this.binder.graph.remove()
           this.binder = undefined
-          hideAllSize()
+          this.hideAllSize()
           cursor('default')
           this.rib()
         }
