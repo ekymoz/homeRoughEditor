@@ -832,36 +832,6 @@ Application.prototype.load = function(index = this.HISTORY.index, boot = false) 
   this.rib()
 }
 
-/*
-function limitObj(equation, size, coords, message = false) {
-  if (message) {
-    console.log(message)
-  }
-  let Px = coords.x
-  let Py = coords.y
-  let Aq = equation.A
-  let Bq = equation.B
-  let pos1, pos2
-  if (Aq === 'v') {
-    pos1 = { x: Px, y: Py - size / 2 }
-    pos2 = { x: Px, y: Py + size / 2 }
-  } else if (Aq === 'h') {
-    pos1 = { x: Px - size / 2, y: Py }
-    pos2 = { x: Px + size / 2, y: Py }
-  } else {
-    let A = 1 + Aq * Aq
-    let B = -2 * Px + 2 * Aq * Bq + -2 * Py * Aq
-    let C = Px * Px + Bq * Bq - 2 * Py * Bq + Py * Py - (size * size) / 4 // -N
-    let Delta = B * B - 4 * A * C
-    let posX1 = (-B - Math.sqrt(Delta)) / (2 * A)
-    let posX2 = (-B + Math.sqrt(Delta)) / (2 * A)
-    pos1 = { x: posX1, y: Aq * posX1 + Bq }
-    pos2 = { x: posX2, y: Aq * posX2 + Bq }
-  }
-  return [pos1, pos2]
-}
-*/
-
 // REVIEW: The name for this function could be made more clear to what it actually does. It does not only handle zoom functionality, as its name might suggest
 Application.prototype.zoom_maker = function (operation, xmove, xview) {
   switch (operation) {
@@ -3655,7 +3625,7 @@ function mouseMove_mode_door (event) {
           angleWall += 180
         }
 
-        var limits = limitObj(wall.equations.base, binder.size, wallSelect)
+        var limits = limitObj(wall.equations.base, binder.size)
         if (
           this.qSVG.btwn(limits[0].x, wall.start.x, wall.end.x) &&
           this.qSVG.btwn(limits[0].y, wall.start.y, wall.end.y) &&
@@ -3771,7 +3741,7 @@ function mouseMove_mode_network (event) {
           angleWall += 180
         }
 
-        var limits = limitObj(wall.equations.base, binder.size, wallSelect)
+        var limits = limitObj(wall.equations.base, binder.size)
         if (
           this.qSVG.btwn(limits[0].x, wall.start.x, wall.end.x) &&
           this.qSVG.btwn(limits[0].y, wall.start.y, wall.end.y) &&
@@ -3887,7 +3857,7 @@ function mouseMove_mode_electrical (event) {
           angleWall += 180
         }
 
-        var limits = limitObj(wall.equations.base, binder.size, wallSelect)
+        var limits = limitObj(wall.equations.base, binder.size)
         if (
           this.qSVG.btwn(limits[0].x, wall.start.x, wall.end.x) &&
           this.qSVG.btwn(limits[0].y, wall.start.y, wall.end.y) &&
@@ -4160,8 +4130,7 @@ function mouseMove_mode_bind (event) {
       )
       var limits = limitObj(
         wall.equations.base,
-        2 * wallListObj[k].distance,
-        wallListObj[k].from,
+        2 * wallListObj[k].distance
       ) // COORDS OBJ AFTER ROTATION
       var indexLimits = 0
       if (
@@ -4175,7 +4144,7 @@ function mouseMove_mode_bind (event) {
       objTarget.angle = angleWall
       if (objTarget.angleSign == 1) objTarget.angle = angleWall + 180
 
-      var limitBtwn = limitObj(wall.equations.base, objTarget.size, objTarget) // OBJ SIZE OK BTWN xy1/xy2
+      var limitBtwn = limitObj(wall.equations.base, objTarget.size) // OBJ SIZE OK BTWN xy1/xy2
 
       if (
         this.qSVG.btwn(limitBtwn[0].x, wall.start.x, wall.end.x) &&
@@ -4355,7 +4324,7 @@ function mouseMove_mode_bind (event) {
       // NEW COORDS OBJDATA[o]
       objTarget.x = intersectionObj[0]
       objTarget.y = intersectionObj[1]
-      var limits = limitObj(equation2, objTarget.size, objTarget)
+      var limits = limitObj(equation2, objTarget.size)
       if (
         this.qSVG.btwn(limits[0].x, binder.wall.start.x, binder.wall.end.x) &&
         this.qSVG.btwn(limits[0].y, binder.wall.start.y, binder.wall.end.y) &&
@@ -4372,7 +4341,7 @@ function mouseMove_mode_bind (event) {
       for (var ob in objWall) {
         var objTarget = objWall[ob]
         var eq = editor.createEquationFromWall(WALLS[k])
-        var limits = limitObj(eq, objTarget.size, objTarget)
+        var limits = limitObj(eq, objTarget.size)
         if (
           !this.qSVG.btwn(limits[0].x, WALLS[k].start.x, WALLS[k].end.x) ||
           !this.qSVG.btwn(limits[0].y, WALLS[k].start.y, WALLS[k].end.y) ||
@@ -4446,7 +4415,7 @@ function mouseMove_mode_bind (event) {
           binder.angleSign = 1
           objTarget.angleSign = 1
         }
-        var limits = limitObj(wall.equations.base, binder.size, wallSelect)
+        var limits = limitObj(wall.equations.base, binder.size)
         if (
           this.qSVG.btwn(limits[0].x, wall.start.x, wall.end.x) &&
           this.qSVG.btwn(limits[0].y, wall.start.y, wall.end.y) &&

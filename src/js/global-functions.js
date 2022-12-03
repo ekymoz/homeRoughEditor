@@ -1,3 +1,28 @@
+function limitObj(equation, size, coords) {
+  let Px = coords.x
+  let Py = coords.y
+  let Aq = equation.A
+  let Bq = equation.B
+  let pos1, pos2
+  if (Aq === 'v') {
+    pos1 = { x: Px, y: Py - size / 2 }
+    pos2 = { x: Px, y: Py + size / 2 }
+  } else if (Aq === 'h') {
+    pos1 = { x: Px - size / 2, y: Py }
+    pos2 = { x: Px + size / 2, y: Py }
+  } else {
+    let A = 1 + Aq * Aq
+    let B = -2 * Px + 2 * Aq * Bq + -2 * Py * Aq
+    let C = Px * Px + Bq * Bq - 2 * Py * Bq + Py * Py - (size * size) / 4 // -N
+    let Delta = B * B - 4 * A * C
+    let posX1 = (-B - Math.sqrt(Delta)) / (2 * A)
+    let posX2 = (-B + Math.sqrt(Delta)) / (2 * A)
+    pos1 = { x: posX1, y: Aq * posX1 + Bq }
+    pos2 = { x: posX2, y: Aq * posX2 + Bq }
+  }
+  return [pos1, pos2]
+}
+
 function isObjectsEquals(a, b) {
   let isOK = true
   for (let prop in a) {
