@@ -59,9 +59,6 @@ Application.prototype.initialize = function () {
   const roomColorBtn = document.querySelectorAll('.roomColor')
   const objTrashBtn = document.querySelectorAll('.objTrash')
   const dropdownMenu = document.querySelectorAll('.dropdown-menu li a')
-  // const visibleLayerCheckboxes = document.querySelectorAll(
-  //   '[name="visible_layer"]',
-  // )
 
   document.getElementById('lin').setAttribute(
     'viewBox',
@@ -243,17 +240,6 @@ Application.prototype.initialize = function () {
   document.querySelector('#lin').addEventListener('mousedown', this.mouseDownHandler.bind(this), true)
   document.querySelector('#lin').addEventListener('mousemove', this.mouseMoveHandler.bind(this), true)
   document.querySelector('#lin').addEventListener('mouseup', this.mouseUpHandler.bind(this))
-
-  // for (let checkbox of visibleLayerCheckboxes) {
-  //   checkbox.addEventListener('click', function (event) {
-  //     const layer = event.currentTarget.value
-  //     if (visibleLayers.has(layer)) {
-  //       visibleLayers.delete(layer)
-  //     } else {
-  //       visibleLayers.add(layer)
-  //     }
-  //   })
-  // }
 
   // REVIEW: What does this do?
   document
