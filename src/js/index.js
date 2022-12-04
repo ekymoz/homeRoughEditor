@@ -650,7 +650,7 @@ Application.prototype.importFloorplan = function (floorplanJson) {
   for (let k in floorplanJson.objData) {
     let OO = floorplanJson.objData[k]
     // if (OO.family === 'energy') OO.family = 'byObject';
-    let obj = new editor.obj2D(
+    let obj = new this.editor.obj2D(
       OO.family,
       OO.class,
       OO.type,
@@ -780,7 +780,7 @@ Application.prototype.load = function(index = this.HISTORY.index, boot = false) 
   for (let k in historyTemp.objData) {
     let OO = historyTemp.objData[k]
     // if (OO.family === 'energy') OO.family = 'byObject';
-    let obj = new editor.obj2D(
+    let obj = new this.editor.obj2D(
       OO.family,
       OO.class,
       OO.type,
@@ -910,20 +910,19 @@ Application.prototype.intersectionOff = function () {
   }
 }
 
-/*
-function intersection(snap, range = Infinity, except = ['']) {
+Application.prototype.intersection = function (snap, range = Infinity, except = ['']) {
   // ORANGE LINES 90° NEAR SEGMENT
   let bestEqPoint = {}
   let equation = {}
 
   bestEqPoint.distance = range
 
-  if (typeof lineIntersectionP != 'undefined') {
-    lineIntersectionP.remove()
-    lineIntersectionP = undefined
+  if (typeof this.lineIntersectionP != 'undefined') {
+    this.lineIntersectionP.remove()
+    this.lineIntersectionP = undefined
   }
 
-  lineIntersectionP = this.qSVG.create('boxbind', 'path', {
+  this.lineIntersectionP = this.qSVG.create('boxbind', 'path', {
     // ORANGE TEMP LINE FOR ANGLE 0 90 45 -+
     d: '',
     stroke: 'transparent',
@@ -932,12 +931,12 @@ function intersection(snap, range = Infinity, except = ['']) {
     fill: 'none',
   })
 
-  for (index = 0; index < WALLS.length; index++) {
-    if (except.indexOf(WALLS[index]) === -1) {
-      let x1 = WALLS[index].start.x
-      let y1 = WALLS[index].start.y
-      let x2 = WALLS[index].end.x
-      let y2 = WALLS[index].end.y
+  for (index = 0; index < this.WALLS.length; index++) {
+    if (except.indexOf(this.WALLS[index]) === -1) {
+      let x1 = this.WALLS[index].start.x
+      let y1 = this.WALLS[index].start.y
+      let x2 = this.WALLS[index].end.x
+      let y2 = this.WALLS[index].end.y
 
       // EQUATION 90° of segment nf/nf-1 at X2/Y2 Point
       if (Math.abs(y2 - y1) === 0) {
@@ -972,7 +971,7 @@ function intersection(snap, range = Infinity, except = ['']) {
       equation.B = equation.D
       eq = this.qSVG.nearPointOnEquation(equation, snap)
       if (eq.distance < bestEqPoint.distance) {
-        setBestEqPoint(
+        this.setBestEqPoint(
           bestEqPoint,
           eq.distance,
           index,
@@ -989,7 +988,7 @@ function intersection(snap, range = Infinity, except = ['']) {
       equation.B = equation.F
       eq = this.qSVG.nearPointOnEquation(equation, snap)
       if (eq.distance < bestEqPoint.distance) {
-        setBestEqPoint(
+        this.setBestEqPoint(
           bestEqPoint,
           eq.distance,
           index,
@@ -1006,7 +1005,7 @@ function intersection(snap, range = Infinity, except = ['']) {
       equation.B = equation.H
       eq = this.qSVG.nearPointOnEquation(equation, snap)
       if (eq.distance < bestEqPoint.distance) {
-        setBestEqPoint(
+        this.setBestEqPoint(
           bestEqPoint,
           eq.distance,
           index,
@@ -1023,7 +1022,7 @@ function intersection(snap, range = Infinity, except = ['']) {
       equation.B = equation.J
       eq = this.qSVG.nearPointOnEquation(equation, snap)
       if (eq.distance < bestEqPoint.distance) {
-        setBestEqPoint(
+        this.setBestEqPoint(
           bestEqPoint,
           eq.distance,
           index,
@@ -1041,7 +1040,7 @@ function intersection(snap, range = Infinity, except = ['']) {
 
   if (bestEqPoint.distance < range) {
     if (bestEqPoint.way === 2) {
-      lineIntersectionP.attr({
+      this.lineIntersectionP.attr({
         // ORANGE TEMP LINE FOR ANGLE 0 90 45 -+
         d:
           'M' +
@@ -1059,7 +1058,7 @@ function intersection(snap, range = Infinity, except = ['']) {
         stroke: '#d7ac57',
       })
     } else {
-      lineIntersectionP.attr({
+      this.lineIntersectionP.attr({
         // ORANGE TEMP LINE FOR ANGLE 0 90 45 -+
         d:
           'M' +
@@ -1080,14 +1079,13 @@ function intersection(snap, range = Infinity, except = ['']) {
     return {
       x: bestEqPoint.x,
       y: bestEqPoint.y,
-      wall: WALLS[bestEqPoint.node],
+      wall: this.WALLS[bestEqPoint.node],
       distance: bestEqPoint.distance,
     }
   } else {
     return false
   }
 }
-*/
 
 Application.prototype.hideAllSize = function () {
   $('#boxbind').empty()
@@ -2645,19 +2643,9 @@ function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
 
   return construc
 }
+*/
 
-function setBestEqPoint(
-  bestEqPoint,
-  distance,
-  index,
-  x,
-  y,
-  x1,
-  y1,
-  x2,
-  y2,
-  way,
-) {
+Application.prototype.setBestEqPoint = function(bestEqPoint, distance, index, x, y, x1, y1, x2, y2, way) {
   bestEqPoint.distance = distance
   bestEqPoint.node = index
   bestEqPoint.x = x
@@ -2668,7 +2656,7 @@ function setBestEqPoint(
   bestEqPoint.y2 = y2
   bestEqPoint.way = way
 }
-*/
+
 Application.prototype.pushToRibMaster = function (ribMaster, firstIndex, secondIndex, wallIndex, crossEdge, side, coords, distance) {
   ribMaster[firstIndex][secondIndex].push({
     wallIndex: wallIndex,
@@ -2811,7 +2799,7 @@ Application.prototype.mouseDown_mode_select = function(event) {
           if (found) {
             var newWall
             if (isObjectsEquals(wall.parent.end, wall.start)) {
-              newWall = new editor.wall(
+              newWall = new this.editor.wall(
                 wall.parent.end,
                 wall.start,
                 'normal',
@@ -2822,13 +2810,13 @@ Application.prototype.mouseDown_mode_select = function(event) {
               newWall.child = wall
               wall.parent.child = newWall
               wall.parent = newWall
-              equation1 = this.qSVG.perpendicularEquation(
-                equation2,
+              this.equation1 = this.qSVG.perpendicularEquation(
+                this.equation2,
                 wall.start.x,
                 wall.start.y,
               )
             } else if (isObjectsEquals(wall.parent.start, wall.start)) {
-              newWall = new editor.wall(
+              newWall = new this.editor.wall(
                 wall.parent.start,
                 wall.start,
                 'normal',
@@ -2839,8 +2827,8 @@ Application.prototype.mouseDown_mode_select = function(event) {
               newWall.child = wall
               wall.parent.parent = newWall
               wall.parent = newWall
-              equation1 = this.qSVG.perpendicularEquation(
-                equation2,
+              this.equation1 = this.qSVG.perpendicularEquation(
+                this.equation2,
                 wall.start.x,
                 wall.start.y,
               )
@@ -2853,17 +2841,17 @@ Application.prototype.mouseDown_mode_select = function(event) {
         var foundEq = false
         for (var k in this.WALLS) {
           if (
-            this.qSVG.rayCasting(wall.start, WALLS[k].coords) &&
+            this.qSVG.rayCasting(wall.start, this.WALLS[k].coords) &&
             !isObjectsEquals(this.WALLS[k].coords, wall.coords)
           ) {
             var angleFollow = this.qSVG.angleBetweenEquations(
               this.WALLS[k].equations.base.A,
-              equation2.A,
+              this.equation2.A,
             )
             if (angleFollow < 20 || angleFollow > 160) break
-            equation1 = editor.createEquationFromWall(WALLS[k])
-            equation1.follow = WALLS[k]
-            equation1.backUp = {
+            this.equation1 = this.editor.createEquationFromWall(this.WALLS[k])
+            this.equation1.follow = this.WALLS[k]
+            this.equation1.backUp = {
               coords: this.WALLS[k].coords,
               start: this.WALLS[k].start,
               end: this.WALLS[k].end,
@@ -2887,11 +2875,11 @@ Application.prototype.mouseDown_mode_select = function(event) {
         var angle23 = this.qSVG.angleBetweenEquations(this.equation3.A, this.equation2.A)
         if (angle23 < 20 || angle23 > 160) {
           var found = true
-          for (var k in WALLS) {
+          for (var k in this.WALLS) {
             if (
-              this.qSVG.rayCasting(wall.end, WALLS[k].coords) &&
-              !isObjectsEquals(WALLS[k], wall.child) &&
-              !isObjectsEquals(WALLS[k], wall)
+              this.qSVG.rayCasting(wall.end, this.WALLS[k].coords) &&
+              !isObjectsEquals(this.WALLS[k], wall.child) &&
+              !isObjectsEquals(this.WALLS[k], wall)
             ) {
               if (
                 wall.child.parent != null &&
@@ -2910,7 +2898,7 @@ Application.prototype.mouseDown_mode_select = function(event) {
           }
           if (found) {
             if (isObjectsEquals(wall.child.start, wall.end)) {
-              var newWall = new editor.wall(
+              var newWall = new this.editor.wall(
                 wall.end,
                 wall.child.start,
                 'new',
@@ -2927,7 +2915,7 @@ Application.prototype.mouseDown_mode_select = function(event) {
                 wall.end.y,
               )
             } else if (isObjectsEquals(wall.child.end, wall.end)) {
-              var newWall = new editor.wall(
+              var newWall = new this.editor.wall(
                 wall.end,
                 wall.child.end,
                 'normal',
@@ -3008,7 +2996,7 @@ Application.prototype.mouseDown_mode_select = function(event) {
       }
 
       equationsObj = []
-      var objWall = editor.objFromWall(wall) // LIST OBJ ON EDGE
+      var objWall = this.editor.objFromWall(wall) // LIST OBJ ON EDGE
       for (var ob = 0; ob < objWall.length; ob++) {
         var objTarget = objWall[ob]
         equationsObj.push({
@@ -3017,71 +3005,69 @@ Application.prototype.mouseDown_mode_select = function(event) {
           eq: this.qSVG.perpendicularEquation(equation2, objTarget.x, objTarget.y),
         })
       }
-      action = 1
+      this.action = 1
     }
   } else {
     this.action = 0
     this.drag = 'on'
-    this.snap = this.calcul_snap(event, this.grid_snap)
-    this.pox = this.snap.xMouse
-    this.poy = this.snap.yMouse
+    const snap = this.calcul_snap(event, this.grid_snap)
+    this.pox = snap.xMouse
+    this.poy = snap.yMouse
   }
 }
 
-/*
-function mouseDown_mode_line_partition (event) {
-  if (mode !== 'line_mode' && mode !== 'partition_mode') {
+Application.prototype.mouseDown_mode_line_partition = function(event) {
+  if (this.mode !== 'line_mode' && this.mode !== 'partition_mode') {
     return
   }
 
-  if (action == 0) {
-    snap = calcul_snap(event, grid_snap)
-    pox = snap.x
-    poy = snap.y
-    if ((wallStartConstruc = editor.nearWall(snap, 12))) {
+  if (this.action == 0) {
+    const snap = this.calcul_snap(event, this.grid_snap)
+    this.pox = snap.x
+    this.poy = snap.y
+    if ((this.wallStartConstruc = this.editor.nearWall(snap, 12))) {
       // TO SNAP SEGMENT TO FINALIZE X2Y2
-      pox = wallStartConstruc.x
-      poy = wallStartConstruc.y
+      this.pox = this.wallStartConstruc.x
+      this.poy = this.wallStartConstruc.y
     }
   } else {
-    construc = 1
+    this.construc = 1
   }
 
-  action = 1
+  this.action = 1
 }
 
-function mouseDown_mode_distance (event) {
-  if (mode !== 'distance_mode') {
+Application.prototype.mouseDown_mode_distance = function (event) {
+  if (this.mode !== 'distance_mode') {
     return
   }
 
-  if (action == 0) {
-    action = 1
-    snap = calcul_snap(event, grid_snap)
-    pox = snap.x
-    poy = snap.y
+  if (this.action == 0) {
+    this.action = 1
+    const snap = calcul_snap(event, this.grid_snap)
+    this.pox = snap.x
+    this.poy = snap.y
   }
 }
 
-function mouseDown_mode_edit_door (event) {
-  if (mode !== 'edit_door_mode') {
+Application.prototype.mouseDown_mode_edit_door = function (event) {
+  if (this.mode !== 'edit_door_mode') {
     return
   }
 
   // ACTION 1 ACTIVATE EDITION OF THE DOOR
-  action = 1
+  this.action = 1
   $('#lin').css('cursor', 'pointer')
 }
-*/
 
 Application.prototype.mouseDownHandler = function(event) {
 
   event.preventDefault()
 
   this.mouseDown_mode_select(event)
-  // mouseDown_mode_line_partition(event)
-  // mouseDown_mode_distance(event)
-  // mouseDown_mode_edit_door(event)
+  this.mouseDown_mode_line_partition(event)
+  this.mouseDown_mode_distance(event)
+  this.mouseDown_mode_edit_door(event)
 }
 
 Application.prototype.mouseMove_mode_select = function (event) {
@@ -3092,7 +3078,7 @@ Application.prototype.mouseMove_mode_select = function (event) {
 
   if (this.drag === 'off') {
     // FIRST TEST ON SELECT MODE (and drag OFF) to detect MOUSEOVER DOOR
-    this.snap = this.calcul_snap(event, 'off')
+    const snap = this.calcul_snap(event, 'off')
 
     var objTarget = false
     for (var i = 0; i < this.OBJDATA.length; i++) {
@@ -3114,7 +3100,7 @@ Application.prototype.mouseMove_mode_select = function (event) {
       if (objTarget.params.bindBox) {
         // OBJ -> BOUNDINGBOX TOOL
         if (typeof this.binder == 'undefined') {
-          this.binder = new editor.obj2D(
+          this.binder = new this.editor.obj2D(
             'free',
             'boundingBox',
             '',
@@ -3183,7 +3169,7 @@ Application.prototype.mouseMove_mode_select = function (event) {
     }
 
     // BIND CIRCLE IF nearNode and GROUP ALL SAME XY SEG POINTS
-    if ((this.wallNode = this.editor.nearWallNode(this.snap, 20))) {
+    if ((this.wallNode = this.editor.nearWallNode(snap, 20))) {
       if (typeof this.binder == 'undefined' || this.binder.type == 'segment') {
         this.binder = this.qSVG.create('boxbind', 'circle', {
           id: 'circlebinder',
@@ -3215,7 +3201,7 @@ Application.prototype.mouseMove_mode_select = function (event) {
     }
 
     // BIND WALL WITH NEARPOINT function ---> WALL BINDER CREATION
-    if ((this.wallBind = this.editor.rayCastingWalls(this.snap, this.WALLS))) {
+    if ((this.wallBind = this.editor.rayCastingWalls(snap, this.WALLS))) {
       if (this.wallBind.length > 1) this.wallBind = this.wallBind[this.wallBind.length - 1]
       if (this.wallBind && typeof this.binder == 'undefined') {
         var objWall = this.editor.objFromWall(this.wallBind)
@@ -3252,7 +3238,7 @@ Application.prototype.mouseMove_mode_select = function (event) {
         cursor('pointer')
       }
     } else {
-      if ((this.wallBind = this.editor.nearWall(this.snap, 6))) {
+      if ((this.wallBind = this.editor.nearWall(snap, 6))) {
         if (this.wallBind && typeof this.binder == 'undefined') {
           this.wallBind = this.wallBind.wall
           var objWall = this.editor.objFromWall(this.wallBind)
@@ -3312,62 +3298,61 @@ Application.prototype.mouseMove_mode_select = function (event) {
   }
 }
 
-/*
-function mouseMove_mode_line_partition (event) {
+Application.prototype.mouseMove_mode_line_partition = function(event) {
 
-  if (mode !== 'line_mode' && mode !== 'partition_mode') {
+  if (this.mode !== 'line_mode' && this.mode !== 'partition_mode') {
     return
   }
 
-  if (action == 0) {
-    snap = calcul_snap(event, 'off')
+  if (this.action == 0) {
+    const snap = this.calcul_snap(event, 'off')
     cursor('grab')
-    pox = snap.x
-    poy = snap.y
-    if ((helpConstruc = intersection(snap, 25))) {
-      if (helpConstruc.distance < 10) {
-        pox = helpConstruc.x
-        poy = helpConstruc.y
+    this.pox = snap.x
+    this.poy = snap.y
+    if ((this.helpConstruc = this.intersection(snap, 25))) {
+      if (this.helpConstruc.distance < 10) {
+        this.pox = this.helpConstruc.x
+        this.poy = this.helpConstruc.y
         cursor('grab')
       } else {
         cursor('crosshair')
       }
     }
-    if ((wallNode = editor.nearWallNode(snap, 20))) {
-      pox = wallNode.x
-      poy = wallNode.y
+    if ((this.wallNode = this.editor.nearWallNode(snap, 20))) {
+      this.pox = this.wallNode.x
+      this.poy = this.wallNode.y
       cursor('grab')
-      if (typeof binder == 'undefined') {
-        binder = this.qSVG.create('boxbind', 'circle', {
+      if (typeof this.binder == 'undefined') {
+        this.binder = this.qSVG.create('boxbind', 'circle', {
           id: 'circlebinder',
           class: 'circle_css_2',
-          cx: wallNode.x,
-          cy: wallNode.y,
-          r: Rcirclebinder / 1.5,
+          cx: this.wallNode.x,
+          cy: this.wallNode.y,
+          r: this.Rcirclebinder / 1.5,
         })
       }
       this.intersectionOff()
     } else {
-      if (!helpConstruc) cursor('crosshair')
-      if (typeof binder != 'undefined') {
-        if (binder.graph) binder.graph.remove()
-        else binder.remove()
-        binder = undefined
+      if (!this.helpConstruc) cursor('crosshair')
+      if (typeof this.binder != 'undefined') {
+        if (this.binder.graph) this.binder.graph.remove()
+        else this.binder.remove()
+        this.binder = undefined
       }
     }
-  } else if (action == 1) {
-    snap = calcul_snap(event, grid_snap)
-    x = snap.x
-    y = snap.y
-    starter = minMoveGrid(snap, pox, poy)
+  } else if (this.action == 1) {
+    const snap = this.calcul_snap(event, this.grid_snap)
+    const x = snap.x
+    const y = snap.y
+    const starter = minMoveGrid(snap, this.pox, this.poy)
 
     if (!$('#line_construc').length) {
-      if ((wallNode = editor.nearWallNode(snap, 20))) {
-        pox = wallNode.x
-        poy = wallNode.y
+      if ((this.wallNode = this.editor.nearWallNode(snap, 20))) {
+        this.pox = this.wallNode.x
+        this.poy = this.wallNode.y
 
-        wallStartConstruc = false
-        if (wallNode.bestWall == WALLS.length - 1) {
+        this.wallStartConstruc = false
+        if (this.wallNode.bestWall == this.WALLS.length - 1) {
           cursor('validation')
         } else {
           cursor('grab')
@@ -3377,34 +3362,8 @@ function mouseMove_mode_line_partition (event) {
       }
     }
 
-    if (starter > grid) {
-      if (!$('#line_construc').length) {
-        var ws = 20
-        if (mode == 'partition_mode') ws = 10
-        lineconstruc = this.qSVG.create('boxbind', 'line', {
-          id: 'line_construc',
-          x1: pox,
-          y1: poy,
-          x2: x,
-          y2: y,
-          'stroke-width': ws,
-          'stroke-linecap': 'butt',
-          'stroke-opacity': 0.7,
-          stroke: '#9fb2e2',
-        })
-
-        svgadd = this.qSVG.create('boxbind', 'line', {
-          // ORANGE TEMP LINE FOR ANGLE 0 90 45 -+
-          id: 'linetemp',
-          x1: pox,
-          y1: poy,
-          x2: x,
-          y2: y,
-          stroke: 'transparent',
-          'stroke-width': 0.5,
-          'stroke-opacity': '0.9',
-        })
-      } else {
+    if (starter > this.grid) {
+      if ($('#line_construc').length > 0) {
         // THE LINES AND BINDER ARE CREATED
 
         $('#linetemp').attr({
@@ -3412,7 +3371,7 @@ function mouseMove_mode_line_partition (event) {
           y2: y,
         })
 
-        if ((helpConstrucEnd = intersection(snap, 10))) {
+        if ((helpConstrucEnd = this.intersection(snap, 10))) {
           x = helpConstrucEnd.x
           y = helpConstrucEnd.y
         }
@@ -3426,19 +3385,19 @@ function mouseMove_mode_line_partition (event) {
         }
 
         // nearNode helped to attach the end of the construc line
-        if ((wallNode = editor.nearWallNode(snap, 20))) {
-          if (typeof binder == 'undefined') {
-            binder = this.qSVG.create('boxbind', 'circle', {
+        if ((this.wallNode = this.editor.nearWallNode(snap, 20))) {
+          if (typeof this.binder == 'undefined') {
+            this.binder = this.qSVG.create('boxbind', 'circle', {
               id: 'circlebinder',
               class: 'circle_css_2',
-              cx: wallNode.x,
-              cy: wallNode.y,
-              r: Rcirclebinder / 1.5,
+              cx: this.wallNode.x,
+              cy: this.wallNode.y,
+              r: this.Rcirclebinder / 1.5,
             })
           }
           $('#line_construc').attr({
-            x2: wallNode.x,
-            y2: wallNode.y,
+            x2: this.wallNode.x,
+            y2: this.wallNode.y,
           })
           x = wallNode.x
           y = wallNode.y
@@ -3453,27 +3412,27 @@ function mouseMove_mode_line_partition (event) {
             cursor('grab')
           }
         } else {
-          if (typeof binder != 'undefined') {
-            binder.remove()
-            binder = undefined
+          if (typeof this.binder != 'undefined') {
+            this.binder.remove()
+            this.binder = undefined
           }
           if (wallEndConstruc === false) cursor('crosshair')
         }
         // LINETEMP AND LITLLE SNAPPING FOR HELP TO CONSTRUC ANGLE 0 90 45 *****************************************
-        var fltt = this.qSVG.angle(pox, poy, x, y)
+        var fltt = this.qSVG.angle(this.pox, this.poy, x, y)
         var flt = Math.abs(fltt.deg)
         var coeff = fltt.deg / flt // -45 -> -1     45 -> 1
-        var phi = poy - coeff * pox
+        var phi = this.poy - coeff * this.pox
         var Xdiag = (y - phi) / coeff
         if (typeof binder == 'undefined') {
           // HELP FOR H LINE
           var found = false
-          if (flt < 15 && Math.abs(poy - y) < 25) {
-            y = poy
+          if (flt < 15 && Math.abs(this.poy - y) < 25) {
+            y = this.poy
             found = true
           } // HELP FOR V LINE
-          if (flt > 75 && Math.abs(pox - x) < 25) {
-            x = pox
+          if (flt > 75 && Math.abs(this.pox - x) < 25) {
+            x = this.pox
             found = true
           } // HELP FOR DIAG LINE
           if (flt < 55 && flt > 35 && Math.abs(Xdiag - x) < 20) {
@@ -3489,13 +3448,13 @@ function mouseMove_mode_line_partition (event) {
         })
 
         // SHOW WALL SIZE -------------------------------------------------------------------------
-        var startText = this.qSVG.middle(pox, poy, x, y)
-        var angleText = this.qSVG.angle(pox, poy, x, y)
+        var startText = this.qSVG.middle(this.pox, this.poy, x, y)
+        var angleText = this.qSVG.angle(this.pox, this.poy, x, y)
         var valueText = (
           this.qSVG.measure(
             {
-              x: pox,
-              y: poy,
+              x: this.pox,
+              y: this.poy,
             },
             {
               x: x,
@@ -3503,24 +3462,24 @@ function mouseMove_mode_line_partition (event) {
             },
           ) / 60
         ).toFixed(2)
-        if (typeof lengthTemp == 'undefined') {
-          lengthTemp = document.createElementNS(
+        if (typeof this.lengthTemp == 'undefined') {
+          this.lengthTemp = document.createElementNS(
             'http://www.w3.org/2000/svg',
             'text',
           )
-          lengthTemp.setAttributeNS(null, 'x', startText.x)
-          lengthTemp.setAttributeNS(null, 'y', startText.y - 15)
-          lengthTemp.setAttributeNS(null, 'text-anchor', 'middle')
-          lengthTemp.setAttributeNS(null, 'stroke', 'none')
-          lengthTemp.setAttributeNS(null, 'stroke-width', '0.6px')
-          lengthTemp.setAttributeNS(null, 'fill', '#777777')
-          lengthTemp.textContent = valueText + 'm'
-          $('#boxbind').append(lengthTemp)
+          this.lengthTemp.setAttributeNS(null, 'x', startText.x)
+          this.lengthTemp.setAttributeNS(null, 'y', startText.y - 15)
+          this.lengthTemp.setAttributeNS(null, 'text-anchor', 'middle')
+          this.lengthTemp.setAttributeNS(null, 'stroke', 'none')
+          this.lengthTemp.setAttributeNS(null, 'stroke-width', '0.6px')
+          this.lengthTemp.setAttributeNS(null, 'fill', '#777777')
+          this.lengthTemp.textContent = valueText + 'm'
+          $('#boxbind').append(this.lengthTemp)
         }
-        if (typeof lengthTemp != 'undefined' && valueText > 0.1) {
-          lengthTemp.setAttributeNS(null, 'x', startText.x)
-          lengthTemp.setAttributeNS(null, 'y', startText.y - 15)
-          lengthTemp.setAttribute(
+        if (typeof this.lengthTemp != 'undefined' && valueText > 0.1) {
+          this.lengthTemp.setAttributeNS(null, 'x', startText.x)
+          this.lengthTemp.setAttributeNS(null, 'y', startText.y - 15)
+          this.lengthTemp.setAttribute(
             'transform',
             'rotate(' +
               angleText.deg +
@@ -3530,16 +3489,17 @@ function mouseMove_mode_line_partition (event) {
               startText.y +
               ')',
           )
-          lengthTemp.textContent = valueText + ' m'
+          this.lengthTemp.textContent = valueText + ' m'
         }
-        if (typeof lengthTemp != 'undefined' && valueText < 0.1) {
-          lengthTemp.textContent = ''
+        if (typeof this.lengthTemp != 'undefined' && valueText < 0.1) {
+          this.lengthTemp.textContent = ''
         }
       }
     }
   }
 }
 
+/*
 function mouseMove_mode_door (event) {
 
   if (mode !== 'door_mode') {
@@ -3553,7 +3513,7 @@ function mouseMove_mode_door (event) {
     if (wall.type != 'separate') {
       if (typeof binder == 'undefined') {
         // family, classe, type, pos, angle, angleSign, size, hinge, thick
-        binder = new editor.obj2D(
+        binder = new this.editor.obj2D(
           'inWall',
           'doorWindow',
           modeOption,
@@ -3669,7 +3629,7 @@ function mouseMove_mode_network (event) {
     if (wall.type != 'separate') {
       if (typeof binder == 'undefined') {
         // family, classe, type, pos, angle, angleSign, size, hinge, thick
-        binder = new editor.obj2D(
+        binder = new this.editor.obj2D(
           'inWall',
           'network',
           modeOption,
@@ -3785,7 +3745,7 @@ function mouseMove_mode_electrical (event) {
     if (wall.type != 'separate') {
       if (typeof binder == 'undefined') {
         // family, classe, type, pos, angle, angleSign, size, hinge, thick
-        binder = new editor.obj2D(
+        binder = new this.editor.obj2D(
           'inWall',
           'electrical',
           modeOption,
@@ -3904,7 +3864,7 @@ function mouseMove_mode_distance (event) {
       stroke: '#e2b653',
       fill: '#e2b653',
     })
-    binder = new editor.obj2D(
+    binder = new this.editor.obj2D(
       'free',
       'measure',
       '',
@@ -4027,41 +3987,42 @@ function mouseMove_mode_node (event) {
     }
   }
 }
+*/
 
 // This is for when an SVG element is being interacted with
-function mouseMove_mode_bind (event) {
-  if (mode !== 'bind_mode') {
+Application.prototype.mouseMove_mode_bind = function (event) {
+  if (this.mode !== 'bind_mode') {
     return
   }
-  snap = calcul_snap(event, grid_snap)
+  const snap = this.calcul_snap(event, this.grid_snap)
 
-  if (binder.type == 'node') {
+  if (this.binder.type == 'node') {
     var coords = snap
     var magnetic = false
-    for (var k in wallListRun) {
-      if (isObjectsEquals(wallListRun[k].end, binder.data)) {
-        if (Math.abs(wallListRun[k].start.x - snap.x) < 20) {
-          coords.x = wallListRun[k].start.x
+    for (var k in this.wallListRun) {
+      if (isObjectsEquals(this.wallListRun[k].end, binder.data)) {
+        if (Math.abs(this.wallListRun[k].start.x - snap.x) < 20) {
+          coords.x = this.wallListRun[k].start.x
           magnetic = 'H'
         }
-        if (Math.abs(wallListRun[k].start.y - snap.y) < 20) {
-          coords.y = wallListRun[k].start.y
+        if (Math.abs(this.wallListRun[k].start.y - snap.y) < 20) {
+          coords.y = this.wallListRun[k].start.y
           magnetic = 'V'
         }
       }
-      if (isObjectsEquals(wallListRun[k].start, binder.data)) {
-        if (Math.abs(wallListRun[k].end.x - snap.x) < 20) {
-          coords.x = wallListRun[k].end.x
+      if (isObjectsEquals(this.wallListRun[k].start, binder.data)) {
+        if (Math.abs(this.wallListRun[k].end.x - snap.x) < 20) {
+          coords.x = this.wallListRun[k].end.x
           magnetic = 'H'
         }
-        if (Math.abs(wallListRun[k].end.y - snap.y) < 20) {
-          coords.y = wallListRun[k].end.y
+        if (Math.abs(this.wallListRun[k].end.y - snap.y) < 20) {
+          coords.y = this.wallListRun[k].end.y
           magnetic = 'V'
         }
       }
     }
 
-    if ((nodeMove = editor.nearWallNode(snap, 15, wallListRun))) {
+    if ((nodeMove = this.editor.nearWallNode(snap, 15, this.wallListRun))) {
       coords.x = nodeMove.x
       coords.y = nodeMove.y
       $('#circlebinder').attr({
@@ -4075,11 +4036,11 @@ function mouseMove_mode_bind (event) {
         if (magnetic == 'H') snap.x = coords.x
         else snap.y = coords.y
       }
-      if ((helpConstruc = intersection(snap, 10, wallListRun))) {
-        coords.x = helpConstruc.x
-        coords.y = helpConstruc.y
-        snap.x = helpConstruc.x
-        snap.y = helpConstruc.y
+      if ((this.helpConstruc = this.intersection(snap, 10, wallListRun))) {
+        coords.x = this.helpConstruc.x
+        coords.y = this.helpConstruc.y
+        snap.x = this.helpConstruc.x
+        snap.y = this.helpConstruc.y
         if (magnetic != false) {
           if (magnetic == 'H') snap.x = coords.x
           else snap.y = coords.y
@@ -4088,25 +4049,25 @@ function mouseMove_mode_bind (event) {
       } else {
         cursor('move')
       }
-      binder.remove()
+      this.binder.remove()
       //$('#circlebinder').attr({"class": "circle_css", cx: coords.x, cy: coords.y});
     }
-    for (var k in wallListRun) {
-      if (isObjectsEquals(wallListRun[k].start, binder.data)) {
-        wallListRun[k].start.x = coords.x
-        wallListRun[k].start.y = coords.y
+    for (var k in this.wallListRun) {
+      if (isObjectsEquals(this.wallListRun[k].start, binder.data)) {
+        this.wallListRun[k].start.x = coords.x
+        this.wallListRun[k].start.y = coords.y
       }
       if (isObjectsEquals(wallListRun[k].end, binder.data)) {
-        wallListRun[k].end.x = coords.x
-        wallListRun[k].end.y = coords.y
+        this.wallListRun[k].end.x = coords.x
+        this.wallListRun[k].end.y = coords.y
       }
     }
-    binder.data = coords
-    editor.wallsComputing(WALLS, false) // UPDATE FALSE
+    this.binder.data = coords
+    this.editor.wallsComputing(WALLS, false) // UPDATE FALSE
 
-    for (var k in wallListObj) {
-      var wall = wallListObj[k].wall
-      var objTarget = wallListObj[k].obj
+    for (var k in this.wallListObj) {
+      var wall = this.wallListObj[k].wall
+      var objTarget = this.wallListObj[k].obj
       var angleWall = this.qSVG.angleDeg(
         wall.start.x,
         wall.start.y,
@@ -4115,7 +4076,7 @@ function mouseMove_mode_bind (event) {
       )
       var limits = limitObj(
         wall.equations.base,
-        2 * wallListObj[k].distance
+        2 * this.wallListObj[k].distance
       ) // COORDS OBJ AFTER ROTATION
       var indexLimits = 0
       if (
@@ -4149,58 +4110,58 @@ function mouseMove_mode_bind (event) {
     // for (k in toClean)
     $('#boxRoom').empty()
     $('#boxSurface').empty()
-    Rooms = this.qSVG.polygonize(WALLS)
-    editor.roomMaker(Rooms)
+    Rooms = this.qSVG.polygonize(this.WALLS)
+    this.editor.roomMaker(Rooms)
   }
 
   // WALL MOVING ----BINDER TYPE SEGMENT-------- FUNCTION FOR H,V and Calculate Vectorial Translation
 
-  if (binder.type == 'segment' && action == 1) {
-    rib()
+  if (this.binder.type == 'segment' && this.action == 1) {
+    this.rib()
 
-    if (equation2.A == 'v') {
-      equation2.B = snap.x
-    } else if (equation2.A == 'h') {
-      equation2.B = snap.y
+    if (this.equation2.A == 'v') {
+      this.equation2.B = snap.x
+    } else if (this.equation2.A == 'h') {
+      this.equation2.B = snap.y
     } else {
-      equation2.B = snap.y - snap.x * equation2.A
+      this.equation2.B = snap.y - snap.x * equation2.A
     }
 
     var intersection1 = this.qSVG.intersectionOfEquations(
-      equation1,
-      equation2,
+      this.equation1,
+      this.equation2,
       'obj',
     )
     var intersection2 = this.qSVG.intersectionOfEquations(
-      equation2,
-      equation3,
+      this.equation2,
+      this.equation3,
       'obj',
     )
     var intersection3 = this.qSVG.intersectionOfEquations(
-      equation1,
-      equation3,
+      this.equation1,
+      this.equation3,
       'obj',
     )
 
-    if (binder.wall.parent != null) {
-      if (isObjectsEquals(binder.wall.parent.end, binder.wall.start))
-        binder.wall.parent.end = intersection1
-      else if (isObjectsEquals(binder.wall.parent.start, binder.wall.start))
-        binder.wall.parent.start = intersection1
-      else binder.wall.parent.end = intersection1
+    if (this.binder.wall.parent != null) {
+      if (isObjectsEquals(this.binder.wall.parent.end, this.binder.wall.start))
+        this.binder.wall.parent.end = intersection1
+      else if (isObjectsEquals(this.binder.wall.parent.start, this.binder.wall.start))
+        this.binder.wall.parent.start = intersection1
+      else this.binder.wall.parent.end = intersection1
     }
 
-    if (binder.wall.child != null) {
-      if (isObjectsEquals(binder.wall.child.start, binder.wall.end))
-        binder.wall.child.start = intersection2
-      else if (isObjectsEquals(binder.wall.child.end, binder.wall.end))
-        binder.wall.child.end = intersection2
-      else binder.wall.child.start = intersection2
+    if (this.binder.wall.child != null) {
+      if (isObjectsEquals(this.binder.wall.child.start, this.binder.wall.end))
+        this.binder.wall.child.start = intersection2
+      else if (isObjectsEquals(this.binder.wall.child.end, this.binder.wall.end))
+        this.binder.wall.child.end = intersection2
+      else this.binder.wall.child.start = intersection2
     }
 
-    binder.wall.start = intersection1
-    binder.wall.end = intersection2
-    binder.graph.remove()
+    this.binder.wall.start = intersection1
+    this.binder.wall.end = intersection2
+    this.binder.graph.remove()
     // binder.graph[0].children[0].setAttribute("x1",intersection1.x);
     // binder.graph[0].children[0].setAttribute("x2",intersection2.x);
     // binder.graph[0].children[0].setAttribute("y1",intersection1.y);
@@ -4211,76 +4172,76 @@ function mouseMove_mode_bind (event) {
     // binder.graph[0].children[2].setAttribute("cy",intersection2.y);
 
     // THE EQ FOLLOWED BY eq (PARENT EQ1 --- CHILD EQ3)
-    if (equation1.follow != undefined) {
-      if (!this.qSVG.rayCasting(intersection1, equation1.backUp.coords)) {
+    if (this.equation1.follow != undefined) {
+      if (!this.qSVG.rayCasting(intersection1, this.equation1.backUp.coords)) {
         // IF OUT OF WALL FOLLOWED
         var distanceFromStart = this.qSVG.gap(
-          equation1.backUp.start,
+          this.equation1.backUp.start,
           intersection1,
         )
-        var distanceFromEnd = this.qSVG.gap(equation1.backUp.end, intersection1)
+        var distanceFromEnd = this.qSVG.gap(this.equation1.backUp.end, intersection1)
         if (distanceFromStart > distanceFromEnd) {
           // NEAR FROM End
-          equation1.follow.end = intersection1
+          this.equation1.follow.end = intersection1
         } else {
-          equation1.follow.start = intersection1
+          this.equation1.follow.start = intersection1
         }
       } else {
-        equation1.follow.end = equation1.backUp.end
-        equation1.follow.start = equation1.backUp.start
+        this.equation1.follow.end = this.equation1.backUp.end
+        this.equation1.follow.start = this.equation1.backUp.start
       }
     }
-    if (equation3.follow != undefined) {
-      if (!this.qSVG.rayCasting(intersection2, equation3.backUp.coords)) {
+    if (this.equation3.follow != undefined) {
+      if (!this.qSVG.rayCasting(intersection2, this.equation3.backUp.coords)) {
         // IF OUT OF WALL FOLLOWED
         var distanceFromStart = this.qSVG.gap(
-          equation3.backUp.start,
+          this.equation3.backUp.start,
           intersection2,
         )
-        var distanceFromEnd = this.qSVG.gap(equation3.backUp.end, intersection2)
+        var distanceFromEnd = this.qSVG.gap(this.equation3.backUp.end, intersection2)
         if (distanceFromStart > distanceFromEnd) {
           // NEAR FROM End
-          equation3.follow.end = intersection2
+          this.equation3.follow.end = intersection2
         } else {
-          equation3.follow.start = intersection2
+          this.equation3.follow.start = intersection2
         }
       } else {
-        equation3.follow.end = equation3.backUp.end
-        equation3.follow.start = equation3.backUp.start
+        this.equation3.follow.end = this.equation3.backUp.end
+        this.equation3.follow.start = this.equation3.backUp.start
       }
     }
 
     // EQ FOLLOWERS WALL MOVING
     for (var i = 0; i < equationFollowers.length; i++) {
       var intersectionFollowers = this.qSVG.intersectionOfEquations(
-        equationFollowers[i].eq,
-        equation2,
+        this.equationFollowers[i].eq,
+        this.equation2,
         'obj',
       )
       if (
         this.qSVG.btwn(
           intersectionFollowers.x,
-          binder.wall.start.x,
-          binder.wall.end.x,
+          this.binder.wall.start.x,
+          this.binder.wall.end.x,
           'round',
         ) &&
         this.qSVG.btwn(
           intersectionFollowers.y,
-          binder.wall.start.y,
-          binder.wall.end.y,
+          this.binder.wall.start.y,
+          this.binder.wall.end.y,
           'round',
         )
       ) {
         var size = this.qSVG.measure(
-          equationFollowers[i].wall.start,
-          equationFollowers[i].wall.end,
+          this.equationFollowers[i].wall.start,
+          this.equationFollowers[i].wall.end,
         )
-        if (equationFollowers[i].type == 'start') {
-          equationFollowers[i].wall.start = intersectionFollowers
+        if (this.equationFollowers[i].type == 'start') {
+          this.equationFollowers[i].wall.start = intersectionFollowers
           if (size < 5) {
-            if (equationFollowers[i].wall.child == null) {
-              WALLS.splice(WALLS.indexOf(equationFollowers[i].wall), 1)
-              equationFollowers.splice(i, 1)
+            if (this.equationFollowers[i].wall.child == null) {
+              this.WALLS.splice(this.WALLS.indexOf(this.equationFollowers[i].wall), 1)
+              this.equationFollowers.splice(i, 1)
             }
           }
         }
@@ -4296,8 +4257,8 @@ function mouseMove_mode_bind (event) {
       }
     }
     // WALL COMPUTING, BLOCK FAMILY OF BINDERWALL IF NULL (START OR END) !!!!!
-    editor.wallsComputing(WALLS, 'move')
-    Rooms = this.qSVG.polygonize(WALLS)
+    this.editor.wallsComputing(this.WALLS, 'move')
+    Rooms = this.qSVG.polygonize(this.WALLS)
 
     // OBJDATA(s) FOLLOW 90° EDGE SELECTED
     for (var rp = 0; rp < equationsObj.length; rp++) {
@@ -4321,40 +4282,40 @@ function mouseMove_mode_bind (event) {
       }
     }
     // DELETING ALL OBJECT "INWALL" OVERSIZED INTO ITS EDGE (EDGE BY EDGE CONTROL)
-    for (var k in WALLS) {
-      var objWall = editor.objFromWall(WALLS[k]) // LIST OBJ ON EDGE
+    for (var k in this.WALLS) {
+      var objWall = this.editor.objFromWall(this.WALLS[k]) // LIST OBJ ON EDGE
       for (var ob in objWall) {
         var objTarget = objWall[ob]
-        var eq = editor.createEquationFromWall(WALLS[k])
+        var eq = editor.createEquationFromWall(this.WALLS[k])
         var limits = limitObj(eq, objTarget.size)
         if (
-          !this.qSVG.btwn(limits[0].x, WALLS[k].start.x, WALLS[k].end.x) ||
-          !this.qSVG.btwn(limits[0].y, WALLS[k].start.y, WALLS[k].end.y) ||
-          !this.qSVG.btwn(limits[1].x, WALLS[k].start.x, WALLS[k].end.x) ||
-          !this.qSVG.btwn(limits[1].y, WALLS[k].start.y, WALLS[k].end.y)
+          !this.qSVG.btwn(limits[0].x, this.WALLS[k].start.x, this.WALLS[k].end.x) ||
+          !this.qSVG.btwn(limits[0].y, this.WALLS[k].start.y, this.WALLS[k].end.y) ||
+          !this.qSVG.btwn(limits[1].x, this.WALLS[k].start.x, this.WALLS[k].end.x) ||
+          !this.qSVG.btwn(limits[1].y, this.WALLS[k].start.y, this.WALLS[k].end.y)
         ) {
           objTarget.graph.remove()
           objTarget = undefined
-          var indexObj = OBJDATA.indexOf(objTarget)
-          OBJDATA.splice(indexObj, 1)
+          var indexObj = this.OBJDATA.indexOf(objTarget)
+          this.OBJDATA.splice(indexObj, 1)
         }
       }
     }
 
     equationsObj = [] // REINIT eqObj -> MAYBE ONE OR PLUS OF OBJDATA REMOVED !!!!
-    var objWall = editor.objFromWall(binder.wall) // LIST OBJ ON EDGE
+    var objWall = this.editor.objFromWall(this.binder.wall) // LIST OBJ ON EDGE
     for (var ob = 0; ob < objWall.length; ob++) {
       var objTarget = objWall[ob]
       equationsObj.push({
         obj: objTarget,
-        wall: binder.wall,
+        wall: this.binder.wall,
         eq: this.qSVG.perpendicularEquation(equation2, objTarget.x, objTarget.y),
       })
     }
 
     $('#boxRoom').empty()
     $('#boxSurface').empty()
-    editor.roomMaker(Rooms)
+    this.editor.roomMaker(Rooms)
     $('#lin').css('cursor', 'pointer')
   }
 
@@ -4362,24 +4323,24 @@ function mouseMove_mode_bind (event) {
   // ----------------------  BOUNDING BOX ------------------------------
   // **********************************************************************
   // binder.obj.params.move ---> FOR MEASURE DONT MOVE
-  if (binder.type == 'boundingBox' && action == 1 && binder.obj.params.move) {
-    binder.x = snap.x
-    binder.y = snap.y
-    binder.obj.x = snap.x
-    binder.obj.y = snap.y
-    binder.obj.update()
-    binder.update()
+  if (this.binder.type == 'boundingBox' && this.action == 1 && this.binder.obj.params.move) {
+    this.binder.x = snap.x
+    this.binder.y = snap.y
+    this.binder.obj.x = snap.x
+    this.binder.obj.y = snap.y
+    this.binder.obj.update()
+    this.binder.update()
   }
 
   // **********************************************************************
   // OBJ MOVING
   // **********************************************************************
-  if (binder.type == 'obj' && action == 1) {
-    if ((wallSelect = editor.nearWall(snap))) {
+  if (this.binder.type == 'obj' && this.action == 1) {
+    if ((wallSelect = this.editor.nearWall(snap))) {
       if (wallSelect.wall.type != 'separate') {
-        inWallRib(wallSelect.wall)
+        this.inWallRib(wallSelect.wall)
 
-        var objTarget = binder.obj
+        var objTarget = this.binder.obj
         var wall = wallSelect.wall
         var angleWall = this.qSVG.angleDeg(
           wall.start.x,
@@ -4393,30 +4354,30 @@ function mouseMove_mode_bind (event) {
         )
         var v2 = this.qSVG.vectorXY({ x: wall.end.x, y: wall.end.y }, snap)
         var newAngle = this.qSVG.vectorDeter(v1, v2)
-        binder.angleSign = 0
+        this.binder.angleSign = 0
         objTarget.angleSign = 0
         if (Math.sign(newAngle) == 1) {
           angleWall += 180
-          binder.angleSign = 1
+          this.binder.angleSign = 1
           objTarget.angleSign = 1
         }
-        var limits = limitObj(wall.equations.base, binder.size)
+        var limits = limitObj(wall.equations.base, this.binder.size)
         if (
           this.qSVG.btwn(limits[0].x, wall.start.x, wall.end.x) &&
           this.qSVG.btwn(limits[0].y, wall.start.y, wall.end.y) &&
           this.qSVG.btwn(limits[1].x, wall.start.x, wall.end.x) &&
           this.qSVG.btwn(limits[1].y, wall.start.y, wall.end.y)
         ) {
-          binder.x = wallSelect.x
-          binder.y = wallSelect.y
-          binder.angle = angleWall
-          binder.thick = wall.thick
+          this.binder.x = wallSelect.x
+          this.binder.y = wallSelect.y
+          this.binder.angle = angleWall
+          this.binder.thick = wall.thick
           objTarget.x = wallSelect.x
           objTarget.y = wallSelect.y
           objTarget.angle = angleWall
           objTarget.thick = wall.thick
           objTarget.limit = limits
-          binder.update()
+          this.binder.update()
           objTarget.update()
         }
 
@@ -4428,8 +4389,8 @@ function mouseMove_mode_bind (event) {
             this.qSVG.btwn(limits[0].x, wall.start.x, wall.end.x) &&
             this.qSVG.btwn(limits[0].y, wall.start.y, wall.end.y)
           ) {
-            binder.x = limits[0].x
-            binder.y = limits[0].y
+            this.binder.x = limits[0].x
+            this.binder.y = limits[0].y
             objTarget.x = limits[0].x
             objTarget.y = limits[0].y
             objTarget.limit = limits
@@ -4438,49 +4399,51 @@ function mouseMove_mode_bind (event) {
             this.qSVG.btwn(limits[1].x, wall.start.x, wall.end.x) &&
             this.qSVG.btwn(limits[1].y, wall.start.y, wall.end.y)
           ) {
-            binder.x = limits[1].x
-            binder.y = limits[1].y
+            this.binder.x = limits[1].x
+            this.binder.y = limits[1].y
             objTarget.x = limits[1].x
             objTarget.y = limits[1].y
             objTarget.limit = limits
           }
-          binder.angle = angleWall
-          binder.thick = wall.thick
+          this.binder.angle = angleWall
+          this.binder.thick = wall.thick
           objTarget.angle = angleWall
           objTarget.thick = wall.thick
-          binder.update()
+          this.binder.update()
           objTarget.update()
         }
       }
     }
   }
 
-  if (binder.type != 'obj' && binder.type != 'segment') rib()
+  if (this.binder.type != 'obj' && this.binder.type != 'segment') {
+    this.rib()
+  }
 }
 
-function mouseMove_mode_text (event) {
-  if (mode !== 'text_mode') {
+Application.prototype.mouseMove_mode_text = function(event) {
+  if (this.mode !== 'text_mode') {
     return
   }
 
-  snap = calcul_snap(event, grid_snap)
-  if (action == 0) {
+  const snap = calcul_snap(event, this.grid_snap)
+  if (this.action == 0) {
     cursor('text')
   } else {
     cursor('none')
   }
 }
 
-function mouseMove_mode_object (event) {
-  if (mode !== 'object_mode') {
+Application.prototype.mouseMove_mode_object = function(event) {
+  if (this.mode !== 'object_mode') {
     return
   }
 
-  snap = calcul_snap(event, grid_snap)
+  const snap = calcul_snap(event, this.grid_snap)
   if (typeof binder == 'undefined') {
     $('#object_list').hide(200)
-    if (modeOption == 'simpleStair')
-      binder = new editor.obj2D(
+    if (this.modeOption == 'simpleStair')
+      this.binder = new this.editor.obj2D(
         'free',
         'stair',
         'simpleStair',
@@ -4493,8 +4456,8 @@ function mouseMove_mode_object (event) {
         15,
       )
     else {
-      var typeObj = modeOption
-      binder = new editor.obj2D(
+      var typeObj = this.modeOption
+      this.binder = new this.editor.obj2D(
         'free',
         'energy',
         typeObj,
@@ -4507,58 +4470,58 @@ function mouseMove_mode_object (event) {
       )
     }
 
-    $('#boxbind').append(binder.graph)
+    $('#boxbind').append(this.binder.graph)
   } else {
     if (
-      (binder.family != 'stick' && binder.family != 'collision') ||
-      WALLS.length == 0
+      (this.binder.family != 'stick' && this.binder.family != 'collision') ||
+      this.WALLS.length == 0
     ) {
-      binder.x = snap.x
-      binder.y = snap.y
-      binder.oldX = binder.x
-      binder.oldY = binder.y
-      binder.update()
+      this.binder.x = snap.x
+      this.binder.y = snap.y
+      this.binder.oldX = this.binder.x
+      this.binder.oldY = this.binder.y
+      this.binder.update()
     }
-    if (binder.family == 'collision') {
+    if (this.binder.family == 'collision') {
       var found = false
 
-      if (editor.rayCastingWalls({ x: binder.bbox.left, y: binder.bbox.top }))
+      if (this.editor.rayCastingWalls({ x: this.binder.bbox.left, y: this.binder.bbox.top }))
         found = true
       if (
         !found &&
-        editor.rayCastingWalls({ x: binder.bbox.left, y: binder.bbox.bottom })
+        this.editor.rayCastingWalls({ x: this.binder.bbox.left, y: this.binder.bbox.bottom })
       )
         found = true
       if (
         !found &&
-        editor.rayCastingWalls({ x: binder.bbox.right, y: binder.bbox.top })
+        this.editor.rayCastingWalls({ x: this.binder.bbox.right, y: this.binder.bbox.top })
       )
         found = true
       if (
         !found &&
-        editor.rayCastingWalls({
-          x: binder.bbox.right,
-          y: binder.bbox.bottom,
+        this.editor.rayCastingWalls({
+          x: this.binder.bbox.right,
+          y: this.binder.bbox.bottom,
         })
       )
         found = true
 
       if (!found) {
-        binder.x = snap.x
-        binder.y = snap.y
-        binder.oldX = binder.x
-        binder.oldY = binder.y
-        binder.update()
+        this.binder.x = snap.x
+        this.binder.y = snap.y
+        this.binder.oldX = this.binder.x
+        this.binder.oldY = this.binder.y
+        this.binder.update()
       } else {
-        binder.x = binder.oldX
-        binder.y = binder.oldY
-        binder.update()
+        this.binder.x = this.binder.oldX
+        this.binder.y = this.binder.oldY
+        this.binder.update()
       }
     }
-    if (binder.family == 'stick') {
-      pos = editor.stickOnWall(snap)
-      binder.oldX = pos.x
-      binder.oldY = pos.y
+    if (this.binder.family == 'stick') {
+      pos = this.editor.stickOnWall(snap)
+      this.binder.oldX = pos.x
+      this.binder.oldY = pos.y
       var angleWall = this.qSVG.angleDeg(
         pos.wall.start.x,
         pos.wall.start.y,
@@ -4570,26 +4533,26 @@ function mouseMove_mode_object (event) {
         { x: pos.wall.end.x, y: pos.wall.end.y },
       )
       var v2 = this.qSVG.vectorXY({ x: pos.wall.end.x, y: pos.wall.end.y }, snap)
-      binder.x =
+      this.binder.x =
         pos.x -
-        (Math.sin(pos.wall.angle * ((360 / 2) * Math.PI)) * binder.thick) / 2
-      binder.y =
+        (Math.sin(pos.wall.angle * ((360 / 2) * Math.PI)) * this.binder.thick) / 2
+      this.binder.y =
         pos.y -
-        (Math.cos(pos.wall.angle * ((360 / 2) * Math.PI)) * binder.thick) / 2
+        (Math.cos(pos.wall.angle * ((360 / 2) * Math.PI)) * this.binder.thick) / 2
       var newAngle = this.qSVG.vectorDeter(v1, v2)
       if (Math.sign(newAngle) == 1) {
         angleWall += 180
-        binder.x =
+        this.binder.x =
           pos.x +
           (Math.sin(pos.wall.angle * ((360 / 2) * Math.PI)) * binder.thick) /
             2
-        binder.y =
+        this.binder.y =
           pos.y +
           (Math.cos(pos.wall.angle * ((360 / 2) * Math.PI)) * binder.thick) /
             2
       }
-      binder.angle = angleWall
-      binder.update()
+      this.binder.angle = angleWall
+      this.binder.update()
     }
   }
 }
@@ -4663,7 +4626,7 @@ function mouseMove_mode_room (event) {
     }
   }
 }
-*/
+
 Application.prototype.mouseMoveHandler = function (event) {
 
   event.preventDefault()
@@ -4671,13 +4634,13 @@ Application.prototype.mouseMoveHandler = function (event) {
   $('.sub').hide(100)
 
   this.mouseMove_mode_select(event)
-  // mouseMove_mode_line_partition(event)
+  this.mouseMove_mode_line_partition(event)
   // mouseMove_mode_door(event)
   // mouseMove_mode_electrical(event)
   // mouseMove_mode_network(event)
   // mouseMove_mode_distance(event)
   // mouseMove_mode_node(event)
-  // mouseMove_mode_bind(event)
+  this.mouseMove_mode_bind(event)
   // mouseMove_mode_text(event)
   // mouseMove_mode_object(event)
   // mouseMove_mode_room(event)
@@ -4695,9 +4658,8 @@ Application.prototype.mouseUp_mode_select = function(event) {
   }
 }
 
-/*
-function mouseUp_mode_line_partition (event) {
-  if (mode !== 'line_mode' && mode !== 'partition_mode') {
+Application.prototype.mouseUp_mode_line_partition = function (event) {
+  if (this.mode !== 'line_mode' && this.mode !== 'partition_mode') {
     return
   }
 
@@ -4705,52 +4667,56 @@ function mouseUp_mode_line_partition (event) {
   this.intersectionOff()
 
   var sizeWall = this.qSVG.measure({ x: x, y: y }, { x: pox, y: poy })
-  sizeWall = sizeWall / meter
+  sizeWall = sizeWall / this.meter
   if ($('#line_construc').length && sizeWall > 0.3) {
     var sizeWall = wallSize
     if (mode == 'partition_mode') sizeWall = partitionSize
-    var wall = new editor.wall(
+    var wall = new this.editor.wall(
       { x: pox, y: poy },
       { x: x, y: y },
       'normal',
       sizeWall,
     )
-    WALLS.push(wall)
-    editor.architect(WALLS)
+    this.WALLS.push(wall)
+    this.editor.architect(this.WALLS)
 
     if (document.getElementById('multi').checked && !wallEndConstruc) {
       cursor('validation')
-      action = 1
-    } else action = 0
+      this.action = 1
+    } else {
+      this.action = 0
+    }
     $('#boxinfo').html(
       "Wall added <span style='font-size:0.6em'>Moy. " +
-        (this.qSVG.measure({ x: pox, y: poy }, { x: x, y: y }) / 60).toFixed(2) +
+        (this.qSVG.measure({ x: this.pox, y: this.poy }, { x: x, y: y }) / 60).toFixed(2) +
         ' m</span>',
     )
     $('#line_construc').remove() // DEL LINE CONSTRUC HELP TO VIEW NEW SEG PATH
     lengthTemp.remove()
     lengthTemp = undefined
     construc = 0
-    if (wallEndConstruc) action = 0
+    if (wallEndConstruc)
+      this.action = 0
     wallEndConstruc = undefined
-    pox = x
-    poy = y
+    this.pox = x
+    this.poy = y
     save()
   } else {
-    action = 0
-    construc = 0
+    this.action = 0
+    this.construc = 0
     $('#boxinfo').html('Select mode')
     this.fonc_button('select_mode')
-    if (typeof binder != 'undefined') {
-      binder.remove()
-      binder = undefined
+    if (typeof this.binder != 'undefined') {
+      this.binder.remove()
+      this.binder = undefined
     }
-    snap = calcul_snap(event, grid_snap)
-    pox = snap.x
-    poy = snap.y
+    const snap = calcul_snap(event, grid_snap)
+    this.pox = snap.x
+    this.poy = snap.y
   }
 }
 
+/*
 function mouseUp_mode_electrical (event) {
   if (mode !== 'electrical_mode') {
     return
@@ -4854,7 +4820,7 @@ function mouseUp_mode_node (event) {
 
   if (typeof binder != 'undefined') {
     // ALSO ON MOUSEUP WITH HAVE CIRCLEBINDER ON ADDPOINT
-    var newWall = new editor.wall(
+    var newWall = new this.editor.wall(
       { x: binder.data.x, y: binder.data.y },
       binder.data.wall.end,
       'normal',
@@ -4870,33 +4836,33 @@ function mouseUp_mode_node (event) {
 
   this.fonc_button('select_mode')
 }
-
+*/
 // This is for when an SVG element is being interacted with
-function mouseUp_mode_bind (event) {
-  if (mode !== 'bind_mode') {
+Application.prototype.mouseUp_mode_bind = function (event) {
+  if (this.mode !== 'bind_mode') {
     return
   }
-  action = 0
-  construc = 0 // CONSTRUC 0 TO FREE BINDER GROUP NODE WALL MOVING
-  if (typeof binder != 'undefined') {
+  this.action = 0
+  this.construc = 0 // CONSTRUC 0 TO FREE BINDER GROUP NODE WALL MOVING
+  if (typeof this.binder != 'undefined') {
     this.fonc_button('select_mode')
-    if (binder.type == 'node') {
+    if (this.binder.type == 'node') {
     } // END BINDER NODE
 
-    if (binder.type == 'segment') {
+    if (this.binder.type == 'segment') {
       var found = false
-      if (binder.wall.start == binder.before) {
+      if (this.binder.wall.start == this.binder.before) {
         found = true
       }
 
       if (found) {
         $('#panel').hide(100)
-        var objWall = editor.objFromWall(wallBind)
+        var objWall = this.editor.objFromWall(this.wallBind)
         $('#boxinfo').html(
           'Modify a wall<br/><span style="font-size:0.7em;color:#de9b43">This wall can\'t become a separation (contains doors or windows) !</span>',
         )
         if (objWall.length > 0) $('#separate').hide()
-        else if (binder.wall.type == 'separate') {
+        else if (this.binder.wall.type == 'separate') {
           $('#separate').hide()
           $('#rangeThick').hide()
           $('#recombine').show()
@@ -4916,21 +4882,21 @@ function mouseUp_mode_bind (event) {
         document.getElementById('wallWidth').setAttribute('min', 7)
         document.getElementById('wallWidth').setAttribute('max', 50)
         document.getElementById('wallWidthScale').textContent = '7-50'
-        document.getElementById('wallWidth').value = binder.wall.thick
+        document.getElementById('wallWidth').value = this.binder.wall.thick
         document.getElementById('wallWidthVal').textContent =
-          binder.wall.thick
-        mode = 'edit_wall_mode'
+          this.binder.wall.thick
+        this.mode = 'edit_wall_mode'
       }
-      equation1 = undefined
-      equation2 = undefined
-      equation3 = undefined
-      intersectionFollowers = undefined
+      this.equation1 = undefined
+      this.equation2 = undefined
+      this.equation3 = undefined
+      this.intersectionFollowers = undefined
     }
 
-    if (binder.type == 'obj') {
+    if (this.binder.type == 'obj') {
       var moveObj =
-        Math.abs(binder.oldXY.x - binder.x) +
-        Math.abs(binder.oldXY.y - binder.y)
+        Math.abs(this.binder.oldXY.x - this.binder.x) +
+        Math.abs(this.binder.oldXY.y - this.binder.y)
       if (moveObj < 1) {
         $('#panel').hide(100)
         $('#objTools').show('200', function () {
@@ -4938,31 +4904,31 @@ function mouseUp_mode_bind (event) {
           $('#boxinfo').html('Config. the door/window')
           document
             .getElementById('doorWindowWidth')
-            .setAttribute('min', binder.obj.params.resizeLimit.width.min)
+            .setAttribute('min', this.binder.obj.params.resizeLimit.width.min)
           document
             .getElementById('doorWindowWidth')
-            .setAttribute('max', binder.obj.params.resizeLimit.width.max)
+            .setAttribute('max', this.binder.obj.params.resizeLimit.width.max)
           document.getElementById('doorWindowWidthScale').textContent =
-            binder.obj.params.resizeLimit.width.min +
+            this.binder.obj.params.resizeLimit.width.min +
             '-' +
-            binder.obj.params.resizeLimit.width.max
-          document.getElementById('doorWindowWidth').value = binder.obj.size
+            this.binder.obj.params.resizeLimit.width.max
+          document.getElementById('doorWindowWidth').value = this.binder.obj.size
           document.getElementById('doorWindowWidthVal').textContent =
-            binder.obj.size
+            this.binder.obj.size
         })
-        mode = 'edit_door_mode'
+        this.mode = 'edit_door_mode'
       } else {
-        mode = 'select_mode'
-        action = 0
-        binder.graph.remove()
-        binder = undefined
+        this.mode = 'select_mode'
+        this.action = 0
+        this.binder.graph.remove()
+        this.binder = undefined
       }
     }
 
-    if (typeof binder != 'undefined' && binder.type == 'boundingBox') {
+    if (typeof this.binder != 'undefined' && this.binder.type == 'boundingBox') {
       var moveObj =
-        Math.abs(binder.oldX - binder.x) + Math.abs(binder.oldY - binder.y)
-      var objTarget = binder.obj
+        Math.abs(binder.oldX - this.binder.x) + Math.abs(this.binder.oldY - this.binder.y)
+      var objTarget = this.binder.obj
       if (!objTarget.params.move) {
         // TO REMOVE MEASURE ON PLAN
         objTarget.graph.remove()
@@ -5014,24 +4980,24 @@ function mouseUp_mode_bind (event) {
           document.getElementById('bboxRotationVal').textContent =
             objTarget.angle
         })
-        mode = 'edit_boundingBox_mode'
+        this.mode = 'edit_boundingBox_mode'
       } else {
-        mode = 'select_mode'
-        action = 0
-        binder.graph.remove()
-        binder = undefined
+        this.mode = 'select_mode'
+        this.action = 0
+        this.binder.graph.remove()
+        this.binder = undefined
       }
     }
 
-    if (mode == 'bind_mode') {
-      binder.remove()
-      binder = undefined
+    if (this.mode == 'bind_mode') {
+      this.binder.remove()
+      this.binder = undefined
     }
   }
 
-  save()
+  this.save()
 }
-
+/*
 function mouseUp_mode_text (event) {
   if (mode !== 'text_mode') {
     return
@@ -5112,13 +5078,13 @@ Application.prototype.mouseUpHandler = function (event) {
   cursor('default')
 
   this.mouseUp_mode_select(event)
-  // mouseUp_mode_line_partition(event)
+  this.mouseUp_mode_line_partition(event)
   // mouseUp_mode_door(event)
   // mouseUp_mode_network(event)
   // mouseUp_mode_electrical(event)
   // mouseUp_mode_distance(event)
-  // mouseUp_mode_node(event)
-  // mouseUp_mode_bind(event)
+  // this.mouseUp_mode_node(event)
+  this.mouseUp_mode_bind(event)
   // mouseUp_mode_text(event)
   // mouseUp_mode_object(event)
   // mouseUp_mode_room(event)
@@ -6365,7 +6331,7 @@ Application.prototype.editorFactory = function() {
             var eqInter = this.editor.createEquationFromWall(S[k].wall)
             var angleInter = 90 // TO PASS TEST
             if (action == 'move') {
-              angleInter = this.qSVG.angleBetweenEquations(eqInter.A, equation2.A)
+              angleInter = this.qSVG.angleBetweenEquations(eqInter.A, this.equation2.A)
             }
             if (
               S[k].type == 'start' &&
@@ -6411,7 +6377,7 @@ Application.prototype.editorFactory = function() {
             var eqInter = this.editor.createEquationFromWall(E[k].wall)
             var angleInter = 90 // TO PASS TEST
             if (action == 'move') {
-              angleInter = this.qSVG.angleBetweenEquations(eqInter.A, equation2.A)
+              angleInter = this.qSVG.angleBetweenEquations(eqInter.A, this.equation2.A)
             }
             if (
               E[k].type == 'end' &&
@@ -6740,7 +6706,7 @@ Application.prototype.editorFactory = function() {
       this.WALLS.splice(this.WALLS.indexOf(wallToSplit), 1)
       var wall
       for (var k in newWalls) {
-        wall = new editor.wall(
+        wall = new this.editor.wall(
           initCoords,
           newWalls[k].coords,
           'normal',
@@ -6751,7 +6717,7 @@ Application.prototype.editorFactory = function() {
         initCoords = newWalls[k].coords
       }
       // LAST WALL ->
-      wall = new editor.wall(initCoords, wallToSplit.end, 'normal', initThick)
+      wall = new this.editor.wall(initCoords, wallToSplit.end, 'normal', initThick)
       this.WALLS.push(wall)
       this.editor.architect(this.WALLS)
       this.mode = 'select_mode'
