@@ -148,34 +148,34 @@ Application.prototype.initialize = function () {
     this.fonc_button('rect_mode')
   })
 
-  // $('.door').click(() => {
-  //   this.linElement.css('cursor', 'crosshair')
-  //   $('#boxinfo').html('Add a door')
-  //   $('#door_list').hide(200)
-  //   this.fonc_button('door_mode', this.id)
-  // })
-  //
-  // $('.electrical').click(() => {
-  //   this.linElement.css('cursor', 'crosshair')
-  //   $('#boxinfo').html('Add electrical')
-  //   $('#electrical_list').hide(200)
-  //   this.fonc_button('electrical_mode', this.id)
-  // })
-  //
-  // $('.network').click(() => {
-  //   this.linElement.css('cursor', 'crosshair')
-  //   $('#boxinfo').html('Add network')
-  //   $('#network_list').hide(200)
-  //   this.fonc_button('network_mode', this.id)
-  // })
-  //
-  // $('.window').click(() => {
-  //   this.linElement.css('cursor', 'crosshair')
-  //   $('#boxinfo').html('Add a window')
-  //   $('#door_list').hide(200)
-  //   $('#window_list').hide(200)
-  //   this.fonc_button('door_mode', this.id)
-  // })
+  $('.door').click((e) => {
+    this.linElement.css('cursor', 'crosshair')
+    $('#boxinfo').html('Add a door')
+    $('#door_list').hide(200)
+    this.fonc_button('door_mode', e.currentTarget.getAttribute('id'))
+  })
+
+  $('.electrical').click((e) => {
+    this.linElement.css('cursor', 'crosshair')
+    $('#boxinfo').html('Add electrical')
+    $('#electrical_list').hide(200)
+    this.fonc_button('electrical_mode', e.currentTarget.getAttribute('id'))
+  })
+
+  $('.network').click((e) => {
+    this.linElement.css('cursor', 'crosshair')
+    $('#boxinfo').html('Add network')
+    $('#network_list').hide(200)
+    this.fonc_button('network_mode', e.currentTarget.getAttribute('id'))
+  })
+
+  $('.window').click((e) => {
+    this.linElement.css('cursor', 'crosshair')
+    $('#boxinfo').html('Add a window')
+    $('#door_list').hide(200)
+    $('#window_list').hide(200)
+    this.fonc_button('door_mode', e.currentTarget.getAttribute('id'))
+  })
 
   $('#node_mode').click(() => {
     $('#boxinfo').html(
@@ -671,7 +671,7 @@ Application.prototype.importFloorplan = function (floorplanJson) {
     // if (OO.family === 'energy') OO.family = 'byObject';
     const obj = this.editor.obj2D(
       OO.family,
-      OO.class,
+      OO.classObj,
       OO.type,
       {
         x: OO.x,
@@ -813,7 +813,7 @@ Application.prototype.load = function (
     // if (OO.family === 'energy') OO.family = 'byObject';
     const obj = this.editor.obj2D(
       OO.family,
-      OO.class,
+      OO.classObj,
       OO.type,
       {
         x: OO.x,
@@ -1158,7 +1158,7 @@ Application.prototype.inWallRib = function (wall, option = false) {
     wall: wall,
     crossObj: false,
     side: 'up',
-    coords: this.wall.coords[0],
+    coords: wall.coords[0],
     distance: 0,
   })
   ribMaster[1].push({
@@ -1180,7 +1180,7 @@ Application.prototype.inWallRib = function (wall, option = false) {
       this.qSVG.nearPointOnEquation(wall.equations.down, objTarget.limit[1]),
     ]
 
-    distance = this.qSVG.measure(wall.coords[0], objTarget.up[0]) / meter
+    distance = this.qSVG.measure(wall.coords[0], objTarget.up[0]) / this.meter
     ribMaster[0].push({
       wall: objTarget,
       crossObj: ob,
@@ -1188,7 +1188,7 @@ Application.prototype.inWallRib = function (wall, option = false) {
       coords: objTarget.up[0],
       distance: distance.toFixed(2),
     })
-    distance = this.qSVG.measure(wall.coords[0], objTarget.up[1]) / meter
+    distance = this.qSVG.measure(wall.coords[0], objTarget.up[1]) / this.meter
     ribMaster[0].push({
       wall: objTarget,
       crossObj: ob,
@@ -1196,7 +1196,7 @@ Application.prototype.inWallRib = function (wall, option = false) {
       coords: objTarget.up[1],
       distance: distance.toFixed(2),
     })
-    distance = this.qSVG.measure(wall.coords[1], objTarget.down[0]) / meter
+    distance = this.qSVG.measure(wall.coords[1], objTarget.down[0]) / this.meter
     ribMaster[1].push({
       wall: objTarget,
       crossObj: ob,
@@ -1204,7 +1204,7 @@ Application.prototype.inWallRib = function (wall, option = false) {
       coords: objTarget.down[0],
       distance: distance.toFixed(2),
     })
-    distance = this.qSVG.measure(wall.coords[1], objTarget.down[1]) / meter
+    distance = this.qSVG.measure(wall.coords[1], objTarget.down[1]) / this.meter
     ribMaster[1].push({
       wall: objTarget,
       crossObj: ob,
@@ -1213,7 +1213,7 @@ Application.prototype.inWallRib = function (wall, option = false) {
       distance: distance.toFixed(2),
     })
   }
-  distance = this.qSVG.measure(wall.coords[0], wall.coords[3]) / meter
+  distance = this.qSVG.measure(wall.coords[0], wall.coords[3]) / this.meter
   ribMaster[0].push({
     wall: objTarget,
     crossObj: false,
@@ -1221,7 +1221,7 @@ Application.prototype.inWallRib = function (wall, option = false) {
     coords: wall.coords[3],
     distance: distance,
   })
-  distance = this.qSVG.measure(wall.coords[1], wall.coords[2]) / meter
+  distance = this.qSVG.measure(wall.coords[1], wall.coords[2]) / this.meter
   ribMaster[1].push({
     wall: objTarget,
     crossObj: false,
@@ -1256,7 +1256,7 @@ Application.prototype.inWallRib = function (wall, option = false) {
           }
         }
 
-        sizeText[n] = document.createElementNS(
+        this.sizeText[n] = document.createElementNS(
           'http://www.w3.org/2000/svg',
           'text',
         )
@@ -1266,29 +1266,29 @@ Application.prototype.inWallRib = function (wall, option = false) {
           ribMaster[t][n].coords.x,
           ribMaster[t][n].coords.y,
         )
-        sizeText[n].setAttributeNS(null, 'x', startText.x)
-        sizeText[n].setAttributeNS(null, 'y', startText.y + shift)
-        sizeText[n].setAttributeNS(null, 'text-anchor', 'middle')
-        sizeText[n].setAttributeNS(null, 'font-family', 'roboto')
-        sizeText[n].setAttributeNS(null, 'stroke', '#ffffff')
-        sizeText[n].textContent = valueText.toFixed(2)
-        if (sizeText[n].textContent < 1) {
-          sizeText[n].setAttributeNS(null, 'font-size', '0.8em')
-          sizeText[n].textContent = sizeText[n].textContent.substring(
+        this.sizeText[n].setAttributeNS(null, 'x', startText.x)
+        this.sizeText[n].setAttributeNS(null, 'y', startText.y + shift)
+        this.sizeText[n].setAttributeNS(null, 'text-anchor', 'middle')
+        this.sizeText[n].setAttributeNS(null, 'font-family', 'roboto')
+        this.sizeText[n].setAttributeNS(null, 'stroke', '#ffffff')
+        this.sizeText[n].textContent = valueText.toFixed(2)
+        if (this.sizeText[n].textContent < 1) {
+          this.sizeText[n].setAttributeNS(null, 'font-size', '0.8em')
+          this.sizeText[n].textContent = this.sizeText[n].textContent.substring(
             1,
-            sizeText[n].textContent.length,
+            this.sizeText[n].textContent.length,
           )
         } else {
-          sizeText[n].setAttributeNS(null, 'font-size', '1em')
+          this.sizeText[n].setAttributeNS(null, 'font-size', '1em')
         }
-        sizeText[n].setAttributeNS(null, 'stroke-width', '0.27px')
-        sizeText[n].setAttributeNS(null, 'fill', '#666666')
-        sizeText[n].setAttribute(
+        this.sizeText[n].setAttributeNS(null, 'stroke-width', '0.27px')
+        this.sizeText[n].setAttributeNS(null, 'fill', '#666666')
+        this.sizeText[n].setAttribute(
           'transform',
           'rotate(' + angleText + ' ' + startText.x + ',' + startText.y + ')',
         )
 
-        $('#boxRib').append(sizeText[n])
+        $('#boxRib').append(this.sizeText[n])
       }
     }
   }
@@ -1943,7 +1943,7 @@ Application.prototype.carpentryCalc = function (
           ',' +
           -thickObj / 2,
         'none',
-        colorWall,
+        this.colorWall,
         '',
       )
       construc.params.resize = true
@@ -1991,7 +1991,7 @@ Application.prototype.carpentryCalc = function (
           ' 0 0,1 0,' +
           -thickObj / 2,
         'none',
-        colorWall,
+        this.colorWall,
         '',
       )
 
@@ -2012,7 +2012,7 @@ Application.prototype.carpentryCalc = function (
           ' 0 0,0 0,' +
           -thickObj / 2,
         'none',
-        colorWall,
+        this.colorWall,
         '',
       )
       construc.params.resize = true
@@ -2268,7 +2268,7 @@ Application.prototype.carpentryCalc = function (
           ',' +
           -thickObj / 2,
         'none',
-        colorWall,
+        this.colorWall,
         '',
       )
       construc.params.resize = true
@@ -2331,7 +2331,7 @@ Application.prototype.carpentryCalc = function (
           ' 0 0,1 0,' +
           -thickObj / 2,
         'none',
-        colorWall,
+        this.colorWall,
         '',
       )
 
@@ -2352,7 +2352,7 @@ Application.prototype.carpentryCalc = function (
           ' 0 0,0 0,' +
           -thickObj / 2,
         'none',
-        colorWall,
+        this.colorWall,
         '',
       )
       construc.params.resize = true
@@ -3886,7 +3886,7 @@ Application.prototype.mouseMove_mode_door = function (event) {
           angleWall += 180
         }
 
-        const limits = limitObj(wall.equations.base, this.binder.size)
+        const limits = limitObj(wall.equations.base, this.binder.size, wallSelect)
         if (
           this.qSVG.btwn(limits[0].x, wall.start.x, wall.end.x) &&
           this.qSVG.btwn(limits[0].y, wall.start.y, wall.end.y) &&
@@ -4002,7 +4002,7 @@ Application.prototype.mouseMove_mode_network = function (event) {
           angleWall += 180
         }
 
-        const limits = limitObj(wall.equations.base, this.binder.size)
+        const limits = limitObj(wall.equations.base, this.binder.size, wallSelect)
         if (
           this.qSVG.btwn(limits[0].x, wall.start.x, wall.end.x) &&
           this.qSVG.btwn(limits[0].y, wall.start.y, wall.end.y) &&
@@ -4118,7 +4118,7 @@ Application.prototype.mouseMove_mode_electrical = function (event) {
           angleWall += 180
         }
 
-        const limits = limitObj(wall.equations.base, this.binder.size)
+        const limits = limitObj(wall.equations.base, this.binder.size, wallSelect)
         if (
           this.qSVG.btwn(limits[0].x, wall.start.x, wall.end.x) &&
           this.qSVG.btwn(limits[0].y, wall.start.y, wall.end.y) &&
@@ -4398,6 +4398,7 @@ Application.prototype.mouseMove_mode_bind = function (event) {
       var limits = limitObj(
         wall.equations.base,
         2 * this.wallListObj[k].distance,
+        this.wallListObj[k].from
       ) // COORDS OBJ AFTER ROTATION
       let indexLimits = 0
       if (
@@ -4616,7 +4617,7 @@ Application.prototype.mouseMove_mode_bind = function (event) {
       // NEW COORDS OBJDATA[o]
       objTarget.x = intersectionObj[0]
       objTarget.y = intersectionObj[1]
-      var limits = limitObj(this.equation2, objTarget.size)
+      var limits = limitObj(this.equation2, objTarget.size, objTarget)
       if (
         this.qSVG.btwn(
           limits[0].x,
@@ -4649,7 +4650,7 @@ Application.prototype.mouseMove_mode_bind = function (event) {
       for (var ob in objWall) {
         var objTarget = objWall[ob]
         const eq = this.editor.createEquationFromWall(this.WALLS[k])
-        var limits = limitObj(eq, objTarget.size)
+        var limits = limitObj(eq, objTarget.size, objTarget)
         if (
           !this.qSVG.btwn(
             limits[0].x,
@@ -4747,7 +4748,7 @@ Application.prototype.mouseMove_mode_bind = function (event) {
           this.binder.angleSign = 1
           objTarget.angleSign = 1
         }
-        var limits = limitObj(wall.equations.base, this.binder.size)
+        var limits = limitObj(wall.equations.base, this.binder.size, wallSelect)
         if (
           this.qSVG.btwn(limits[0].x, wall.start.x, wall.end.x) &&
           this.qSVG.btwn(limits[0].y, wall.start.y, wall.end.y) &&
@@ -5165,7 +5166,7 @@ Application.prototype.mouseUp_mode_network = function (event) {
   this.binder = undefined
   $('#boxinfo').html('Element added')
   this.fonc_button('select_mode')
-  save()
+  this.save()
 }
 
 Application.prototype.mouseUp_mode_door = function (event) {
@@ -5184,7 +5185,7 @@ Application.prototype.mouseUp_mode_door = function (event) {
   this.binder = undefined
   $('#boxinfo').html('Element added')
   this.fonc_button('select_mode')
-  save()
+  this.save()
 }
 
 Application.prototype.mouseUp_mode_distance = function (event) {
@@ -5399,7 +5400,7 @@ Application.prototype.mouseUp_mode_bind = function (event) {
             '-' +
             objTarget.params.resizeLimit.height.max
           $('#stepsCounter').hide()
-          if (objTarget.class == 'stair') {
+          if (objTarget.classObj == 'stair') {
             document.getElementById('bboxStepsVal').textContent =
               objTarget.value
             $('#stepsCounter').show()
@@ -5454,10 +5455,10 @@ Application.prototype.mouseUp_mode_object = function (event) {
   this.OBJDATA.push(this.binder)
   this.binder.graph.remove()
   let targetBox = 'boxcarpentry'
-  if (this.OBJDATA[this.OBJDATA.length - 1].class == 'energy') {
+  if (this.OBJDATA[this.OBJDATA.length - 1].classObj == 'energy') {
     targetBox = 'boxEnergy'
   }
-  if (this.OBJDATA[this.OBJDATA.length - 1].class == 'furniture') {
+  if (this.OBJDATA[this.OBJDATA.length - 1].classObj == 'furniture') {
     targetBox = 'boxFurniture'
   }
   $('#' + targetBox).append(this.OBJDATA[this.OBJDATA.length - 1].graph)
@@ -7654,7 +7655,7 @@ Application.prototype.editorFactory = function () {
           ),
         ]
 
-        distance = this.qSVG.measure(wall.coords[0], objTarget.up[0]) / meter
+        distance = this.qSVG.measure(wall.coords[0], objTarget.up[0]) / this.meter
         ribMaster[0].push({
           wall: wall,
           crossObj: ob,
@@ -7662,7 +7663,7 @@ Application.prototype.editorFactory = function () {
           coords: objTarget.up[0],
           distance: distance.toFixed(2),
         })
-        distance = this.qSVG.measure(wall.coords[0], objTarget.up[1]) / meter
+        distance = this.qSVG.measure(wall.coords[0], objTarget.up[1]) / this.meter
         ribMaster[0].push({
           wall: wall,
           crossObj: ob,
@@ -7670,7 +7671,7 @@ Application.prototype.editorFactory = function () {
           coords: objTarget.up[1],
           distance: distance.toFixed(2),
         })
-        distance = this.qSVG.measure(wall.coords[1], objTarget.down[0]) / meter
+        distance = this.qSVG.measure(wall.coords[1], objTarget.down[0]) / this.meter
         ribMaster[1].push({
           wall: wall,
           crossObj: ob,
@@ -7678,7 +7679,7 @@ Application.prototype.editorFactory = function () {
           coords: objTarget.down[0],
           distance: distance.toFixed(2),
         })
-        distance = this.qSVG.measure(wall.coords[1], objTarget.down[1]) / meter
+        distance = this.qSVG.measure(wall.coords[1], objTarget.down[1]) / this.meter
         ribMaster[1].push({
           wall: wall,
           crossObj: ob,
@@ -7687,7 +7688,7 @@ Application.prototype.editorFactory = function () {
           distance: distance.toFixed(2),
         })
       }
-      distance = this.qSVG.measure(wall.coords[0], wall.coords[3]) / meter
+      distance = this.qSVG.measure(wall.coords[0], wall.coords[3]) / this.meter
       ribMaster[0].push({
         wall: wall,
         crossObj: false,
@@ -7695,7 +7696,7 @@ Application.prototype.editorFactory = function () {
         coords: wall.coords[3],
         distance: distance,
       })
-      distance = this.qSVG.measure(wall.coords[1], wall.coords[2]) / meter
+      distance = this.qSVG.measure(wall.coords[1], wall.coords[2]) / this.meter
       ribMaster[1].push({
         wall: wall,
         crossObj: false,
@@ -7730,7 +7731,7 @@ Application.prototype.editorFactory = function () {
               }
             }
 
-            sizeText[n] = document.createElementNS(
+            this.sizeText[n] = document.createElementNS(
               'http://www.w3.org/2000/svg',
               'text',
             )
@@ -7740,24 +7741,24 @@ Application.prototype.editorFactory = function () {
               ribMaster[t][n].coords.x,
               ribMaster[t][n].coords.y,
             )
-            sizeText[n].setAttributeNS(null, 'x', startText.x)
-            sizeText[n].setAttributeNS(null, 'y', startText.y + shift)
-            sizeText[n].setAttributeNS(null, 'text-anchor', 'middle')
-            sizeText[n].setAttributeNS(null, 'font-family', 'roboto')
-            sizeText[n].setAttributeNS(null, 'stroke', '#ffffff')
-            sizeText[n].textContent = valueText.toFixed(2)
-            if (sizeText[n].textContent < 1) {
-              sizeText[n].setAttributeNS(null, 'font-size', '0.8em')
-              sizeText[n].textContent = sizeText[n].textContent.substring(
+            this.sizeText[n].setAttributeNS(null, 'x', startText.x)
+            this.sizeText[n].setAttributeNS(null, 'y', startText.y + shift)
+            this.sizeText[n].setAttributeNS(null, 'text-anchor', 'middle')
+            this.sizeText[n].setAttributeNS(null, 'font-family', 'roboto')
+            this.sizeText[n].setAttributeNS(null, 'stroke', '#ffffff')
+            this.sizeText[n].textContent = valueText.toFixed(2)
+            if (this.sizeText[n].textContent < 1) {
+              this.sizeText[n].setAttributeNS(null, 'font-size', '0.8em')
+              this.sizeText[n].textContent = this.sizeText[n].textContent.substring(
                 1,
-                sizeText[n].textContent.length,
+                this.sizeText[n].textContent.length,
               )
             } else {
-              sizeText[n].setAttributeNS(null, 'font-size', '1em')
+              this.sizeText[n].setAttributeNS(null, 'font-size', '1em')
             }
-            sizeText[n].setAttributeNS(null, 'stroke-width', '0.4px')
-            sizeText[n].setAttributeNS(null, 'fill', '#666666')
-            sizeText[n].setAttribute(
+            this.sizeText[n].setAttributeNS(null, 'stroke-width', '0.4px')
+            this.sizeText[n].setAttributeNS(null, 'fill', '#666666')
+            this.sizeText[n].setAttribute(
               'transform',
               'rotate(' +
                 angleText +
@@ -7768,42 +7769,41 @@ Application.prototype.editorFactory = function () {
                 ')',
             )
 
-            $('#boxRib').append(sizeText[n])
+            $('#boxRib').append(this.sizeText[n])
           }
         }
       }
     },
     obj2D: (
-      family,
-      classe,
-      type,
-      pos,
-      angle,
-      angleSign,
-      size,
-      hinge = 'normal',
-      thick,
-      value,
+      _family,
+      _classObj,
+      _type,
+      _pos,
+      _angle,
+      _angleSign,
+      _size,
+      _hinge = 'normal',
+      _thick,
+      _value,
     ) => {
-      // value can be "text label", "step number in stair", etc...
-      this.family = family // inWall, stick, collision, free
-      this.class = classe // door, window, energy, stair, measure, text ?
-      this.type = type // simple, double, simpleSlide, aperture, doubleSlide, fixed, switch, lamp....
-      this.x = pos.x
-      this.y = pos.y
-      this.angle = angle
-      this.angleSign = angleSign
-      this.limit = []
-      this.hinge = hinge // normal, reverse
-      this.graph = this.qSVG.create('none', 'g')
-      this.scale = { x: 1, y: 1 }
-      this.value = value
-      this.size = size
-      this.thick = thick
-      this.width = (this.size / meter).toFixed(2)
-      this.height = (this.thick / meter).toFixed(2)
+      let angle = _angle
+      let angleSign = _angleSign
+      let classObj = _classObj // door, window, energy, stair, measure, text ?
+      let family = _family // inWall, stick, collision, free
+      let graph = this.qSVG.create('none', 'g')
+      let height = (_thick / this.meter).toFixed(2)
+      let hinge = _hinge // normal, reverse
+      let limit = []
+      let scale = { x: 1, y: 1 }
+      let size = _size
+      let thick = _thick
+      let type = _type // simple, double, simpleSlide, aperture, doubleSlide, fixed, switch, lamp....
+      let value = _value  // value can be "text label", "step number in stair", etc...
+      let width = (_size / this.meter).toFixed(2)
+      let x = _pos.x
+      let y = _pos.y
 
-      let cc = this.carpentryCalc(classe, type, size, thick, value)
+      let cc = this.carpentryCalc(classObj, type, size, thick, value)
       let blank
 
       for (let tt = 0; tt < cc.length; tt++) {
@@ -7829,132 +7829,175 @@ Application.prototype.editorFactory = function () {
           })
           blank[0].textContent = cc[tt].text
         }
-        this.graph.append(blank)
-      } // ENDFOR
-      const bbox = this.graph.get(0).getBoundingClientRect()
-      bbox.x =
-        bbox.x * scaleFactor - offset.left * scaleFactor + originX_viewbox
-      bbox.y = bbox.y * scaleFactor - offset.top * scaleFactor + originY_viewbox
+        graph.append(blank)
+      }
+
+      const bbox = graph.get(0).getBoundingClientRect()
+      bbox.x = bbox.x * this.scaleFactor - this.offset.left * this.scaleFactor + this.originX_viewbox
+      bbox.y = bbox.y * this.scaleFactor - this.offset.top * this.scaleFactor + this.originY_viewbox
       bbox.origin = { x: this.x, y: this.y }
-      this.bbox = bbox
-      this.realBbox = [
-        { x: -this.size / 2, y: -this.thick / 2 },
-        { x: this.size / 2, y: -this.thick / 2 },
-        { x: this.size / 2, y: this.thick / 2 },
-        { x: -this.size / 2, y: this.thick / 2 },
+
+      const realBbox = [
+        { x: -size / 2, y: -thick / 2 },
+        { x: size / 2, y: -thick / 2 },
+        { x: size / 2, y: thick / 2 },
+        { x: -size / 2, y: thick / 2 },
       ]
       if (family == 'byObject') {
-        this.family = cc.family
+        family = cc.family
       }
-      this.params = cc.params // (bindBox, move, resize, rotate)
-      cc.params.width ? (this.size = cc.params.width) : (this.size = size)
-      cc.params.height ? (this.thick = cc.params.height) : (this.thick = thick)
 
-      this.update = function () {
-        this.width = (this.size / meter).toFixed(2)
-        this.height = (this.thick / meter).toFixed(2)
-        cc = this.carpentryCalc(
-          this.class,
-          this.type,
-          this.size,
-          this.thick,
-          this.value,
-        )
-        for (let tt = 0; tt < cc.length; tt++) {
-          if (cc[tt].path) {
-            this.graph.find('path')[tt].setAttribute('d', cc[tt].path)
-          } else {
-            // this.graph.find('text').context.textContent = cc[tt].text;
+      // cc.params.width ? (size = cc.params.width) : (this.size = size)
+      // cc.params.height ? (thick = cc.params.height) : (this.thick = thick)
+      cc.params.width = size
+      cc.params.height = thick
+
+      const params = cc.params // (bindBox, move, resize, rotate)
+
+      // This function seems like it wants to modify the instance returned in `obj2D`
+      // while also doing some other context specific work
+      const updateFactory = function (meter, scaleFactor, offset, scaleFactor, originX_viewbox, originY_viewbox, carpentryCalc) {
+        return function () {
+
+          this.width = (this.size / meter).toFixed(2)
+          this.height = (this.thick / meter).toFixed(2)
+
+          const cc = carpentryCalc(
+            this.classObj,
+            this.type,
+            this.size,
+            this.thick,
+            this.value
+          )
+
+          for (let tt = 0; tt < cc.length; tt++) {
+            if (cc[tt].path) {
+              this.graph.find('path')[tt].setAttribute('d', cc[tt].path)
+            } else {
+              // this.graph.find('text').context.textContent = cc[tt].text;
+            }
           }
-        }
-        const hingeStatus = this.hinge // normal - reverse
-        let hingeUpdate
-        if (hingeStatus == 'normal') {
-          hingeUpdate = 1
-        } else {
-          hingeUpdate = -1
-        }
-        this.graph.attr({
-          transform:
-            'translate(' +
-            this.x +
-            ',' +
-            this.y +
-            ') rotate(' +
-            this.angle +
-            ',0,0) scale(' +
-            hingeUpdate +
-            ', 1)',
-        })
-        const bbox = this.graph.get(0).getBoundingClientRect()
-        bbox.x =
-          bbox.x * scaleFactor - offset.left * scaleFactor + originX_viewbox
-        bbox.y =
-          bbox.y * scaleFactor - offset.top * scaleFactor + originY_viewbox
-        bbox.origin = { x: this.x, y: this.y }
-        this.bbox = bbox
 
-        if (this.class == 'text' && this.angle == 0) {
+          const hingeStatus = this.hinge // normal - reverse
+          let hingeUpdate
+
+          if (hingeStatus == 'normal') {
+            hingeUpdate = 1
+          } else {
+            hingeUpdate = -1
+          }
+
+          this.graph.attr({
+            transform:
+              'translate(' +
+              this.x +
+              ',' +
+              this.y +
+              ') rotate(' +
+              this.angle +
+              ',0,0) scale(' +
+              hingeUpdate +
+              ', 1)',
+          })
+          const bbox = this.graph.get(0).getBoundingClientRect()
+          bbox.x = bbox.x * scaleFactor - offset.left * scaleFactor + originX_viewbox
+          bbox.y = bbox.y * scaleFactor - offset.top * scaleFactor + originY_viewbox
+          bbox.origin = { x: this.x, y: this.y }
+
+          this.bbox = bbox
+
+          if (this.classObj == 'text' && this.angle == 0) {
+            this.realBbox = [
+              { x: this.bbox.x, y: this.bbox.y },
+              { x: this.bbox.x + this.bbox.width, y: this.bbox.y },
+              {
+                x: this.bbox.x + this.bbox.width,
+                y: this.bbox.y + this.bbox.height,
+              },
+              { x: this.bbox.x, y: this.bbox.y + this.bbox.height },
+            ]
+            this.size = this.bbox.width
+            this.thick = this.bbox.height
+          }
+
           this.realBbox = [
-            { x: this.bbox.x, y: this.bbox.y },
-            { x: this.bbox.x + this.bbox.width, y: this.bbox.y },
-            {
-              x: this.bbox.x + this.bbox.width,
-              y: this.bbox.y + this.bbox.height,
-            },
-            { x: this.bbox.x, y: this.bbox.y + this.bbox.height },
+            { x: -this.size / 2, y: -this.thick / 2 },
+            { x: this.size / 2, y: -this.thick / 2 },
+            { x: this.size / 2, y: this.thick / 2 },
+            { x: -this.size / 2, y: this.thick / 2 },
           ]
-          this.size = this.bbox.width
-          this.thick = this.bbox.height
+          const newRealBbox = [
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+            { x: 0, y: 0 },
+          ]
+          const angleRadian = -this.angle * (Math.PI / 180)
+          newRealBbox[0].x =
+            this.realBbox[0].y * Math.sin(angleRadian) +
+            this.realBbox[0].x * Math.cos(angleRadian) +
+            this.x
+          newRealBbox[1].x =
+            this.realBbox[1].y * Math.sin(angleRadian) +
+            this.realBbox[1].x * Math.cos(angleRadian) +
+            this.x
+          newRealBbox[2].x =
+            this.realBbox[2].y * Math.sin(angleRadian) +
+            this.realBbox[2].x * Math.cos(angleRadian) +
+            this.x
+          newRealBbox[3].x =
+            this.realBbox[3].y * Math.sin(angleRadian) +
+            this.realBbox[3].x * Math.cos(angleRadian) +
+            this.x
+          newRealBbox[0].y =
+            this.realBbox[0].y * Math.cos(angleRadian) -
+            this.realBbox[0].x * Math.sin(angleRadian) +
+            this.y
+          newRealBbox[1].y =
+            this.realBbox[1].y * Math.cos(angleRadian) -
+            this.realBbox[1].x * Math.sin(angleRadian) +
+            this.y
+          newRealBbox[2].y =
+            this.realBbox[2].y * Math.cos(angleRadian) -
+            this.realBbox[2].x * Math.sin(angleRadian) +
+            this.y
+          newRealBbox[3].y =
+            this.realBbox[3].y * Math.cos(angleRadian) -
+            this.realBbox[3].x * Math.sin(angleRadian) +
+            this.y
+          this.realBbox = newRealBbox
         }
+      }
 
-        const angleRadian = -this.angle * (Math.PI / 180)
-        this.realBbox = [
-          { x: -this.size / 2, y: -this.thick / 2 },
-          { x: this.size / 2, y: -this.thick / 2 },
-          { x: this.size / 2, y: this.thick / 2 },
-          { x: -this.size / 2, y: this.thick / 2 },
-        ]
-        const newRealBbox = [
-          { x: 0, y: 0 },
-          { x: 0, y: 0 },
-          { x: 0, y: 0 },
-          { x: 0, y: 0 },
-        ]
-        newRealBbox[0].x =
-          this.realBbox[0].y * Math.sin(angleRadian) +
-          this.realBbox[0].x * Math.cos(angleRadian) +
-          this.x
-        newRealBbox[1].x =
-          this.realBbox[1].y * Math.sin(angleRadian) +
-          this.realBbox[1].x * Math.cos(angleRadian) +
-          this.x
-        newRealBbox[2].x =
-          this.realBbox[2].y * Math.sin(angleRadian) +
-          this.realBbox[2].x * Math.cos(angleRadian) +
-          this.x
-        newRealBbox[3].x =
-          this.realBbox[3].y * Math.sin(angleRadian) +
-          this.realBbox[3].x * Math.cos(angleRadian) +
-          this.x
-        newRealBbox[0].y =
-          this.realBbox[0].y * Math.cos(angleRadian) -
-          this.realBbox[0].x * Math.sin(angleRadian) +
-          this.y
-        newRealBbox[1].y =
-          this.realBbox[1].y * Math.cos(angleRadian) -
-          this.realBbox[1].x * Math.sin(angleRadian) +
-          this.y
-        newRealBbox[2].y =
-          this.realBbox[2].y * Math.cos(angleRadian) -
-          this.realBbox[2].x * Math.sin(angleRadian) +
-          this.y
-        newRealBbox[3].y =
-          this.realBbox[3].y * Math.cos(angleRadian) -
-          this.realBbox[3].x * Math.sin(angleRadian) +
-          this.y
-        this.realBbox = newRealBbox
-        return true
+      return {
+        angle,
+        angleSign,
+        bbox,
+        classObj,
+        family,
+        graph,
+        height,
+        hinge,
+        limit,
+        params,
+        realBbox,
+        scale,
+        size,
+        thick,
+        type,
+        update: updateFactory(
+          this.meter,
+          this.scaleFactor,
+          this.offset,
+          this.scaleFactor,
+          this.originX_viewbox,
+          this.originY_viewbox,
+          this.carpentryCalc
+        ),
+        value,
+        width,
+        x,
+        y,
       }
     },
     roomMaker: (Rooms) => {

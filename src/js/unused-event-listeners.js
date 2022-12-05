@@ -275,7 +275,7 @@
 //         let plugNumber = 0;
 //         let lampNumber = 0;
 //         for (let k in OBJDATA) {
-//             if (OBJDATA[k].class === 'energy') {
+//             if (OBJDATA[k].classObj === 'energy') {
 //                 if (OBJDATA[k].type === 'switch' || OBJDATA[k].type === 'doubleSwitch' || OBJDATA[k].type === 'dimmer') switchNumber++;
 //                 if (OBJDATA[k].type === 'plug' || OBJDATA[k].type === 'plug20' || OBJDATA[k].type === 'plug32') plugNumber++;
 //                 if (OBJDATA[k].type === 'wallLight' || OBJDATA[k].type === 'roofLight') lampNumber++;
@@ -310,7 +310,7 @@
 //             let wattMax = 0;
 //             let plug = false;
 //             for (let i in OBJDATA) {
-//                 if (OBJDATA[i].class === 'energy') {
+//                 if (OBJDATA[i].classObj === 'energy') {
 //                     if (OBJDATA[i].type === 'switch' || OBJDATA[i].type === 'doubleSwitch' || OBJDATA[i].type === 'dimmer') {
 //                         if (roomTarget = editor.rayCastingRoom(OBJDATA[i])) {
 //                             if (isObjectsEquals(ROOM[k], roomTarget)) switchNumber++;
