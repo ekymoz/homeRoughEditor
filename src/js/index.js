@@ -4300,7 +4300,7 @@ Application.prototype.mouseMove_mode_bind = function (event) {
       var objWall = this.editor.objFromWall(this.WALLS[k]) // LIST OBJ ON EDGE
       for (var ob in objWall) {
         var objTarget = objWall[ob]
-        var eq = editor.createEquationFromWall(this.WALLS[k])
+        var eq = this.editor.createEquationFromWall(this.WALLS[k])
         var limits = limitObj(eq, objTarget.size)
         if (
           !this.qSVG.btwn(limits[0].x, this.WALLS[k].start.x, this.WALLS[k].end.x) ||
