@@ -1,3 +1,7 @@
+const {
+  exportFloorplan
+} = require('./scoped')
+
 const MIN_ZOOM = 0
 const MAX_ZOOM = 100
 
@@ -7854,7 +7858,7 @@ Application.prototype.editorFactory = function () {
 
       // This function seems like it wants to modify the instance returned in `obj2D`
       // while also doing some other context specific work
-      const updateFactory = function (meter, scaleFactor, offset, scaleFactor, originX_viewbox, originY_viewbox, carpentryCalc) {
+      const updateFactory = function (meter, scaleFactor, offset, originX_viewbox, originY_viewbox, carpentryCalc) {
         return function () {
 
           this.width = (this.size / meter).toFixed(2)
@@ -7987,7 +7991,6 @@ Application.prototype.editorFactory = function () {
           this.meter,
           this.scaleFactor,
           this.offset,
-          this.scaleFactor,
           this.originX_viewbox,
           this.originY_viewbox,
           this.carpentryCalc.bind(this)
