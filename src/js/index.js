@@ -3103,8 +3103,8 @@ Application.prototype.mouseMove_mode_select = function (event) {
           this.binder.update()
           this.binder.obj = objTarget
           this.binder.type = 'boundingBox'
-          this.binder.oldX = binder.x
-          this.binder.oldY = binder.y
+          this.binder.oldX = this.binder.x
+          this.binder.oldY = this.binder.y
           $('#boxbind').append(this.binder.graph)
           if (!objTarget.params.move) cursor('trash') // LIKE MEASURE ON PLAN
           if (objTarget.params.move) cursor('move')
@@ -3440,7 +3440,7 @@ Application.prototype.mouseMove_mode_line_partition = function(event) {
         var coeff = fltt.deg / flt // -45 -> -1     45 -> 1
         var phi = this.poy - coeff * this.pox
         var Xdiag = (this.y - phi) / coeff
-        if (typeof binder == 'undefined') {
+        if (typeof this.binder == 'undefined') {
           // HELP FOR H LINE
           var found = false
           if (flt < 15 && Math.abs(this.poy - this.y) < 25) {
@@ -3701,7 +3701,7 @@ Application.prototype.mouseMove_mode_network = function (event) {
           angleWall += 180
         }
 
-        var limits = limitObj(wall.equations.base, binder.size)
+        var limits = limitObj(wall.equations.base, this.binder.size)
         if (
           this.qSVG.btwn(limits[0].x, wall.start.x, wall.end.x) &&
           this.qSVG.btwn(limits[0].y, wall.start.y, wall.end.y) &&
@@ -3817,7 +3817,7 @@ Application.prototype.mouseMove_mode_electrical = function(event) {
           angleWall += 180
         }
 
-        var limits = limitObj(wall.equations.base, binder.size)
+        var limits = limitObj(wall.equations.base, this.binder.size)
         if (
           this.qSVG.btwn(limits[0].x, wall.start.x, wall.end.x) &&
           this.qSVG.btwn(limits[0].y, wall.start.y, wall.end.y) &&
@@ -3840,15 +3840,15 @@ Application.prototype.mouseMove_mode_electrical = function(event) {
             this.qSVG.btwn(limits[0].x, wall.start.x, wall.end.x) &&
             this.qSVG.btwn(limits[0].y, wall.start.y, wall.end.y)
           ) {
-            binder.x = limits[0].x
-            binder.y = limits[0].y
+            this.binder.x = limits[0].x
+            this.binder.y = limits[0].y
           }
           if (
             this.qSVG.btwn(limits[1].x, wall.start.x, wall.end.x) &&
             this.qSVG.btwn(limits[1].y, wall.start.y, wall.end.y)
           ) {
-            binder.x = limits[1].x
-            binder.y = limits[1].y
+            this.binder.x = limits[1].x
+            this.binder.y = limits[1].y
           }
           this.binder.limit = limits
           this.binder.angle = angleWall
@@ -4014,7 +4014,7 @@ Application.prototype.mouseMove_mode_bind = function (event) {
     var coords = snap
     var magnetic = false
     for (var k in this.wallListRun) {
-      if (isObjectsEquals(this.wallListRun[k].end, binder.data)) {
+      if (isObjectsEquals(this.wallListRun[k].end, this.binder.data)) {
         if (Math.abs(this.wallListRun[k].start.x - snap.x) < 20) {
           coords.x = this.wallListRun[k].start.x
           magnetic = 'H'
@@ -4024,7 +4024,7 @@ Application.prototype.mouseMove_mode_bind = function (event) {
           magnetic = 'V'
         }
       }
-      if (isObjectsEquals(this.wallListRun[k].start, binder.data)) {
+      if (isObjectsEquals(this.wallListRun[k].start, this.binder.data)) {
         if (Math.abs(this.wallListRun[k].end.x - snap.x) < 20) {
           coords.x = this.wallListRun[k].end.x
           magnetic = 'H'
@@ -4067,11 +4067,11 @@ Application.prototype.mouseMove_mode_bind = function (event) {
       //$('#circlebinder').attr({"class": "circle_css", cx: coords.x, cy: coords.y});
     }
     for (var k in this.wallListRun) {
-      if (isObjectsEquals(this.wallListRun[k].start, binder.data)) {
+      if (isObjectsEquals(this.wallListRun[k].start, this.binder.data)) {
         this.wallListRun[k].start.x = coords.x
         this.wallListRun[k].start.y = coords.y
       }
-      if (isObjectsEquals(wallListRun[k].end, binder.data)) {
+      if (isObjectsEquals(wallListRun[k].end, this.binder.data)) {
         this.wallListRun[k].end.x = coords.x
         this.wallListRun[k].end.y = coords.y
       }
@@ -4286,10 +4286,10 @@ Application.prototype.mouseMove_mode_bind = function (event) {
       objTarget.y = intersectionObj[1]
       var limits = limitObj(this.equation2, objTarget.size)
       if (
-        this.qSVG.btwn(limits[0].x, binder.wall.start.x, binder.wall.end.x) &&
-        this.qSVG.btwn(limits[0].y, binder.wall.start.y, binder.wall.end.y) &&
-        this.qSVG.btwn(limits[1].x, binder.wall.start.x, binder.wall.end.x) &&
-        this.qSVG.btwn(limits[1].y, binder.wall.start.y, binder.wall.end.y)
+        this.qSVG.btwn(limits[0].x, this.binder.wall.start.x, this.binder.wall.end.x) &&
+        this.qSVG.btwn(limits[0].y, this.binder.wall.start.y, this.binder.wall.end.y) &&
+        this.qSVG.btwn(limits[1].x, this.binder.wall.start.x, this.binder.wall.end.x) &&
+        this.qSVG.btwn(limits[1].y, this.binder.wall.start.y, this.binder.wall.end.y)
       ) {
         objTarget.limit = limits
         objTarget.update()
@@ -4454,7 +4454,7 @@ Application.prototype.mouseMove_mode_object = function(event) {
   }
 
   const snap = this.calcul_snap(event, this.grid_snap)
-  if (typeof binder == 'undefined') {
+  if (typeof this.binder == 'undefined') {
     $('#object_list').hide(200)
     if (this.modeOption == 'simpleStair')
       this.binder = this.editor.obj2D(
@@ -4940,7 +4940,7 @@ Application.prototype.mouseUp_mode_bind = function (event) {
 
     if (typeof this.binder != 'undefined' && this.binder.type == 'boundingBox') {
       var moveObj =
-        Math.abs(binder.oldX - this.binder.x) + Math.abs(this.binder.oldY - this.binder.y)
+        Math.abs(this.binder.oldX - this.binder.x) + Math.abs(this.binder.oldY - this.binder.y)
       var objTarget = this.binder.obj
       if (!objTarget.params.move) {
         // TO REMOVE MEASURE ON PLAN
