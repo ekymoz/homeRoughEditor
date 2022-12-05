@@ -1,0 +1,17 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "parser": "babel-eslint",
+  "plugins": [],
+  "rules": {
+    "curly": 2,
+    "prefer-const": 2,
+    "no-const-assign": 2,
+    "no-var": 2,
+    "no-undef": 2,
+    "brace-style": [2, "1tbs", { "allowSingleLine": false }]
+  }
+}

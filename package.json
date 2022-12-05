@@ -1,8 +1,11 @@
 {
   "name": "homerougheditor",
   "scripts": {
+    "lint": "eslint --fix ."
   },
   "devDependencies": {
+    "babel-eslint": "^8.2.6",
+    "eslint": "^7.32.0",
     "prettier": "2.5.1"
   }
 }

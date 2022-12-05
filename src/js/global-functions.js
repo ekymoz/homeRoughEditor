@@ -1,8 +1,8 @@
 function limitObj(equation, size, coords) {
-  let Px = coords.x
-  let Py = coords.y
-  let Aq = equation.A
-  let Bq = equation.B
+  const Px = coords.x
+  const Py = coords.y
+  const Aq = equation.A
+  const Bq = equation.B
   let pos1, pos2
   if (Aq === 'v') {
     pos1 = { x: Px, y: Py - size / 2 }
@@ -11,12 +11,12 @@ function limitObj(equation, size, coords) {
     pos1 = { x: Px - size / 2, y: Py }
     pos2 = { x: Px + size / 2, y: Py }
   } else {
-    let A = 1 + Aq * Aq
-    let B = -2 * Px + 2 * Aq * Bq + -2 * Py * Aq
-    let C = Px * Px + Bq * Bq - 2 * Py * Bq + Py * Py - (size * size) / 4 // -N
-    let Delta = B * B - 4 * A * C
-    let posX1 = (-B - Math.sqrt(Delta)) / (2 * A)
-    let posX2 = (-B + Math.sqrt(Delta)) / (2 * A)
+    const A = 1 + Aq * Aq
+    const B = -2 * Px + 2 * Aq * Bq + -2 * Py * Aq
+    const C = Px * Px + Bq * Bq - 2 * Py * Bq + Py * Py - (size * size) / 4 // -N
+    const Delta = B * B - 4 * A * C
+    const posX1 = (-B - Math.sqrt(Delta)) / (2 * A)
+    const posX2 = (-B + Math.sqrt(Delta)) / (2 * A)
     pos1 = { x: posX1, y: Aq * posX1 + Bq }
     pos2 = { x: posX2, y: Aq * posX2 + Bq }
   }
@@ -25,7 +25,7 @@ function limitObj(equation, size, coords) {
 
 function isObjectsEquals(a, b) {
   let isOK = true
-  for (let prop in a) {
+  for (const prop in a) {
     if (a[prop] !== b[prop]) {
       isOK = false
       break
@@ -41,17 +41,21 @@ function minMoveGrid(mouse, _pox, _poy) {
 function cursor(tool) {
   switch (tool) {
     case 'grab':
-      tool = "url('https://wiki.openmrs.org/s/en_GB/7502/b9217199c27dd617c8d51f6186067d7767c5001b/_/images/icons/emoticons/add.png') 8 8, auto"
-      break;
+      tool =
+        "url('https://wiki.openmrs.org/s/en_GB/7502/b9217199c27dd617c8d51f6186067d7767c5001b/_/images/icons/emoticons/add.png') 8 8, auto"
+      break
     case 'scissor':
-      tool = "url('https://maxcdn.icons8.com/windows10/PNG/64/Hands/hand_scissors-64.png'), auto"
-      break;
+      tool =
+        "url('https://maxcdn.icons8.com/windows10/PNG/64/Hands/hand_scissors-64.png'), auto"
+      break
     case 'trash':
-      tool = "url('https://cdn4.iconfinder.com/data/icons/common-toolbar/36/Cancel-32.png'), auto"
-      break;
+      tool =
+        "url('https://cdn4.iconfinder.com/data/icons/common-toolbar/36/Cancel-32.png'), auto"
+      break
     case 'validation':
-      tool = "url('https://images.fatguymedia.com/wp-content/uploads/2015/09/check.png'), auto"
-      break;
+      tool =
+        "url('https://images.fatguymedia.com/wp-content/uploads/2015/09/check.png'), auto"
+      break
     default:
       return
   }
@@ -61,7 +65,7 @@ function cursor(tool) {
 
 function fullscreen() {
   // go full-screen
-  let i = document.body
+  const i = document.body
   if (i.requestFullscreen) {
     i.requestFullscreen()
   } else if (i.webkitRequestFullscreen) {

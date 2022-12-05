@@ -222,7 +222,6 @@
 //     fonc_button('select_mode')
 //   })
 
-
 // $('#distance_mode').click(function () {
 //   linElement.css('cursor', 'crosshair')
 //   $('#boxinfo').html('Add a measurement')
