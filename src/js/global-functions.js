@@ -39,20 +39,24 @@ function minMoveGrid(mouse, _pox, _poy) {
 }
 
 function cursor(tool) {
-  // REVIEW: Comment out for now until I can grab these resources
-  // if (tool === 'grab')
-  //   tool =
-  //     "url('https://wiki.openmrs.org/s/en_GB/7502/b9217199c27dd617c8d51f6186067d7767c5001b/_/images/icons/emoticons/add.png') 8 8, auto"
-  // if (tool === 'scissor')
-  //   tool =
-  //     "url('https://maxcdn.icons8.com/windows10/PNG/64/Hands/hand_scissors-64.png'), auto"
-  // if (tool === 'trash')
-  //   tool =
-  //     "url('https://cdn4.iconfinder.com/data/icons/common-toolbar/36/Cancel-32.png'), auto"
-  // if (tool === 'validation')
-  //   tool =
-  //     "url('https://images.fatguymedia.com/wp-content/uploads/2015/09/check.png'), auto"
-  // linElement.css('cursor', tool)
+  switch (tool) {
+    case 'grab':
+      tool = "url('https://wiki.openmrs.org/s/en_GB/7502/b9217199c27dd617c8d51f6186067d7767c5001b/_/images/icons/emoticons/add.png') 8 8, auto"
+      break;
+    case 'scissor':
+      tool = "url('https://maxcdn.icons8.com/windows10/PNG/64/Hands/hand_scissors-64.png'), auto"
+      break;
+    case 'trash':
+      tool = "url('https://cdn4.iconfinder.com/data/icons/common-toolbar/36/Cancel-32.png'), auto"
+      break;
+    case 'validation':
+      tool = "url('https://images.fatguymedia.com/wp-content/uploads/2015/09/check.png'), auto"
+      break;
+    default:
+      return
+  }
+
+  document.getElementById('lin').style.cursor = tool
 }
 
 function fullscreen() {
