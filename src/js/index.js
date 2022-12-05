@@ -2722,7 +2722,7 @@ Application.prototype.mouseDown_mode_select = function(event) {
           isObjectsEquals(this.wallListRun[0].parent.start, nodeControl) ||
           isObjectsEquals(this.wallListRun[0].parent.end, nodeControl)
         )
-          this.wallListRun.push(wallListRun[0].parent)
+          this.wallListRun.push(this.wallListRun[0].parent)
       }
 
       for (var k in this.wallListRun) {
@@ -2735,12 +2735,12 @@ Application.prototype.mouseDown_mode_select = function(event) {
             nodeTarget = this.wallListRun[k].end
           }
           objWall = this.editor.objFromWall(this.wallListRun[k]) // LIST OBJ ON EDGE -- NOT INDEX !!!
-          this.wall = this.wallListRun[k]
+           var wall = this.wallListRun[k]
           for (var ob = 0; ob < objWall.length; ob++) {
             var objTarget = objWall[ob]
             var distance = this.qSVG.measure(objTarget, nodeTarget)
             wallListObj.push({
-              wall: this.wall,
+              wall: wall,
               from: nodeTarget,
               distance: distance,
               obj: objTarget,
@@ -4050,7 +4050,7 @@ Application.prototype.mouseMove_mode_bind = function (event) {
         if (magnetic == 'H') snap.x = coords.x
         else snap.y = coords.y
       }
-      if ((this.helpConstruc = this.intersection(snap, 10, wallListRun))) {
+      if ((this.helpConstruc = this.intersection(snap, 10, this.wallListRun))) {
         coords.x = this.helpConstruc.x
         coords.y = this.helpConstruc.y
         snap.x = this.helpConstruc.x
@@ -4071,7 +4071,7 @@ Application.prototype.mouseMove_mode_bind = function (event) {
         this.wallListRun[k].start.x = coords.x
         this.wallListRun[k].start.y = coords.y
       }
-      if (isObjectsEquals(wallListRun[k].end, this.binder.data)) {
+      if (isObjectsEquals(this.wallListRun[k].end, this.binder.data)) {
         this.wallListRun[k].end.x = coords.x
         this.wallListRun[k].end.y = coords.y
       }
