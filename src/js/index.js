@@ -7992,7 +7992,7 @@ Application.prototype.editorFactory = function () {
           this.scaleFactor,
           this.originX_viewbox,
           this.originY_viewbox,
-          this.carpentryCalc
+          this.carpentryCalc.bind(this)
         ),
         value,
         width,
