@@ -707,9 +707,7 @@ Application.prototype.importFloorplan = function (floorplanJson) {
   this.rib()
 }
 
-Application.prototype.exportFloorplan = function () {
-  console.log(this.HISTORY[this.HISTORY.length - 1])
-}
+Application.prototype.exportFloorplan = exportFloorplan
 
 // REVIEW: What is `boot` for?
 Application.prototype.save = function (boot = false) {
