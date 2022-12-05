@@ -103,3 +103,12 @@ function raz_button() {
   $('#stair_mode').removeClass('btn-success')
   $('#stair_mode').addClass('btn-default')
 }
+
+function pushToConstruc(construc, path, fill, stroke, strokeDashArray) {
+  construc.push({
+    path: path,
+    fill: fill,
+    stroke: stroke,
+    strokeDashArray: strokeDashArray,
+  })
+}
