@@ -34,8 +34,5 @@ Personally I only test all this with the mozilla debug console
 
 This project is licensed under the MIT License - see the [LICENSE.md](https://en.wikipedia.org/wiki/MIT_License) on Web file for details
 
-## Acknowledgments
-
-* [Grafikart](https://www.grafikart.fr/) for teaching me so much about javascript
 
 
