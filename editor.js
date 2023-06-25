@@ -1,5 +1,5 @@
-const editor = {
-    wall(start, end, type, thick) {
+var editor = {
+    wall: function (start, end, type, thick) {
         this.thick = thick;
         this.start = start;
         this.end = end;
@@ -12,11 +12,10 @@ const editor = {
         this.backUp = false;
     },
 
-    // RETURN OBJECTS ARRAY INDEX OF WALLS [WALL1, WALL2, n...]
-    // WALLS WITH THIS NODE, EXCEPT PARAM = OBJECT WALL
-    getWallNode(coords, except = false) {
-        const nodes = [];
-        for (const k in WALLS) {
+    // RETURN OBJECTS ARRAY INDEX OF WALLS [WALL1, WALL2, n...] WALLS WITH THIS NODE, EXCEPT PARAM = OBJECT WALL
+    getWallNode: function (coords, except = false) {
+        var nodes = [];
+        for (var k in WALLS) {
             if (!isObjectsEquals(WALLS[k], except)) {
                 if (isObjectsEquals(WALLS[k].start, coords)) {
                     nodes.push({ wall: WALLS[k], type: "start" });
@@ -27,10 +26,10 @@ const editor = {
             }
         }
         if (nodes.length == 0) return false;
-        return nodes;
+        else return nodes;
     },
 
-    wallsComputing(WALLS, action = false) {
+    wallsComputing: function (WALLS, action = false) {
         // IF ACTION == MOVE -> equation2 exist !!!!!
         $("#boxwall").empty();
         $("#boxArea").empty();
@@ -69,7 +68,7 @@ const editor = {
                     var previousWallEnd = previousWall.end;
                 }
             } else {
-                const S = editor.getWallNode(wall.start, wall);
+                var S = editor.getWallNode(wall.start, wall);
                 // if (wallInhibation && isObjectsEquals(wall, wallInhibation)) S = false;
                 for (var k in S) {
                     var eqInter = editor.createEquationFromWall(S[k].wall);
@@ -118,7 +117,7 @@ const editor = {
                     var nextWallEnd = nextWall.end;
                 }
             } else {
-                const E = editor.getWallNode(wall.end, wall);
+                var E = editor.getWallNode(wall.end, wall);
                 // if (wallInhibation && isObjectsEquals(wall, wallInhibation)) E = false;
                 for (var k in E) {
                     var eqInter = editor.createEquationFromWall(E[k].wall);
@@ -156,26 +155,26 @@ const editor = {
                 }
             }
 
-            const angleWall = Math.atan2(
+            var angleWall = Math.atan2(
                 wall.end.y - wall.start.y,
                 wall.end.x - wall.start.x
             );
             wall.angle = angleWall;
-            const wallThickX = (wall.thick / 2) * Math.sin(angleWall);
-            const wallThickY = (wall.thick / 2) * Math.cos(angleWall);
-            const eqWallUp = qSVG.createEquation(
+            var wallThickX = (wall.thick / 2) * Math.sin(angleWall);
+            var wallThickY = (wall.thick / 2) * Math.cos(angleWall);
+            var eqWallUp = qSVG.createEquation(
                 wall.start.x + wallThickX,
                 wall.start.y - wallThickY,
                 wall.end.x + wallThickX,
                 wall.end.y - wallThickY
             );
-            const eqWallDw = qSVG.createEquation(
+            var eqWallDw = qSVG.createEquation(
                 wall.start.x - wallThickX,
                 wall.start.y + wallThickY,
                 wall.end.x - wallThickX,
                 wall.end.y + wallThickY
             );
-            const eqWallBase = qSVG.createEquation(
+            var eqWallBase = qSVG.createEquation(
                 wall.start.x,
                 wall.start.y,
                 wall.end.x,
@@ -202,7 +201,16 @@ const editor = {
                     "object"
                 );
                 wall.coords = [interUp, interDw];
-                dWay = `M${interUp.x},${interUp.y} L${interDw.x},${interDw.y} `;
+                dWay =
+                    "M" +
+                    interUp.x +
+                    "," +
+                    interUp.y +
+                    " L" +
+                    interDw.x +
+                    "," +
+                    interDw.y +
+                    " ";
             } else {
                 var eqP = qSVG.perpendicularEquation(
                     eqWallUp,
@@ -212,21 +220,21 @@ const editor = {
                 // var previousWall = wall.parent;
                 //   var previousWallStart = previousWall.start;
                 //   var previousWallEnd = previousWall.end;
-                const anglePreviousWall = Math.atan2(
+                var anglePreviousWall = Math.atan2(
                     previousWallEnd.y - previousWallStart.y,
                     previousWallEnd.x - previousWallStart.x
                 );
-                const previousWallThickX =
+                var previousWallThickX =
                     (previousWall.thick / 2) * Math.sin(anglePreviousWall);
-                const previousWallThickY =
+                var previousWallThickY =
                     (previousWall.thick / 2) * Math.cos(anglePreviousWall);
-                const eqPreviousWallUp = qSVG.createEquation(
+                var eqPreviousWallUp = qSVG.createEquation(
                     previousWallStart.x + previousWallThickX,
                     previousWallStart.y - previousWallThickY,
                     previousWallEnd.x + previousWallThickX,
                     previousWallEnd.y - previousWallThickY
                 );
-                const eqPreviousWallDw = qSVG.createEquation(
+                var eqPreviousWallDw = qSVG.createEquation(
                     previousWallStart.x - previousWallThickX,
                     previousWallStart.y + previousWallThickY,
                     previousWallEnd.x - previousWallThickX,
@@ -285,7 +293,16 @@ const editor = {
                     );
                 }
                 wall.coords = [interUp, interDw];
-                dWay = `M${interUp.x},${interUp.y} L${interDw.x},${interDw.y} `;
+                dWay =
+                    "M" +
+                    interUp.x +
+                    "," +
+                    interUp.y +
+                    " L" +
+                    interDw.x +
+                    "," +
+                    interDw.y +
+                    " ";
             }
 
             // WALL FINISHED
@@ -306,7 +323,17 @@ const editor = {
                     "object"
                 );
                 wall.coords.push(interDw, interUp);
-                dWay = `${dWay}L${interDw.x},${interDw.y} L${interUp.x},${interUp.y} Z`;
+                dWay =
+                    dWay +
+                    "L" +
+                    interDw.x +
+                    "," +
+                    interDw.y +
+                    " L" +
+                    interUp.x +
+                    "," +
+                    interUp.y +
+                    " Z";
             } else {
                 var eqP = qSVG.perpendicularEquation(
                     eqWallUp,
@@ -316,21 +343,21 @@ const editor = {
                 // var nextWall = wall.child;
                 //   var nextWallStart = nextWall.start;
                 //   var nextWallEnd = nextWall.end;
-                const angleNextWall = Math.atan2(
+                var angleNextWall = Math.atan2(
                     nextWallEnd.y - nextWallStart.y,
                     nextWallEnd.x - nextWallStart.x
                 );
-                const nextWallThickX =
+                var nextWallThickX =
                     (nextWall.thick / 2) * Math.sin(angleNextWall);
-                const nextWallThickY =
+                var nextWallThickY =
                     (nextWall.thick / 2) * Math.cos(angleNextWall);
-                const eqNextWallUp = qSVG.createEquation(
+                var eqNextWallUp = qSVG.createEquation(
                     nextWallStart.x + nextWallThickX,
                     nextWallStart.y - nextWallThickY,
                     nextWallEnd.x + nextWallThickX,
                     nextWallEnd.y - nextWallThickY
                 );
-                const eqNextWallDw = qSVG.createEquation(
+                var eqNextWallDw = qSVG.createEquation(
                     nextWallStart.x - nextWallThickX,
                     nextWallStart.y + nextWallThickY,
                     nextWallEnd.x - nextWallThickX,
@@ -390,7 +417,17 @@ const editor = {
                 }
 
                 wall.coords.push(interDw, interUp);
-                dWay = `${dWay}L${interDw.x},${interDw.y} L${interUp.x},${interUp.y} Z`;
+                dWay =
+                    dWay +
+                    "L" +
+                    interDw.x +
+                    "," +
+                    interDw.y +
+                    " L" +
+                    interUp.x +
+                    "," +
+                    interUp.y +
+                    " Z";
             }
 
             wall.graph = editor.makeWall(dWay);
@@ -398,8 +435,8 @@ const editor = {
         }
     },
 
-    makeWall(way) {
-        const wallScreen = qSVG.create("none", "path", {
+    makeWall: function (way) {
+        var wallScreen = qSVG.create("none", "path", {
             d: way,
             stroke: "none",
             fill: colorWall,
@@ -412,9 +449,9 @@ const editor = {
         return wallScreen;
     },
 
-    invisibleWall(wallToInvisble = false) {
+    invisibleWall: function (wallToInvisble = false) {
         if (!wallToInvisble) wallToInvisble = binder.wall;
-        const objWall = editor.objFromWall(wallBind);
+        var objWall = editor.objFromWall(wallBind);
         if (objWall.length == 0) {
             wallToInvisble.type = "separate";
             wallToInvisble.backUp = wallToInvisble.thick;
@@ -424,14 +461,15 @@ const editor = {
             $("#panel").show(200);
             save();
             return true;
+        } else {
+            $("#boxinfo").html(
+                "Les murs contenant des portes ou des fenêtres ne peuvent être une séparation !"
+            );
+            return false;
         }
-        $("#boxinfo").html(
-            "Les murs contenant des portes ou des fenêtres ne peuvent être une séparation !"
-        );
-        return false;
     },
 
-    visibleWall(wallToInvisble = false) {
+    visibleWall: function (wallToInvisble = false) {
         if (!wallToInvisble) wallToInvisble = binder.wall;
         wallToInvisble.type = "normal";
         wallToInvisble.thick = wallToInvisble.backUp;
@@ -443,7 +481,7 @@ const editor = {
         return true;
     },
 
-    architect(WALLS) {
+    architect: function (WALLS) {
         editor.wallsComputing(WALLS);
         Rooms = qSVG.polygonize(WALLS);
         $("#boxRoom").empty();
@@ -452,14 +490,14 @@ const editor = {
         return true;
     },
 
-    splitWall(wallToSplit = false) {
+    splitWall: function (wallToSplit = false) {
         if (!wallToSplit) wallToSplit = binder.wall;
-        const eqWall = editor.createEquationFromWall(wallToSplit);
-        const wallToSplitLength = qSVG.gap(wallToSplit.start, wallToSplit.end);
-        const newWalls = [];
+        var eqWall = editor.createEquationFromWall(wallToSplit);
+        var wallToSplitLength = qSVG.gap(wallToSplit.start, wallToSplit.end);
+        var newWalls = [];
         for (var k in WALLS) {
-            const eq = editor.createEquationFromWall(WALLS[k]);
-            const inter = qSVG.intersectionOfEquations(eqWall, eq, "obj");
+            var eq = editor.createEquationFromWall(WALLS[k]);
+            var inter = qSVG.intersectionOfEquations(eqWall, eq, "obj");
             if (
                 qSVG.btwn(
                     inter.x,
@@ -476,26 +514,26 @@ const editor = {
                 qSVG.btwn(inter.x, WALLS[k].start.x, WALLS[k].end.x, "round") &&
                 qSVG.btwn(inter.y, WALLS[k].start.y, WALLS[k].end.y, "round")
             ) {
-                const distance = qSVG.gap(wallToSplit.start, inter);
-                if (distance > 5 && distance < wallToSplitLength) {
-                    newWalls.push({ distance, coords: inter });
-                }
+                var distance = qSVG.gap(wallToSplit.start, inter);
+                if (distance > 5 && distance < wallToSplitLength)
+                    newWalls.push({ distance: distance, coords: inter });
             }
         }
-        newWalls.sort((a, b) => (a.distance - b.distance).toFixed(2));
-        let initCoords = wallToSplit.start;
-        const initThick = wallToSplit.thick;
+        newWalls.sort(function (a, b) {
+            return (a.distance - b.distance).toFixed(2);
+        });
+        var initCoords = wallToSplit.start;
+        var initThick = wallToSplit.thick;
         // CLEAR THE WALL BEFORE PIECES RE-BUILDER
         for (var k in WALLS) {
-            if (isObjectsEquals(WALLS[k].child, wallToSplit)) {
+            if (isObjectsEquals(WALLS[k].child, wallToSplit))
                 WALLS[k].child = null;
-            }
             if (isObjectsEquals(WALLS[k].parent, wallToSplit)) {
                 WALLS[k].parent = null;
             }
         }
         WALLS.splice(WALLS.indexOf(wallToSplit), 1);
-        let wall;
+        var wall;
         for (var k in newWalls) {
             wall = new editor.wall(
                 initCoords,
@@ -522,14 +560,14 @@ const editor = {
         return true;
     },
 
-    nearWallNode(snap, range = Infinity, except = [""]) {
-        let best;
-        let bestWall;
-        let scan;
-        const i = 0;
-        let scanDistance;
-        let bestDistance = Infinity;
-        for (let k = 0; k < WALLS.length; k++) {
+    nearWallNode: function (snap, range = Infinity, except = [""]) {
+        var best;
+        var bestWall;
+        var scan;
+        var i = 0;
+        var scanDistance;
+        var bestDistance = Infinity;
+        for (var k = 0; k < WALLS.length; k++) {
             if (except.indexOf(WALLS[k]) == -1) {
                 scanStart = WALLS[k].start;
                 scanEnd = WALLS[k].end;
@@ -551,18 +589,19 @@ const editor = {
             return {
                 x: best.x,
                 y: best.y,
-                bestWall,
+                bestWall: bestWall,
             };
+        } else {
+            return false;
         }
-        return false;
     },
 
     // USING WALLS SUPER WALL OBJECTS ARRAY
-    rayCastingWall(snap) {
-        const wallList = [];
-        for (let i = 0; i < WALLS.length; i++) {
-            const polygon = [];
-            for (let pp = 0; pp < 4; pp++) {
+    rayCastingWall: function (snap) {
+        var wallList = [];
+        for (var i = 0; i < WALLS.length; i++) {
+            var polygon = [];
+            for (var pp = 0; pp < 4; pp++) {
                 polygon.push({
                     x: WALLS[i].coords[pp].x,
                     y: WALLS[i].coords[pp].y,
@@ -573,17 +612,19 @@ const editor = {
             }
         }
         if (wallList.length == 0) return false;
-        if (wallList.length == 1) return wallList[0];
-        return wallList;
+        else {
+            if (wallList.length == 1) return wallList[0];
+            else return wallList;
+        }
     },
 
-    stickOnWall(snap) {
+    stickOnWall: function (snap) {
         if (WALLS.length == 0) return false;
-        let wallDistance = Infinity;
-        let wallSelected = {};
-        let result;
+        var wallDistance = Infinity;
+        var wallSelected = {};
+        var result;
         if (WALLS.length == 0) return false;
-        for (let e = 0; e < WALLS.length; e++) {
+        for (var e = 0; e < WALLS.length; e++) {
             var eq1 = qSVG.createEquation(
                 WALLS[e].coords[0].x,
                 WALLS[e].coords[0].y,
@@ -633,7 +674,7 @@ const editor = {
                 };
             }
         }
-        const vv = editor.nearVertice(snap);
+        var vv = editor.nearVertice(snap);
         if (vv.distance < wallDistance) {
             var eq1 = qSVG.createEquation(
                 vv.number.coords[0].x,
@@ -696,12 +737,12 @@ const editor = {
     },
 
     // RETURN OBJDATA INDEX LIST FROM AN WALL
-    objFromWall(wall, typeObj = false) {
-        const objList = [];
-        for (let scan = 0; scan < OBJDATA.length; scan++) {
+    objFromWall: function (wall, typeObj = false) {
+        var objList = [];
+        for (var scan = 0; scan < OBJDATA.length; scan++) {
             var search;
             if (OBJDATA[scan].family == "inWall") {
-                const eq = qSVG.createEquation(
+                var eq = qSVG.createEquation(
                     wall.start.x,
                     wall.start.y,
                     wall.end.x,
@@ -712,9 +753,8 @@ const editor = {
                     search.distance < 0.01 &&
                     qSVG.btwn(OBJDATA[scan].x, wall.start.x, wall.end.x) &&
                     qSVG.btwn(OBJDATA[scan].y, wall.start.y, wall.end.y)
-                ) {
+                )
                     objList.push(OBJDATA[scan]);
-                }
                 // WARNING 0.01 TO NO COUNT OBJECT ON LIMITS OF THE EDGE !!!!!!!!!!!! UGLY CODE( MOUSE PRECISION)
                 // TRY WITH ANGLE MAYBE ???
             }
@@ -722,7 +762,7 @@ const editor = {
         return objList;
     },
 
-    createEquationFromWall(wall) {
+    createEquationFromWall: function (wall) {
         return qSVG.createEquation(
             wall.start.x,
             wall.start.y,
@@ -732,11 +772,11 @@ const editor = {
     },
 
     // WALLS SUPER ARRAY
-    rayCastingWalls(snap) {
-        const wallList = [];
-        for (let i = 0; i < WALLS.length; i++) {
-            const polygon = [];
-            for (let pp = 0; pp < 4; pp++) {
+    rayCastingWalls: function (snap) {
+        var wallList = [];
+        for (var i = 0; i < WALLS.length; i++) {
+            var polygon = [];
+            for (var pp = 0; pp < 4; pp++) {
                 polygon.push({
                     x: WALLS[i].coords[pp].x,
                     y: WALLS[i].coords[pp].y,
@@ -747,37 +787,39 @@ const editor = {
             }
         }
         if (wallList.length == 0) return false;
-        if (wallList.length == 1) return wallList[0];
-        return wallList;
+        else {
+            if (wallList.length == 1) return wallList[0];
+            else return wallList;
+        }
     },
 
-    inWallRib2(wall, option = false) {
+    inWallRib2: function (wall, option = false) {
         if (!option) $("#boxRib").empty();
         ribMaster = [];
-        const emptyArray = [];
+        var emptyArray = [];
         ribMaster.push(emptyArray);
         ribMaster.push(emptyArray);
-        let inter;
-        let distance;
-        let cross;
-        const angleTextValue = wall.angle * (180 / Math.PI);
-        const objWall = editor.objFromWall(wall); // LIST OBJ ON EDGE
+        var inter;
+        var distance;
+        var cross;
+        var angleTextValue = wall.angle * (180 / Math.PI);
+        var objWall = editor.objFromWall(wall); // LIST OBJ ON EDGE
         ribMaster[0].push({
-            wall,
+            wall: wall,
             crossObj: false,
             side: "up",
             coords: wall.coords[0],
             distance: 0,
         });
         ribMaster[1].push({
-            wall,
+            wall: wall,
             crossObj: false,
             side: "down",
             coords: wall.coords[1],
             distance: 0,
         });
-        for (const ob in objWall) {
-            const objTarget = objWall[ob];
+        for (var ob in objWall) {
+            var objTarget = objWall[ob];
             objTarget.up = [
                 qSVG.nearPointOnEquation(wall.equations.up, objTarget.limit[0]),
                 qSVG.nearPointOnEquation(wall.equations.up, objTarget.limit[1]),
@@ -795,7 +837,7 @@ const editor = {
 
             distance = qSVG.measure(wall.coords[0], objTarget.up[0]) / meter;
             ribMaster[0].push({
-                wall,
+                wall: wall,
                 crossObj: ob,
                 side: "up",
                 coords: objTarget.up[0],
@@ -803,7 +845,7 @@ const editor = {
             });
             distance = qSVG.measure(wall.coords[0], objTarget.up[1]) / meter;
             ribMaster[0].push({
-                wall,
+                wall: wall,
                 crossObj: ob,
                 side: "up",
                 coords: objTarget.up[1],
@@ -811,7 +853,7 @@ const editor = {
             });
             distance = qSVG.measure(wall.coords[1], objTarget.down[0]) / meter;
             ribMaster[1].push({
-                wall,
+                wall: wall,
                 crossObj: ob,
                 side: "down",
                 coords: objTarget.down[0],
@@ -819,7 +861,7 @@ const editor = {
             });
             distance = qSVG.measure(wall.coords[1], objTarget.down[1]) / meter;
             ribMaster[1].push({
-                wall,
+                wall: wall,
                 crossObj: ob,
                 side: "down",
                 coords: objTarget.down[1],
@@ -828,30 +870,34 @@ const editor = {
         }
         distance = qSVG.measure(wall.coords[0], wall.coords[3]) / meter;
         ribMaster[0].push({
-            wall,
+            wall: wall,
             crossObj: false,
             side: "up",
             coords: wall.coords[3],
-            distance,
+            distance: distance,
         });
         distance = qSVG.measure(wall.coords[1], wall.coords[2]) / meter;
         ribMaster[1].push({
-            wall,
+            wall: wall,
             crossObj: false,
             side: "down",
             coords: wall.coords[2],
-            distance,
+            distance: distance,
         });
-        ribMaster[0].sort((a, b) => (a.distance - b.distance).toFixed(2));
-        ribMaster[1].sort((a, b) => (a.distance - b.distance).toFixed(2));
-        for (const t in ribMaster) {
-            for (let n = 1; n < ribMaster[t].length; n++) {
-                const found = true;
-                let shift = -5;
-                const valueText = Math.abs(
+        ribMaster[0].sort(function (a, b) {
+            return (a.distance - b.distance).toFixed(2);
+        });
+        ribMaster[1].sort(function (a, b) {
+            return (a.distance - b.distance).toFixed(2);
+        });
+        for (var t in ribMaster) {
+            for (var n = 1; n < ribMaster[t].length; n++) {
+                var found = true;
+                var shift = -5;
+                var valueText = Math.abs(
                     ribMaster[t][n - 1].distance - ribMaster[t][n].distance
                 );
-                let angleText = angleTextValue;
+                var angleText = angleTextValue;
                 if (found) {
                     if (ribMaster[t][n - 1].side == "down") {
                         shift = -shift + 10;
@@ -867,7 +913,7 @@ const editor = {
                         "http://www.w3.org/2000/svg",
                         "text"
                     );
-                    const startText = qSVG.middle(
+                    var startText = qSVG.middle(
                         ribMaster[t][n - 1].coords.x,
                         ribMaster[t][n - 1].coords.y,
                         ribMaster[t][n].coords.x,
@@ -892,7 +938,13 @@ const editor = {
                     sizeText[n].setAttributeNS(null, "fill", "#666666");
                     sizeText[n].setAttribute(
                         "transform",
-                        `rotate(${angleText} ${startText.x},${startText.y})`
+                        "rotate(" +
+                            angleText +
+                            " " +
+                            startText.x +
+                            "," +
+                            startText.y +
+                            ")"
                     );
 
                     $("#boxRib").append(sizeText[n]);
@@ -902,7 +954,7 @@ const editor = {
     },
 
     // value can be "text label", "step number in stair", etc...
-    obj2D(
+    obj2D: function (
         family,
         classe,
         type,
@@ -931,10 +983,10 @@ const editor = {
         this.width = (this.size / meter).toFixed(2);
         this.height = (this.thick / meter).toFixed(2);
 
-        let cc = carpentryCalc(classe, type, size, thick, value);
-        let blank;
+        var cc = carpentryCalc(classe, type, size, thick, value);
+        var blank;
 
-        for (let tt = 0; tt < cc.length; tt++) {
+        for (var tt = 0; tt < cc.length; tt++) {
             if (cc[tt].path) {
                 blank = qSVG.create("none", "path", {
                     d: cc[tt].path,
@@ -959,7 +1011,7 @@ const editor = {
             }
             this.graph.append(blank);
         } // ENDFOR
-        const bbox = this.graph.get(0).getBoundingClientRect();
+        var bbox = this.graph.get(0).getBoundingClientRect();
         bbox.x = bbox.x * factor - offset.left * factor + originX_viewbox;
         bbox.y = bbox.y * factor - offset.top * factor + originY_viewbox;
         bbox.origin = { x: this.x, y: this.y };
@@ -988,21 +1040,30 @@ const editor = {
                 this.thick,
                 this.value
             );
-            for (let tt = 0; tt < cc.length; tt++) {
+            for (var tt = 0; tt < cc.length; tt++) {
                 if (cc[tt].path) {
                     this.graph.find("path")[tt].setAttribute("d", cc[tt].path);
                 } else {
                     // this.graph.find('text').context.textContent = cc[tt].text;
                 }
             }
-            const hingeStatus = this.hinge; // normal - reverse
-            let hingeUpdate;
+            var hingeStatus = this.hinge; // normal - reverse
+            var hingeUpdate;
             if (hingeStatus == "normal") hingeUpdate = 1;
             else hingeUpdate = -1;
             this.graph.attr({
-                transform: `translate(${this.x},${this.y}) rotate(${this.angle},0,0) scale(${hingeUpdate}, 1)`,
+                transform:
+                    "translate(" +
+                    this.x +
+                    "," +
+                    this.y +
+                    ") rotate(" +
+                    this.angle +
+                    ",0,0) scale(" +
+                    hingeUpdate +
+                    ", 1)",
             });
-            const bbox = this.graph.get(0).getBoundingClientRect();
+            var bbox = this.graph.get(0).getBoundingClientRect();
             bbox.x = bbox.x * factor - offset.left * factor + originX_viewbox;
             bbox.y = bbox.y * factor - offset.top * factor + originY_viewbox;
             bbox.origin = { x: this.x, y: this.y };
@@ -1022,14 +1083,14 @@ const editor = {
                 this.thick = this.bbox.height;
             }
 
-            const angleRadian = -this.angle * (Math.PI / 180);
+            var angleRadian = -this.angle * (Math.PI / 180);
             this.realBbox = [
                 { x: -this.size / 2, y: -this.thick / 2 },
                 { x: this.size / 2, y: -this.thick / 2 },
                 { x: this.size / 2, y: this.thick / 2 },
                 { x: -this.size / 2, y: this.thick / 2 },
             ];
-            const newRealBbox = [
+            var newRealBbox = [
                 { x: 0, y: 0 },
                 { x: 0, y: 0 },
                 { x: 0, y: 0 },
@@ -1072,16 +1133,16 @@ const editor = {
         };
     },
 
-    roomMaker(Rooms) {
+    roomMaker: function (Rooms) {
         globalArea = 0;
-        const oldVertexNumber = [];
+        var oldVertexNumber = [];
         if (Rooms.polygons.length == 0) ROOM = [];
         for (var pp = 0; pp < Rooms.polygons.length; pp++) {
-            let foundRoom = false;
+            var foundRoom = false;
             var roomId;
             for (var rr = 0; rr < ROOM.length; rr++) {
                 roomId = rr;
-                let countCoords = Rooms.polygons[pp].coords.length;
+                var countCoords = Rooms.polygons[pp].coords.length;
                 var diffCoords = qSVG.diffObjIntoArray(
                     Rooms.polygons[pp].coords,
                     ROOM[rr].coords
@@ -1140,11 +1201,11 @@ const editor = {
             }
         }
 
-        const toSplice = [];
+        var toSplice = [];
         for (var rr = 0; rr < ROOM.length; rr++) {
-            let found = true;
+            var found = true;
             for (var pp = 0; pp < Rooms.polygons.length; pp++) {
-                let countRoom = ROOM[rr].coords.length;
+                var countRoom = ROOM[rr].coords.length;
                 var diffCoords = qSVG.diffObjIntoArray(
                     Rooms.polygons[pp].coords,
                     ROOM[rr].coords
@@ -1183,54 +1244,64 @@ const editor = {
             if (!found) toSplice.push(rr);
         }
 
-        toSplice.sort((a, b) => b - a);
-        for (let ss = 0; ss < toSplice.length; ss++) {
+        toSplice.sort(function (a, b) {
+            return b - a;
+        });
+        for (var ss = 0; ss < toSplice.length; ss++) {
             ROOM.splice(toSplice[ss], 1);
         }
         $("#boxRoom").empty();
         $("#boxSurface").empty();
         $("#boxArea").empty();
         for (var rr = 0; rr < ROOM.length; rr++) {
-            if (ROOM[rr].action == "add") globalArea += ROOM[rr].area;
+            if (ROOM[rr].action == "add")
+                globalArea = globalArea + ROOM[rr].area;
 
-            const pathSurface = ROOM[rr].coords;
-            let pathCreate = `M${pathSurface[0].x},${pathSurface[0].y}`;
-            for (let p = 1; p < pathSurface.length; p++) {
+            var pathSurface = ROOM[rr].coords;
+            var pathCreate = "M" + pathSurface[0].x + "," + pathSurface[0].y;
+            for (var p = 1; p < pathSurface.length; p++) {
                 pathCreate =
-                    `${pathCreate} ` +
-                    `L${pathSurface[p].x},${pathSurface[p].y}`;
+                    pathCreate +
+                    " " +
+                    "L" +
+                    pathSurface[p].x +
+                    "," +
+                    pathSurface[p].y;
             }
             if (ROOM[rr].inside.length > 0) {
-                for (let ins = 0; ins < ROOM[rr].inside.length; ins++) {
-                    pathCreate = `${pathCreate} M${
+                for (var ins = 0; ins < ROOM[rr].inside.length; ins++) {
+                    pathCreate =
+                        pathCreate +
+                        " M" +
                         Rooms.polygons[ROOM[rr].inside[ins]].coords[
                             Rooms.polygons[ROOM[rr].inside[ins]].coords.length -
                                 1
-                        ].x
-                    },${
+                        ].x +
+                        "," +
                         Rooms.polygons[ROOM[rr].inside[ins]].coords[
                             Rooms.polygons[ROOM[rr].inside[ins]].coords.length -
                                 1
-                        ].y
-                    }`;
+                        ].y;
                     for (
-                        let free =
+                        var free =
                             Rooms.polygons[ROOM[rr].inside[ins]].coords.length -
                             2;
                         free > -1;
                         free--
                     ) {
-                        pathCreate = `${pathCreate} L${
-                            Rooms.polygons[ROOM[rr].inside[ins]].coords[free].x
-                        },${
-                            Rooms.polygons[ROOM[rr].inside[ins]].coords[free].y
-                        }`;
+                        pathCreate =
+                            pathCreate +
+                            " L" +
+                            Rooms.polygons[ROOM[rr].inside[ins]].coords[free]
+                                .x +
+                            "," +
+                            Rooms.polygons[ROOM[rr].inside[ins]].coords[free].y;
                     }
                 }
             }
             qSVG.create("boxRoom", "path", {
                 d: pathCreate,
-                fill: `url(#${ROOM[rr].color})`,
+                fill: "url(#" + ROOM[rr].color + ")",
                 "fill-opacity": 1,
                 stroke: "none",
                 "fill-rule": "evenodd",
@@ -1246,21 +1317,20 @@ const editor = {
                 class: "room",
             });
 
-            const centroid = qSVG.polygonVisualCenter(ROOM[rr]);
+            var centroid = qSVG.polygonVisualCenter(ROOM[rr]);
 
             if (ROOM[rr].name != "") {
                 var styled = { color: "#343938" };
                 if (
                     ROOM[rr].color == "gradientBlack" ||
                     ROOM[rr].color == "gradientBlue"
-                ) {
+                )
                     styled.color = "white";
-                }
                 qSVG.textOnDiv(ROOM[rr].name, centroid, styled, "boxArea");
             }
 
-            if (ROOM[rr].name != "") centroid.y += 20;
-            let area = `${(ROOM[rr].area / (meter * meter)).toFixed(2)} m²`;
+            if (ROOM[rr].name != "") centroid.y = centroid.y + 20;
+            var area = (ROOM[rr].area / (meter * meter)).toFixed(2) + " m²";
             var styled = {
                 color: "#343938",
                 fontSize: "12.5px",
@@ -1268,64 +1338,63 @@ const editor = {
             };
             if (ROOM[rr].surface != "") {
                 styled.fontWeight = "bold";
-                area = `${ROOM[rr].surface} m²`;
+                area = ROOM[rr].surface + " m²";
             }
             if (
                 ROOM[rr].color == "gradientBlack" ||
                 ROOM[rr].color == "gradientBlue"
-            ) {
+            )
                 styled.color = "white";
-            }
-            if (ROOM[rr].showSurface) {
+            if (ROOM[rr].showSurface)
                 qSVG.textOnDiv(area, centroid, styled, "boxArea");
-            }
         }
         if (globalArea <= 0) {
             globalArea = 0;
             $("#areaValue").html("");
         } else {
             $("#areaValue").html(
-                `<i class="fa fa-map-o" aria-hidden="true"></i> ${(
-                    globalArea / 3600
-                ).toFixed(1)} m²`
+                '<i class="fa fa-map-o" aria-hidden="true"></i> ' +
+                    (globalArea / 3600).toFixed(1) +
+                    " m²"
             );
         }
     },
 
-    rayCastingRoom(point) {
-        const { x } = point;
-        const { y } = point;
-        const roomGroup = [];
-        for (let polygon = 0; polygon < ROOM.length; polygon++) {
-            const inside = qSVG.rayCasting(point, ROOM[polygon].coords);
+    rayCastingRoom: function (point) {
+        var x = point.x,
+            y = point.y;
+        var roomGroup = [];
+        for (var polygon = 0; polygon < ROOM.length; polygon++) {
+            var inside = qSVG.rayCasting(point, ROOM[polygon].coords);
 
             if (inside) {
                 roomGroup.push(polygon);
             }
         }
         if (roomGroup.length > 0) {
-            let bestArea = ROOM[roomGroup[0]].area;
-            let roomTarget;
-            for (let siz = 0; siz < roomGroup.length; siz++) {
+            var bestArea = ROOM[roomGroup[0]].area;
+            var roomTarget;
+            for (var siz = 0; siz < roomGroup.length; siz++) {
                 if (ROOM[roomGroup[siz]].area <= bestArea) {
                     bestArea = ROOM[roomGroup[siz]].area;
                     roomTarget = ROOM[roomGroup[siz]];
                 }
             }
             return roomTarget;
+        } else {
+            return false;
         }
-        return false;
     },
 
-    nearVertice(snap, range = 10000) {
-        let bestDistance = Infinity;
-        let bestVertice;
-        for (let i = 0; i < WALLS.length; i++) {
-            const distance1 = qSVG.gap(snap, {
+    nearVertice: function (snap, range = 10000) {
+        var bestDistance = Infinity;
+        var bestVertice;
+        for (var i = 0; i < WALLS.length; i++) {
+            var distance1 = qSVG.gap(snap, {
                 x: WALLS[i].start.x,
                 y: WALLS[i].start.y,
             });
-            const distance2 = qSVG.gap(snap, {
+            var distance2 = qSVG.gap(snap, {
                 x: WALLS[i].end.x,
                 y: WALLS[i].end.y,
             });
@@ -1349,16 +1418,16 @@ const editor = {
             }
         }
         if (bestDistance < range * range) return bestVertice;
-        return false;
+        else return false;
     },
 
-    nearWall(snap, range = Infinity) {
-        let wallDistance = Infinity;
-        let wallSelected = {};
-        let result;
+    nearWall: function (snap, range = Infinity) {
+        var wallDistance = Infinity;
+        var wallSelected = {};
+        var result;
         if (WALLS.length == 0) return false;
-        for (let e = 0; e < WALLS.length; e++) {
-            const eq = qSVG.createEquation(
+        for (var e = 0; e < WALLS.length; e++) {
+            var eq = qSVG.createEquation(
                 WALLS[e].start.x,
                 WALLS[e].start.y,
                 WALLS[e].end.x,
@@ -1379,7 +1448,7 @@ const editor = {
                 };
             }
         }
-        const vv = editor.nearVertice(snap);
+        var vv = editor.nearVertice(snap);
         if (vv.distance < wallDistance) {
             wallDistance = vv.distance;
             wallSelected = {
@@ -1390,16 +1459,13 @@ const editor = {
             };
         }
         if (wallDistance <= range) return wallSelected;
-        return false;
+        else return false;
     },
 
-    showScaleBox() {
+    showScaleBox: function () {
         if (ROOM.length > 0) {
-            let minX;
-            let minY;
-            let maxX;
-            let maxY;
-            for (let i = 0; i < WALLS.length; i++) {
+            var minX, minY, maxX, maxY;
+            for (var i = 0; i < WALLS.length; i++) {
                 var px = WALLS[i].start.x;
                 var py = WALLS[i].start.y;
                 if (!i || px < minX) minX = px;
@@ -1413,21 +1479,21 @@ const editor = {
                 if (!i || px > maxX) maxX = px;
                 if (!i || py > maxY) maxY = py;
             }
-            const width = maxX - minX;
-            const height = maxY - minY;
+            var width = maxX - minX;
+            var height = maxY - minY;
 
-            const labelWidth = ((maxX - minX) / meter).toFixed(2);
-            const labelHeight = ((maxY - minY) / meter).toFixed(2);
+            var labelWidth = ((maxX - minX) / meter).toFixed(2);
+            var labelHeight = ((maxY - minY) / meter).toFixed(2);
 
-            let sideRight = `m${maxX + 40},${minY}`;
-            sideRight = `${sideRight} l60,0 m-40,10 l10,-10 l10,10 m-10,-10`;
-            sideRight = `${sideRight} l0,${height}`;
-            sideRight = `${sideRight} m-30,0 l60,0 m-40,-10 l10,10 l10,-10`;
+            var sideRight = "m" + (maxX + 40) + "," + minY;
+            sideRight = sideRight + " l60,0 m-40,10 l10,-10 l10,10 m-10,-10";
+            sideRight = sideRight + " l0," + height;
+            sideRight = sideRight + " m-30,0 l60,0 m-40,-10 l10,10 l10,-10";
 
-            sideRight = `${sideRight}M${minX},${minY - 40}`;
-            sideRight = `${sideRight} l0,-60 m10,40 l-10,-10 l10,-10 m-10,10`;
-            sideRight = `${sideRight} l${width},0`;
-            sideRight = `${sideRight} m0,30 l0,-60 m-10,40 l10,-10 l-10,-10`;
+            sideRight = sideRight + "M" + minX + "," + (minY - 40);
+            sideRight = sideRight + " l0,-60 m10,40 l-10,-10 l10,-10 m-10,10";
+            sideRight = sideRight + " l" + width + ",0";
+            sideRight = sideRight + " m0,30 l0,-60 m-10,40 l10,-10 l-10,-10";
 
             $("#boxScale").empty();
 
@@ -1450,10 +1516,10 @@ const editor = {
             text.setAttributeNS(null, "y", (maxY + minY) / 2 + 35);
             text.setAttributeNS(null, "fill", "#555");
             text.setAttributeNS(null, "text-anchor", "middle");
-            text.textContent = `${labelHeight} m`;
+            text.textContent = labelHeight + " m";
             text.setAttribute(
                 "transform",
-                `rotate(270 ${maxX + 70},${(maxY + minY) / 2})`
+                "rotate(270 " + (maxX + 70) + "," + (maxY + minY) / 2 + ")"
             );
             $("#boxScale").append(text);
 
@@ -1465,7 +1531,7 @@ const editor = {
             text.setAttributeNS(null, "y", minY - 95);
             text.setAttributeNS(null, "fill", "#555");
             text.setAttributeNS(null, "text-anchor", "middle");
-            text.textContent = `${labelWidth} m`;
+            text.textContent = labelWidth + " m";
             $("#boxScale").append(text);
         }
     },
