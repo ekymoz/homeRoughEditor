@@ -781,8 +781,10 @@ const qSVGCreate = function ($, isObjectsEquals) {
                 for (let k = 0; k < TREELIST.length; k++) {
                     let found = true;
                     const WRO = TREELIST[k];
-                    const WRO_ARRAY = WRO.toString().split("-");
-                    const WR = parseInt(WRO_ARRAY[WRO_ARRAY.length - 1]);
+                    const WRO_ARRAY = WRO.toString()
+                        .split("-")
+                        .map((x) => parseInt(x));
+                    const WR = WRO_ARRAY[WRO_ARRAY.length - 1];
 
                     for (const v of vertex[WR].child) {
                         if (
