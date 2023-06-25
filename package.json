@@ -43,7 +43,8 @@
             ],
             "prefer-template": "error",
             "no-var": "error",
-            "curly": "error"
+            "curly": "error",
+            "eqeqeq": "error"
         }
     },
     "prettier": {

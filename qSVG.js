@@ -15,7 +15,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
             for (const k in attrs) {
                 shapeEl.attr(k, attrs[k]);
             }
-            if (id != "none") {
+            if (id !== "none") {
                 $(`#${id}`).append(shapeEl);
             }
             return shapeEl;
@@ -40,7 +40,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
             let anglerad;
             let angledeg;
             if (!x3) {
-                if (px1 - px2 == 0) {
+                if (px1 - px2 === 0) {
                     anglerad = Math.PI / 2;
                 } else {
                     anglerad = Math.atan((py1 - py2) / (px1 - px2));
@@ -61,7 +61,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
                     Math.pow(Math.abs(px3 - px1), 2) +
                         Math.pow(Math.abs(py3 - py1), 2)
                 );
-                if (a == 0 || b == 0) {
+                if (a === 0 || b === 0) {
                     anglerad = Math.PI / 2;
                 } else {
                     anglerad = Math.acos(
@@ -129,7 +129,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
             const dot = A * C + B * D;
             const len_sq = C * C + D * D;
             let param = -1;
-            if (len_sq != 0) {
+            if (len_sq !== 0) {
                 // in case of 0 length line
                 param = dot / len_sq;
             }
@@ -158,13 +158,13 @@ const qSVGCreate = function ($, isObjectsEquals) {
             // Y = Ax + B ---- equation {A:val, B:val}
             const pointA = {};
             const pointB = {};
-            if (equation.A == "h") {
+            if (equation.A === "h") {
                 return {
                     x: point.x,
                     y: equation.B,
                     distance: Math.abs(equation.B - point.y),
                 };
-            } else if (equation.A == "v") {
+            } else if (equation.A === "v") {
                 return {
                     x: equation.B,
                     y: point.y,
@@ -186,9 +186,9 @@ const qSVGCreate = function ($, isObjectsEquals) {
         },
 
         createEquation: function (x0, y0, x1, y1) {
-            if (x1 - x0 == 0) {
+            if (x1 - x0 === 0) {
                 return { A: "v", B: x0 };
-            } else if (y1 - y0 == 0) {
+            } else if (y1 - y0 === 0) {
                 return { A: "h", B: y0 };
             } else {
                 return {
@@ -199,25 +199,25 @@ const qSVGCreate = function ($, isObjectsEquals) {
         },
 
         perpendicularEquation: function (equation, x1, y1) {
-            if (typeof equation.A != "string") {
+            if (typeof equation.A !== "string") {
                 return {
                     A: -1 / equation.A,
                     B: y1 - (-1 / equation.A) * x1,
                 };
             }
-            if (equation.A == "h") {
+            if (equation.A === "h") {
                 return { A: "v", B: x1 };
             }
-            if (equation.A == "v") {
+            if (equation.A === "v") {
                 return { A: "h", B: y1 };
             }
         },
 
         angleBetweenEquations: function (m1, m2) {
-            let pm1 = m1 == "h" ? (m1 = 0) : m1;
-            let pm2 = m2 == "h" ? (m2 = 0) : m2;
-            pm1 = pm1 == "v" ? (pm1 = 10000) : pm1;
-            pm2 = pm2 == "v" ? (pm2 = 10000) : pm2;
+            let pm1 = m1 === "h" ? (m1 = 0) : m1;
+            let pm2 = m2 === "h" ? (m2 = 0) : m2;
+            pm1 = pm1 === "v" ? (pm1 = 10000) : pm1;
+            pm2 = pm2 === "v" ? (pm2 = 10000) : pm2;
             const angleRad = Math.atan(Math.abs((pm2 - pm1) / (1 + pm1 * pm2)));
             return (360 * angleRad) / (2 * Math.PI);
         },
@@ -230,22 +230,22 @@ const qSVGCreate = function ($, isObjectsEquals) {
         ) {
             let retArray;
             let retObj;
-            if (equation1.A == equation2.A) {
+            if (equation1.A === equation2.A) {
                 retArray = false;
                 retObj = false;
             }
-            if (equation1.A == "v" && equation2.A == "h") {
+            if (equation1.A === "v" && equation2.A === "h") {
                 retArray = [equation1.B, equation2.B];
                 retObj = { x: equation1.B, y: equation2.B };
             }
-            if (equation1.A == "h" && equation2.A == "v") {
+            if (equation1.A === "h" && equation2.A === "v") {
                 retArray = [equation2.B, equation1.B];
                 retObj = { x: equation2.B, y: equation1.B };
             }
             if (
-                equation1.A == "h" &&
-                equation2.A != "v" &&
-                equation2.A != "h"
+                equation1.A === "h" &&
+                equation2.A !== "v" &&
+                equation2.A !== "h"
             ) {
                 retArray = [
                     (equation1.B - equation2.B) / equation2.A,
@@ -257,9 +257,9 @@ const qSVGCreate = function ($, isObjectsEquals) {
                 };
             }
             if (
-                equation1.A == "v" &&
-                equation2.A != "v" &&
-                equation2.A != "h"
+                equation1.A === "v" &&
+                equation2.A !== "v" &&
+                equation2.A !== "h"
             ) {
                 retArray = [
                     equation1.B,
@@ -271,9 +271,9 @@ const qSVGCreate = function ($, isObjectsEquals) {
                 };
             }
             if (
-                equation2.A == "h" &&
-                equation1.A != "v" &&
-                equation1.A != "h"
+                equation2.A === "h" &&
+                equation1.A !== "v" &&
+                equation1.A !== "h"
             ) {
                 retArray = [
                     (equation2.B - equation1.B) / equation1.A,
@@ -285,9 +285,9 @@ const qSVGCreate = function ($, isObjectsEquals) {
                 };
             }
             if (
-                equation2.A == "v" &&
-                equation1.A != "v" &&
-                equation1.A != "h"
+                equation2.A === "v" &&
+                equation1.A !== "v" &&
+                equation1.A !== "h"
             ) {
                 retArray = [
                     equation2.B,
@@ -299,10 +299,10 @@ const qSVGCreate = function ($, isObjectsEquals) {
                 };
             }
             if (
-                equation1.A != "h" &&
-                equation1.A != "v" &&
-                equation2.A != "v" &&
-                equation2.A != "h"
+                equation1.A !== "h" &&
+                equation1.A !== "v" &&
+                equation2.A !== "v" &&
+                equation2.A !== "h"
             ) {
                 const xT =
                     (equation2.B - equation1.B) / (equation1.A - equation2.A);
@@ -310,7 +310,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
                 retArray = [xT, yT];
                 retObj = { x: xT, y: yT };
             }
-            if (type == "array") {
+            if (type === "array") {
                 return retArray;
             }
             return retObj;
@@ -427,17 +427,17 @@ const qSVGCreate = function ($, isObjectsEquals) {
             let countNode = 0;
             for (let k = 0; k < nodeList.length; k++) {
                 if (
-                    nodeList[k].values[0] == point.x &&
-                    nodeList[k].values[1] == point.y &&
-                    nodeList[k].type != "Z"
+                    nodeList[k].values[0] === point.x &&
+                    nodeList[k].values[1] === point.y &&
+                    nodeList[k].type !== "Z"
                 ) {
-                    if (except.indexOf(k) == -1) {
+                    if (except.indexOf(k) === -1) {
                         countNode++;
                         nodes.push(k);
                     }
                 }
             }
-            if (countNode == 0) {
+            if (countNode === 0) {
                 return false;
             }
             return nodes;
@@ -467,7 +467,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
                         segEnd++
                     ) {
                         if (
-                            vertex[vertexArray[i + 1]].segment[segStart] ==
+                            vertex[vertexArray[i + 1]].segment[segStart] ===
                             vertex[vertexArray[i]].segment[segEnd]
                         ) {
                             wall.push({
@@ -540,7 +540,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
                 angleEdge = angleEdge * (180 / Math.PI);
                 angleNextEdge = angleNextEdge * (180 / Math.PI);
 
-                if (eqEdgeUp.A != eqNextEdgeUp.A) {
+                if (eqEdgeUp.A !== eqNextEdgeUp.A) {
                     inter.push(
                         qSVG.intersectionOfEquations(
                             eqEdgeUp,
@@ -623,7 +623,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
                     WALLS[i].end.y
                 );
                 for (let v = 0; v < WALLS.length; v++) {
-                    if (v != i) {
+                    if (v !== i) {
                         const equation2 = qSVG.createEquation(
                             WALLS[v].start.x,
                             WALLS[v].start.y,
@@ -638,14 +638,14 @@ const qSVGCreate = function ($, isObjectsEquals) {
                             ))
                         ) {
                             if (
-                                (WALLS[i].end.x == WALLS[v].start.x &&
-                                    WALLS[i].end.y == WALLS[v].start.y) ||
-                                (WALLS[i].start.x == WALLS[v].end.x &&
-                                    WALLS[i].start.y == WALLS[v].end.y)
+                                (WALLS[i].end.x === WALLS[v].start.x &&
+                                    WALLS[i].end.y === WALLS[v].start.y) ||
+                                (WALLS[i].start.x === WALLS[v].end.x &&
+                                    WALLS[i].start.y === WALLS[v].end.y)
                             ) {
                                 if (
-                                    WALLS[i].end.x == WALLS[v].start.x &&
-                                    WALLS[i].end.y == WALLS[v].start.y
+                                    WALLS[i].end.x === WALLS[v].start.x &&
+                                    WALLS[i].end.y === WALLS[v].start.y
                                 ) {
                                     junction.push({
                                         segment: i,
@@ -658,8 +658,8 @@ const qSVGCreate = function ($, isObjectsEquals) {
                                     });
                                 }
                                 if (
-                                    WALLS[i].start.x == WALLS[v].end.x &&
-                                    WALLS[i].start.y == WALLS[v].end.y
+                                    WALLS[i].start.x === WALLS[v].end.x &&
+                                    WALLS[i].start.y === WALLS[v].end.y
                                 ) {
                                     junction.push({
                                         segment: i,
@@ -709,13 +709,13 @@ const qSVGCreate = function ($, isObjectsEquals) {
                         }
                         // IF EQ1 == EQ 2 FIND IF START OF SECOND SEG == END OF FIRST seg (eq.A maybe values H ou V)
                         if (
-                            (Math.abs(equation1.A) == Math.abs(equation2.A) ||
-                                equation1.A == equation2.A) &&
-                            equation1.B == equation2.B
+                            (Math.abs(equation1.A) === Math.abs(equation2.A) ||
+                                equation1.A === equation2.A) &&
+                            equation1.B === equation2.B
                         ) {
                             if (
-                                WALLS[i].end.x == WALLS[v].start.x &&
-                                WALLS[i].end.y == WALLS[v].start.y
+                                WALLS[i].end.x === WALLS[v].start.x &&
+                                WALLS[i].end.y === WALLS[v].start.y
                             ) {
                                 junction.push({
                                     segment: i,
@@ -728,8 +728,8 @@ const qSVGCreate = function ($, isObjectsEquals) {
                                 });
                             }
                             if (
-                                WALLS[i].start.x == WALLS[v].end.x &&
-                                WALLS[i].start.y == WALLS[v].end.y
+                                WALLS[i].start.x === WALLS[v].end.x &&
+                                WALLS[i].start.y === WALLS[v].end.y
                             ) {
                                 junction.push({
                                     segment: i,
@@ -755,9 +755,9 @@ const qSVGCreate = function ($, isObjectsEquals) {
                 found = true;
                 for (let vv = 0; vv < vertex.length; vv++) {
                     if (
-                        Math.round(junction[jj].values[0]) ==
+                        Math.round(junction[jj].values[0]) ===
                             Math.round(vertex[vv].x) &&
-                        Math.round(junction[jj].values[1]) ==
+                        Math.round(junction[jj].values[1]) ===
                             Math.round(vertex[vv].y)
                     ) {
                         found = false;
@@ -784,14 +784,14 @@ const qSVGCreate = function ($, isObjectsEquals) {
                 vertex[ss].removed = [];
                 for (let sg = 0; sg < vertex[ss].segment.length; sg++) {
                     for (let sc = 0; sc < vertex.length; sc++) {
-                        if (sc != ss) {
+                        if (sc !== ss) {
                             for (
                                 let scg = 0;
                                 scg < vertex[sc].segment.length;
                                 scg++
                             ) {
                                 if (
-                                    vertex[sc].segment[scg] ==
+                                    vertex[sc].segment[scg] ===
                                     vertex[ss].segment[sg]
                                 ) {
                                     vertex[ss].child.push({
@@ -812,8 +812,8 @@ const qSVGCreate = function ($, isObjectsEquals) {
                 for (let fr = 0; fr < vertex[ss].child.length - 1; fr++) {
                     for (let ft = fr + 1; ft < vertex[ss].child.length; ft++) {
                         if (
-                            fr != ft &&
-                            typeof vertex[ss].child[fr] != "undefined"
+                            fr !== ft &&
+                            typeof vertex[ss].child[fr] !== "undefined"
                         ) {
                             found = true;
 
@@ -869,10 +869,10 @@ const qSVGCreate = function ($, isObjectsEquals) {
             // if (arr1.length != arr2.length) return false;
             let minus = 0;
             let start = 0;
-            if (app == "pop") {
+            if (app === "pop") {
                 minus = 1;
             }
-            if (app == "shift") {
+            if (app === "shift") {
                 start = 1;
             }
             let coordCounter = arr1.length - minus - start;
@@ -882,12 +882,12 @@ const qSVGCreate = function ($, isObjectsEquals) {
                     iSecond < arr2.length - minus;
                     iSecond++
                 ) {
-                    if (arr1[iFirst] == arr2[iSecond]) {
+                    if (arr1[iFirst] === arr2[iSecond]) {
                         coordCounter--;
                     }
                 }
             }
-            if (coordCounter == 0) {
+            if (coordCounter === 0) {
                 return true;
             }
             return false;
@@ -913,7 +913,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
             return WAY;
 
             function tree(TREELIST, ORIGIN, COUNT) {
-                if (TREELIST.length == 0) {
+                if (TREELIST.length === 0) {
                     return;
                 }
                 const TREETEMP = [];
@@ -922,11 +922,11 @@ const qSVGCreate = function ($, isObjectsEquals) {
                     let found = true;
                     const WRO = TREELIST[k];
                     const WRO_ARRAY = WRO.toString().split("-");
-                    const WR = WRO_ARRAY[WRO_ARRAY.length - 1];
+                    const WR = parseInt(WRO_ARRAY[WRO_ARRAY.length - 1]);
 
                     for (let v = 0; v < vertex[WR].child.length; v++) {
                         if (
-                            vertex[WR].child[v].id == ORIGIN &&
+                            vertex[WR].child[v].id === ORIGIN &&
                             COUNT < vertex.length - 1 &&
                             WRO_ARRAY.length > 2
                         ) {
@@ -942,13 +942,13 @@ const qSVGCreate = function ($, isObjectsEquals) {
                         let nextDeterValue = Infinity;
                         let nextDeterVal = 0;
                         let nextFlag = 0;
-                        if (vertex[WR].child.length == 1) {
-                            if (WR == ORIGIN && COUNT == vertex.length - 1) {
+                        if (vertex[WR].child.length === 1) {
+                            if (WR === ORIGIN && COUNT === vertex.length - 1) {
                                 TREETEMP.push(
                                     `${WRO}-${vertex[WR].child[0].id}`
                                 );
                             }
-                            if (WR != ORIGIN && COUNT < vertex.length - 1) {
+                            if (WR !== ORIGIN && COUNT < vertex.length - 1) {
                                 TREETEMP.push(
                                     `${WRO}-${vertex[WR].child[0].id}`
                                 );
@@ -961,8 +961,8 @@ const qSVGCreate = function ($, isObjectsEquals) {
                                 v++
                             ) {
                                 if (
-                                    WR == ORIGIN &&
-                                    COUNT == vertex.length - 1
+                                    WR === ORIGIN &&
+                                    COUNT === vertex.length - 1
                                 ) {
                                     // TO INIT FUNCTION -> // CLOCKWISE Research
                                     const vDet = qSVG.vectorVertex(
@@ -976,8 +976,8 @@ const qSVGCreate = function ($, isObjectsEquals) {
                                         nextVertex = vertex[WR].child[v].id;
                                     }
                                     if (
-                                        Math.sign(vDet) == -1 &&
-                                        nextFlag == 0
+                                        Math.sign(vDet) === -1 &&
+                                        nextFlag === 0
                                     ) {
                                         if (
                                             vDet < nextDeterValue &&
@@ -988,7 +988,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
                                         }
                                         if (
                                             vDet > nextDeterValue &&
-                                            Math.sign(nextDeterValue) == -1
+                                            Math.sign(nextDeterValue) === -1
                                         ) {
                                             nextDeterValue = vDet;
                                             nextVertex = vertex[WR].child[v].id;
@@ -996,8 +996,8 @@ const qSVGCreate = function ($, isObjectsEquals) {
                                     }
                                 }
                                 if (
-                                    WR != ORIGIN &&
-                                    WRO_ARRAY[WRO_ARRAY.length - 2] !=
+                                    WR !== ORIGIN &&
+                                    WRO_ARRAY[WRO_ARRAY.length - 2] !==
                                         vertex[WR].child[v].id &&
                                     COUNT < vertex.length - 1
                                 ) {
@@ -1009,12 +1009,12 @@ const qSVGCreate = function ($, isObjectsEquals) {
                                     );
                                     if (
                                         vDet < nextDeterValue &&
-                                        nextFlag == 0
+                                        nextFlag === 0
                                     ) {
                                         nextDeterValue = vDet;
                                         nextVertex = vertex[WR].child[v].id;
                                     }
-                                    if (Math.sign(vDet) == -1) {
+                                    if (Math.sign(vDet) === -1) {
                                         nextFlag = 1;
                                         if (vDet <= nextDeterValue) {
                                             nextDeterValue = vDet;
@@ -1023,7 +1023,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
                                     }
                                 }
                             }
-                            if (nextVertex != -1) {
+                            if (nextVertex !== -1) {
                                 TREETEMP.push(`${WRO}-${nextVertex}`);
                             }
                         }
@@ -1053,15 +1053,15 @@ const qSVGCreate = function ($, isObjectsEquals) {
                     if (
                         vertex[j].x < bestVertexValue &&
                         vertex[j].child.length > 1 &&
-                        vertex[j].bypass == 0
+                        vertex[j].bypass === 0
                     ) {
                         bestVertexValue = vertex[j].x;
                         bestVertex = j;
                     }
                     if (
-                        vertex[j].x == bestVertexValue &&
+                        vertex[j].x === bestVertexValue &&
                         vertex[j].child.length > 1 &&
-                        vertex[j].bypass == 0
+                        vertex[j].bypass === 0
                     ) {
                         if (vertex[j].y > vertex[bestVertex].y) {
                             bestVertexValue = vertex[j].x;
@@ -1072,7 +1072,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
 
                 // console.log("%c%s", "background: yellow; font-size: 14px;","RESEARCH WAY FOR STARTING VERTEX "+bestVertex);
                 const WAYS = qSVG.segmentTree(bestVertex, vertex);
-                if (WAYS.length == 0) {
+                if (WAYS.length === 0) {
                     vertex[bestVertex].bypass = 1;
                 }
                 if (WAYS.length > 0) {
@@ -1095,7 +1095,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
                     if (bestArea < 360) {
                         vertex[bestVertex].bypass = 1;
                     }
-                    if (vertex[bestVertex].bypass == 0) {
+                    if (vertex[bestVertex].bypass === 0) {
                         // <-------- TO REVISE IMPORTANT !!!!!!!! bestArea Control ???
                         const realCoords = qSVG.polygonIntoWalls(
                             vertex,
@@ -1112,7 +1112,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
                             });
                         }
                         // WARNING -> FAKE
-                        if (realCoords.inside.length != realCoords.outside) {
+                        if (realCoords.inside.length !== realCoords.outside) {
                             polygons.push({
                                 way: tempSurface,
                                 coords: coords,
@@ -1141,7 +1141,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
                             aa++
                         ) {
                             if (
-                                vertex[bestVertex].child[aa].id ==
+                                vertex[bestVertex].child[aa].id ===
                                 tempSurface[1]
                             ) {
                                 vertex[bestVertex].child.splice(aa, 1);
@@ -1155,7 +1155,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
                             aa++
                         ) {
                             if (
-                                vertex[tempSurface[1]].child[aa].id ==
+                                vertex[tempSurface[1]].child[aa].id ===
                                 bestVertex
                             ) {
                                 vertex[tempSurface[1]].child.splice(aa, 1);
@@ -1167,7 +1167,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
                         do {
                             looping = 0;
                             for (let aa = 0; aa < vertex.length; aa++) {
-                                if (vertex[aa].child.length == 1) {
+                                if (vertex[aa].child.length === 1) {
                                     looping = 1;
                                     vertex[aa].child = [];
                                     for (let ab = 0; ab < vertex.length; ab++) {
@@ -1177,14 +1177,16 @@ const qSVGCreate = function ($, isObjectsEquals) {
                                             ac < vertex[ab].child.length;
                                             ac++
                                         ) {
-                                            if (vertex[ab].child[ac].id == aa) {
+                                            if (
+                                                vertex[ab].child[ac].id === aa
+                                            ) {
                                                 vertex[ab].child.splice(ac, 1);
                                             }
                                         }
                                     }
                                 }
                             }
-                        } while (looping == 1);
+                        } while (looping === 1);
                     }
                 }
             }
@@ -1192,7 +1194,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
             for (let pp = 0; pp < polygons.length; pp++) {
                 const inside = [];
                 for (let free = 0; free < polygons.length; free++) {
-                    if (pp != free) {
+                    if (pp !== free) {
                         const polygonFree = polygons[free].coords;
                         const countCoords = polygonFree.length;
                         let found = true;
@@ -1255,7 +1257,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
                 const xj = polygon[j].x;
                 const yj = polygon[j].y;
                 const intersect =
-                    yi > y != yj > y &&
+                    yi > y !== yj > y &&
                     x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
                 if (intersect) {
                     inside = !inside;
@@ -1331,7 +1333,7 @@ const qSVGCreate = function ($, isObjectsEquals) {
         },
 
         textOnDiv: function (label, pos, styled, div) {
-            if (typeof pos != "undefined") {
+            if (typeof pos !== "undefined") {
                 const text = document.createElementNS(
                     "http://www.w3.org/2000/svg",
                     "text"
