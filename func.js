@@ -37,6 +37,7 @@ let originX_viewbox = 0;
 let originY_viewbox = 0;
 let zoom = 9;
 let factor = 1;
+const qSVG = qSVGCreate($, isObjectsEquals);
 
 // **************************************************************************
 // *****************   LOAD / SAVE LOCALSTORAGE      ************************

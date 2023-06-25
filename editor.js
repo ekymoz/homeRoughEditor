@@ -1052,16 +1052,7 @@ var editor = {
             if (hingeStatus == "normal") hingeUpdate = 1;
             else hingeUpdate = -1;
             this.graph.attr({
-                transform:
-                    "translate(" +
-                    this.x +
-                    "," +
-                    this.y +
-                    ") rotate(" +
-                    this.angle +
-                    ",0,0) scale(" +
-                    hingeUpdate +
-                    ", 1)",
+                transform: `translate(${this.x},${this.y}) rotate(${this.angle},0,0) scale(${hingeUpdate}, 1)`,
             });
             var bbox = this.graph.get(0).getBoundingClientRect();
             bbox.x = bbox.x * factor - offset.left * factor + originX_viewbox;
@@ -1317,7 +1308,7 @@ var editor = {
                 class: "room",
             });
 
-            var centroid = qSVG.polygonVisualCenter(ROOM[rr]);
+            var centroid = qSVG.polygonVisualCenter(ROOM[rr], ROOM);
 
             if (ROOM[rr].name != "") {
                 var styled = { color: "#343938" };
