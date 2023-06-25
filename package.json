@@ -41,7 +41,9 @@
                 "error",
                 "always"
             ],
-            "prefer-template": "error"
+            "prefer-template": "error",
+            "no-var": "error",
+            "curly": "error"
         }
     },
     "prettier": {
