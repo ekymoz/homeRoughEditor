@@ -56,66 +56,66 @@ function initHistory(boot = false) {
             "objData": [],
             "wallData": [{
                 "thick": 20,
-                "start": {"x": 540, "y": 194},
-                "end": {"x": 540, "y": 734},
+                "start": { "x": 540, "y": 194 },
+                "end": { "x": 540, "y": 734 },
                 "type": "normal",
                 "parent": 3,
                 "child": 1,
                 "angle": 1.5707963267948966,
-                "equations": {"up": {"A": "v", "B": 550}, "down": {"A": "v", "B": 530}, "base": {"A": "v", "B": 540}},
-                "coords": [{"x": 550, "y": 204}, {"x": 530, "y": 184}, {"x": 530, "y": 744}, {"x": 550, "y": 724}],
-                "graph": {"0": {}, "context": {}, "length": 1}
+                "equations": { "up": { "A": "v", "B": 550 }, "down": { "A": "v", "B": 530 }, "base": { "A": "v", "B": 540 } },
+                "coords": [{ "x": 550, "y": 204 }, { "x": 530, "y": 184 }, { "x": 530, "y": 744 }, { "x": 550, "y": 724 }],
+                "graph": { "0": {}, "context": {}, "length": 1 }
             }, {
                 "thick": 20,
-                "start": {"x": 540, "y": 734},
-                "end": {"x": 1080, "y": 734},
+                "start": { "x": 540, "y": 734 },
+                "end": { "x": 1080, "y": 734 },
                 "type": "normal",
                 "parent": 0,
                 "child": 2,
                 "angle": 0,
-                "equations": {"up": {"A": "h", "B": 724}, "down": {"A": "h", "B": 744}, "base": {"A": "h", "B": 734}},
-                "coords": [{"x": 550, "y": 724}, {"x": 530, "y": 744}, {"x": 1090, "y": 744}, {"x": 1070, "y": 724}],
-                "graph": {"0": {}, "context": {}, "length": 1}
+                "equations": { "up": { "A": "h", "B": 724 }, "down": { "A": "h", "B": 744 }, "base": { "A": "h", "B": 734 } },
+                "coords": [{ "x": 550, "y": 724 }, { "x": 530, "y": 744 }, { "x": 1090, "y": 744 }, { "x": 1070, "y": 724 }],
+                "graph": { "0": {}, "context": {}, "length": 1 }
             }, {
                 "thick": 20,
-                "start": {"x": 1080, "y": 734},
-                "end": {"x": 1080, "y": 194},
+                "start": { "x": 1080, "y": 734 },
+                "end": { "x": 1080, "y": 194 },
                 "type": "normal",
                 "parent": 1,
                 "child": 3,
                 "angle": -1.5707963267948966,
                 "equations": {
-                    "up": {"A": "v", "B": 1070},
-                    "down": {"A": "v", "B": 1090},
-                    "base": {"A": "v", "B": 1080}
+                    "up": { "A": "v", "B": 1070 },
+                    "down": { "A": "v", "B": 1090 },
+                    "base": { "A": "v", "B": 1080 }
                 },
-                "coords": [{"x": 1070, "y": 724}, {"x": 1090, "y": 744}, {"x": 1090, "y": 184}, {"x": 1070, "y": 204}],
-                "graph": {"0": {}, "context": {}, "length": 1}
+                "coords": [{ "x": 1070, "y": 724 }, { "x": 1090, "y": 744 }, { "x": 1090, "y": 184 }, { "x": 1070, "y": 204 }],
+                "graph": { "0": {}, "context": {}, "length": 1 }
             }, {
                 "thick": 20,
-                "start": {"x": 1080, "y": 194},
-                "end": {"x": 540, "y": 194},
+                "start": { "x": 1080, "y": 194 },
+                "end": { "x": 540, "y": 194 },
                 "type": "normal",
                 "parent": 2,
                 "child": 0,
                 "angle": 3.141592653589793,
-                "equations": {"up": {"A": "h", "B": 204}, "down": {"A": "h", "B": 184}, "base": {"A": "h", "B": 194}},
-                "coords": [{"x": 1070, "y": 204}, {"x": 1090, "y": 184}, {"x": 530, "y": 184}, {"x": 550, "y": 204}],
-                "graph": {"0": {}, "context": {}, "length": 1}
+                "equations": { "up": { "A": "h", "B": 204 }, "down": { "A": "h", "B": 184 }, "base": { "A": "h", "B": 194 } },
+                "coords": [{ "x": 1070, "y": 204 }, { "x": 1090, "y": 184 }, { "x": 530, "y": 184 }, { "x": 550, "y": 204 }],
+                "graph": { "0": {}, "context": {}, "length": 1 }
             }],
             "roomData": [{
-                "coords": [{"x": 540, "y": 734}, {"x": 1080, "y": 734}, {"x": 1080, "y": 194}, {
+                "coords": [{ "x": 540, "y": 734 }, { "x": 1080, "y": 734 }, { "x": 1080, "y": 194 }, {
                     "x": 540,
                     "y": 194
-                }, {"x": 540, "y": 734}],
-                "coordsOutside": [{"x": 1090, "y": 744}, {"x": 1090, "y": 184}, {"x": 530, "y": 184}, {
+                }, { "x": 540, "y": 734 }],
+                "coordsOutside": [{ "x": 1090, "y": 744 }, { "x": 1090, "y": 184 }, { "x": 530, "y": 184 }, {
                     "x": 530,
                     "y": 744
-                }, {"x": 1090, "y": 744}],
-                "coordsInside": [{"x": 1070, "y": 724}, {"x": 1070, "y": 204}, {"x": 550, "y": 204}, {
+                }, { "x": 1090, "y": 744 }],
+                "coordsInside": [{ "x": 1070, "y": 724 }, { "x": 1070, "y": 204 }, { "x": 550, "y": 204 }, {
                     "x": 550,
                     "y": 724
-                }, {"x": 1070, "y": 724}],
+                }, { "x": 1070, "y": 724 }],
                 "inside": [],
                 "way": ["0", "2", "3", "1", "0"],
                 "area": 270400,
@@ -137,92 +137,92 @@ function initHistory(boot = false) {
             "objData": [],
             "wallData": [{
                 "thick": 20,
-                "start": {"x": 447, "y": 458},
-                "end": {"x": 447, "y": 744},
+                "start": { "x": 447, "y": 458 },
+                "end": { "x": 447, "y": 744 },
                 "type": "normal",
                 "parent": 5,
                 "child": 1,
                 "angle": 1.5707963267948966,
-                "equations": {"up": {"A": "v", "B": 457}, "down": {"A": "v", "B": 437}, "base": {"A": "v", "B": 447}},
-                "coords": [{"x": 457, "y": 468}, {"x": 437, "y": 448}, {"x": 437, "y": 754}, {"x": 457, "y": 734}],
-                "graph": {"0": {}, "context": {}, "length": 1}
+                "equations": { "up": { "A": "v", "B": 457 }, "down": { "A": "v", "B": 437 }, "base": { "A": "v", "B": 447 } },
+                "coords": [{ "x": 457, "y": 468 }, { "x": 437, "y": 448 }, { "x": 437, "y": 754 }, { "x": 457, "y": 734 }],
+                "graph": { "0": {}, "context": {}, "length": 1 }
             }, {
                 "thick": 20,
-                "start": {"x": 447, "y": 744},
-                "end": {"x": 1347, "y": 744},
+                "start": { "x": 447, "y": 744 },
+                "end": { "x": 1347, "y": 744 },
                 "type": "normal",
                 "parent": 0,
                 "child": 2,
                 "angle": 0,
-                "equations": {"up": {"A": "h", "B": 734}, "down": {"A": "h", "B": 754}, "base": {"A": "h", "B": 744}},
-                "coords": [{"x": 457, "y": 734}, {"x": 437, "y": 754}, {"x": 1357, "y": 754}, {"x": 1337, "y": 734}],
-                "graph": {"0": {}, "context": {}, "length": 1}
+                "equations": { "up": { "A": "h", "B": 734 }, "down": { "A": "h", "B": 754 }, "base": { "A": "h", "B": 744 } },
+                "coords": [{ "x": 457, "y": 734 }, { "x": 437, "y": 754 }, { "x": 1357, "y": 754 }, { "x": 1337, "y": 734 }],
+                "graph": { "0": {}, "context": {}, "length": 1 }
             }, {
                 "thick": 20,
-                "start": {"x": 1347, "y": 744},
-                "end": {"x": 1347, "y": 144},
+                "start": { "x": 1347, "y": 744 },
+                "end": { "x": 1347, "y": 144 },
                 "type": "normal",
                 "parent": 1,
                 "child": 3,
                 "angle": -1.5707963267948966,
                 "equations": {
-                    "up": {"A": "v", "B": 1337},
-                    "down": {"A": "v", "B": 1357},
-                    "base": {"A": "v", "B": 1347}
+                    "up": { "A": "v", "B": 1337 },
+                    "down": { "A": "v", "B": 1357 },
+                    "base": { "A": "v", "B": 1347 }
                 },
-                "coords": [{"x": 1337, "y": 734}, {"x": 1357, "y": 754}, {"x": 1357, "y": 134}, {"x": 1337, "y": 154}],
-                "graph": {"0": {}, "context": {}, "length": 1}
+                "coords": [{ "x": 1337, "y": 734 }, { "x": 1357, "y": 754 }, { "x": 1357, "y": 134 }, { "x": 1337, "y": 154 }],
+                "graph": { "0": {}, "context": {}, "length": 1 }
             }, {
                 "thick": 20,
-                "start": {"x": 1347, "y": 144},
-                "end": {"x": 1020, "y": 144},
+                "start": { "x": 1347, "y": 144 },
+                "end": { "x": 1020, "y": 144 },
                 "type": "normal",
                 "parent": 2,
                 "child": 4,
                 "angle": 3.141592653589793,
-                "equations": {"up": {"A": "h", "B": 154}, "down": {"A": "h", "B": 134}, "base": {"A": "h", "B": 144}},
-                "coords": [{"x": 1337, "y": 154}, {"x": 1357, "y": 134}, {"x": 1010, "y": 134}, {"x": 1030, "y": 154}],
-                "graph": {"0": {}, "context": {}, "length": 1}
+                "equations": { "up": { "A": "h", "B": 154 }, "down": { "A": "h", "B": 134 }, "base": { "A": "h", "B": 144 } },
+                "coords": [{ "x": 1337, "y": 154 }, { "x": 1357, "y": 134 }, { "x": 1010, "y": 134 }, { "x": 1030, "y": 154 }],
+                "graph": { "0": {}, "context": {}, "length": 1 }
             }, {
                 "thick": 20,
-                "start": {"x": 1020, "y": 144},
-                "end": {"x": 1020, "y": 458},
+                "start": { "x": 1020, "y": 144 },
+                "end": { "x": 1020, "y": 458 },
                 "type": "normal",
                 "parent": 3,
                 "child": 5,
                 "angle": 1.5707963267948966,
                 "equations": {
-                    "up": {"A": "v", "B": 1030},
-                    "down": {"A": "v", "B": 1010},
-                    "base": {"A": "v", "B": 1020}
+                    "up": { "A": "v", "B": 1030 },
+                    "down": { "A": "v", "B": 1010 },
+                    "base": { "A": "v", "B": 1020 }
                 },
-                "coords": [{"x": 1030, "y": 154}, {"x": 1010, "y": 134}, {"x": 1010, "y": 448}, {"x": 1030, "y": 468}],
-                "graph": {"0": {}, "context": {}, "length": 1}
+                "coords": [{ "x": 1030, "y": 154 }, { "x": 1010, "y": 134 }, { "x": 1010, "y": 448 }, { "x": 1030, "y": 468 }],
+                "graph": { "0": {}, "context": {}, "length": 1 }
             }, {
                 "thick": 20,
-                "start": {"x": 1020, "y": 458},
-                "end": {"x": 447, "y": 458},
+                "start": { "x": 1020, "y": 458 },
+                "end": { "x": 447, "y": 458 },
                 "type": "normal",
                 "parent": 4,
                 "child": 0,
                 "angle": 3.141592653589793,
-                "equations": {"up": {"A": "h", "B": 468}, "down": {"A": "h", "B": 448}, "base": {"A": "h", "B": 458}},
-                "coords": [{"x": 1030, "y": 468}, {"x": 1010, "y": 448}, {"x": 437, "y": 448}, {"x": 457, "y": 468}],
-                "graph": {"0": {}, "context": {}, "length": 1}
+                "equations": { "up": { "A": "h", "B": 468 }, "down": { "A": "h", "B": 448 }, "base": { "A": "h", "B": 458 } },
+                "coords": [{ "x": 1030, "y": 468 }, { "x": 1010, "y": 448 }, { "x": 437, "y": 448 }, { "x": 457, "y": 468 }],
+                "graph": { "0": {}, "context": {}, "length": 1 }
             }],
             "roomData": [{
-                "coords": [{"x": 447, "y": 744}, {"x": 1347, "y": 744}, {"x": 1347, "y": 144}, {
+                "coords": [{ "x": 447, "y": 744 }, { "x": 1347, "y": 744 }, { "x": 1347, "y": 144 }, {
                     "x": 1020,
                     "y": 144
-                }, {"x": 1020, "y": 458}, {"x": 447, "y": 458}, {"x": 447, "y": 744}],
-                "coordsOutside": [{"x": 1357, "y": 754}, {"x": 1357, "y": 134}, {"x": 1010, "y": 134}, {
+                }, { "x": 1020, "y": 458 }, { "x": 447, "y": 458 }, { "x": 447, "y": 744 }],
+                "coordsOutside": [{ "x": 1357, "y": 754 }, { "x": 1357, "y": 134 }, { "x": 1010, "y": 134 }, {
                     "x": 1010,
                     "y": 448
-                }, {"x": 437, "y": 448}, {"x": 437, "y": 754}, {"x": 1357, "y": 754}],
-                "coordsInside": [{"x": 1337, "y": 734}, {"x": 1337, "y": 154}, {"x": 1030, "y": 154}, {
+                }, { "x": 437, "y": 448 }, { "x": 437, "y": 754 }, { "x": 1357, "y": 754 }],
+                "coordsInside": [{ "x": 1337, "y": 734 }, { "x": 1337, "y": 154 }, { "x": 1030, "y": 154 }, {
                     "x": 1030,
                     "y": 468
-                }, {"x": 457, "y": 468}, {"x": 457, "y": 734}, {"x": 1337, "y": 734}],
+                }, { "x": 457, "y": 468 }, { "x": 457, "y": 734 }, { "x": 1337, "y": 734 }],
                 "inside": [],
                 "way": ["0", "2", "3", "4", "5", "1", "0"],
                 "area": 330478,
@@ -274,7 +274,7 @@ function save(boot = false) {
             WALLS[k].parent = WALLS.indexOf(WALLS[k].parent);
         }
     }
-    if (JSON.stringify({objData: OBJDATA, wallData: WALLS, roomData: ROOM}) === HISTORY[HISTORY.length - 1]) {
+    if (JSON.stringify({ objData: OBJDATA, wallData: WALLS, roomData: ROOM }) === HISTORY[HISTORY.length - 1]) {
         for (let k in WALLS) {
             if (WALLS[k].child != null) {
                 WALLS[k].child = WALLS[WALLS[k].child];
@@ -290,7 +290,7 @@ function save(boot = false) {
         HISTORY.splice(HISTORY.index, (HISTORY.length - HISTORY.index));
         $('#redo').addClass('disabled');
     }
-    HISTORY.push(JSON.stringify({objData: OBJDATA, wallData: WALLS, roomData: ROOM}));
+    HISTORY.push(JSON.stringify({ objData: OBJDATA, wallData: WALLS, roomData: ROOM }));
     localStorage.setItem('history', JSON.stringify(HISTORY));
     HISTORY.index++;
     if (HISTORY.index > 1) $('#undo').removeClass('disabled');
@@ -354,256 +354,256 @@ document.getElementById('report_mode').addEventListener("click", function () {
     if (typeof (globalArea) === "undefined") return false;
     mode = "report_mode";
     $('#panel').hide();
-    $('#reportTools').show(200, function () {
-        document.getElementById('reportTotalSurface').innerHTML = "Total surface : <b>" + (globalArea / 3600).toFixed(1) + "</b> m²";
-        $('#reportTotalSurface').show(1000);
-        document.getElementById('reportNumberSurface').innerHTML = "Number of rooms : <b>" + ROOM.length + "</b>";
-        $('#reportNumberSurface').show(1000);
-        let number = 1;
-        let reportRoom = '<div class="row">\n';
-        for (let k in ROOM) {
-            let nameRoom = "Room n°" + number + " <small>(sans nom)</small>";
-            if (ROOM[k].name != "") nameRoom = ROOM[k].name;
-            reportRoom += '<div class="col-md-6"><p>' + nameRoom + '</p></div>\n';
-            reportRoom += '<div class="col-md-6"><p>Surface : <b>' + ((ROOM[k].area) / 3600).toFixed(2) + '</b> m²</p></div>\n';
-            number++;
+    $('#reportTools').show(200)
+    document.getElementById('reportTotalSurface').innerHTML = "Total surface : <b>" + (globalArea / 3600).toFixed(1) + "</b> m²";
+    $('#reportTotalSurface').show(1000);
+    document.getElementById('reportNumberSurface').innerHTML = "Number of rooms : <b>" + ROOM.length + "</b>";
+    $('#reportNumberSurface').show(1000);
+    let number = 1;
+    let reportRoom = '<div class="row">\n';
+    for (let k in ROOM) {
+        let nameRoom = "Room n°" + number + " <small>(sans nom)</small>";
+        if (ROOM[k].name != "") nameRoom = ROOM[k].name;
+        reportRoom += '<div class="col-md-6"><p>' + nameRoom + '</p></div>\n';
+        reportRoom += '<div class="col-md-6"><p>Surface : <b>' + ((ROOM[k].area) / 3600).toFixed(2) + '</b> m²</p></div>\n';
+        number++;
+    }
+    reportRoom += '</div><hr/>\n';
+    reportRoom += '<div>\n';
+    let switchNumber = 0;
+    let plugNumber = 0;
+    let lampNumber = 0;
+    for (let k in OBJDATA) {
+        if (OBJDATA[k].class === 'energy') {
+            if (OBJDATA[k].type === 'switch' || OBJDATA[k].type === 'doubleSwitch' || OBJDATA[k].type === 'dimmer') switchNumber++;
+            if (OBJDATA[k].type === 'plug' || OBJDATA[k].type === 'plug20' || OBJDATA[k].type === 'plug32') plugNumber++;
+            if (OBJDATA[k].type === 'wallLight' || OBJDATA[k].type === 'roofLight') lampNumber++;
         }
-        reportRoom += '</div><hr/>\n';
-        reportRoom += '<div>\n';
-        let switchNumber = 0;
-        let plugNumber = 0;
-        let lampNumber = 0;
-        for (let k in OBJDATA) {
-            if (OBJDATA[k].class === 'energy') {
-                if (OBJDATA[k].type === 'switch' || OBJDATA[k].type === 'doubleSwitch' || OBJDATA[k].type === 'dimmer') switchNumber++;
-                if (OBJDATA[k].type === 'plug' || OBJDATA[k].type === 'plug20' || OBJDATA[k].type === 'plug32') plugNumber++;
-                if (OBJDATA[k].type === 'wallLight' || OBJDATA[k].type === 'roofLight') lampNumber++;
-            }
-        }
-        reportRoom += '<p>Switch number : ' + switchNumber + '</p>';
-        reportRoom += '<p>Electric outlet number : ' + plugNumber + '</p>';
-        reportRoom += '<p>Light point number : ' + lampNumber + '</p>';
-        reportRoom += '</div>';
-        reportRoom += '<div>\n';
-        reportRoom += '<h2>Energy distribution per room</h2>\n';
-        number = 1;
+    }
+    reportRoom += '<p>Switch number : ' + switchNumber + '</p>';
+    reportRoom += '<p>Electric outlet number : ' + plugNumber + '</p>';
+    reportRoom += '<p>Light point number : ' + lampNumber + '</p>';
+    reportRoom += '</div>';
+    reportRoom += '<div>\n';
+    reportRoom += '<h2>Energy distribution per room</h2>\n';
+    number = 1;
+    reportRoom += '<div class="row">\n';
+    reportRoom += '<div class="col-md-4"><p>Label</p></div>\n';
+    reportRoom += '<div class="col-md-2"><small>Swi.</small></div>\n';
+    reportRoom += '<div class="col-md-2"><small>Elec. out.</small></div>\n';
+    reportRoom += '<div class="col-md-2"><small>Light.</small></div>\n';
+    reportRoom += '<div class="col-md-2"><small>Watts Max</small></div>\n';
+    reportRoom += '</div>';
+
+    let roomEnergy = [];
+    for (let k in ROOM) {
         reportRoom += '<div class="row">\n';
-        reportRoom += '<div class="col-md-4"><p>Label</p></div>\n';
-        reportRoom += '<div class="col-md-2"><small>Swi.</small></div>\n';
-        reportRoom += '<div class="col-md-2"><small>Elec. out.</small></div>\n';
-        reportRoom += '<div class="col-md-2"><small>Light.</small></div>\n';
-        reportRoom += '<div class="col-md-2"><small>Watts Max</small></div>\n';
+        let nameRoom = "Room n°" + number + " <small>(no name)</small>";
+        if (ROOM[k].name != "") nameRoom = ROOM[k].name;
+        reportRoom += '<div class="col-md-4"><p>' + nameRoom + '</p></div>\n';
+        switchNumber = 0;
+        plugNumber = 0;
+        let plug20 = 0;
+        let plug32 = 0;
+        lampNumber = 0;
+        let wattMax = 0;
+        let plug = false;
+        for (let i in OBJDATA) {
+            if (OBJDATA[i].class === 'energy') {
+                if (OBJDATA[i].type === 'switch' || OBJDATA[i].type === 'doubleSwitch' || OBJDATA[i].type === 'dimmer') {
+                    if (roomTarget = editor.rayCastingRoom(OBJDATA[i])) {
+                        if (isObjectsEquals(ROOM[k], roomTarget)) switchNumber++;
+                    }
+                }
+                if (OBJDATA[i].type === 'plug' || OBJDATA[i].type === 'plug20' || OBJDATA[i].type === 'plug32') {
+                    if (roomTarget = editor.rayCastingRoom(OBJDATA[i])) {
+                        if (isObjectsEquals(ROOM[k], roomTarget)) {
+                            plugNumber++;
+                            if (OBJDATA[i].type === 'plug' && !plug) {
+                                wattMax += 3520;
+                                plug = true;
+                            }
+                            if (OBJDATA[i].type === 'plug20') {
+                                wattMax += 4400;
+                                plug20++;
+                            }
+                            if (OBJDATA[i].type === 'plug32') {
+                                wattMax += 7040;
+                                plug32++;
+                            }
+                        }
+                    }
+                }
+                if (OBJDATA[i].type === 'wallLight' || OBJDATA[i].type === 'roofLight') {
+                    if (roomTarget = editor.rayCastingRoom(OBJDATA[i])) {
+                        if (isObjectsEquals(ROOM[k], roomTarget)) {
+                            lampNumber++;
+                            wattMax += 100;
+                        }
+                    }
+                }
+            }
+        }
+        roomEnergy.push({
+            switch: switchNumber,
+            plug: plugNumber,
+            plug20: plug20,
+            plug32: plug32,
+            light: lampNumber
+        });
+        reportRoom += '<div class="col-md-2"><b>' + switchNumber + '</b></div>\n';
+        reportRoom += '<div class="col-md-2"><b>' + plugNumber + '</b></div>\n';
+        reportRoom += '<div class="col-md-2"><b>' + lampNumber + '</b></div>\n';
+        reportRoom += '<div class="col-md-2"><b>' + wattMax + '</b></div>\n';
+        number++;
         reportRoom += '</div>';
+    }
+    reportRoom += '<hr/><h2>Standard details NF C 15-100</h2>\n';
+    number = 1;
 
-        let roomEnergy = [];
-        for (let k in ROOM) {
-            reportRoom += '<div class="row">\n';
-            let nameRoom = "Room n°" + number + " <small>(no name)</small>";
-            if (ROOM[k].name != "") nameRoom = ROOM[k].name;
-            reportRoom += '<div class="col-md-4"><p>' + nameRoom + '</p></div>\n';
-            switchNumber = 0;
-            plugNumber = 0;
-            let plug20 = 0;
-            let plug32 = 0;
-            lampNumber = 0;
-            let wattMax = 0;
-            let plug = false;
-            for (let i in OBJDATA) {
-                if (OBJDATA[i].class === 'energy') {
-                    if (OBJDATA[i].type === 'switch' || OBJDATA[i].type === 'doubleSwitch' || OBJDATA[i].type === 'dimmer') {
-                        if (roomTarget = editor.rayCastingRoom(OBJDATA[i])) {
-                            if (isObjectsEquals(ROOM[k], roomTarget)) switchNumber++;
-                        }
-                    }
-                    if (OBJDATA[i].type === 'plug' || OBJDATA[i].type === 'plug20' || OBJDATA[i].type === 'plug32') {
-                        if (roomTarget = editor.rayCastingRoom(OBJDATA[i])) {
-                            if (isObjectsEquals(ROOM[k], roomTarget)) {
-                                plugNumber++;
-                                if (OBJDATA[i].type === 'plug' && !plug) {
-                                    wattMax += 3520;
-                                    plug = true;
-                                }
-                                if (OBJDATA[i].type === 'plug20') {
-                                    wattMax += 4400;
-                                    plug20++;
-                                }
-                                if (OBJDATA[i].type === 'plug32') {
-                                    wattMax += 7040;
-                                    plug32++;
-                                }
-                            }
-                        }
-                    }
-                    if (OBJDATA[i].type === 'wallLight' || OBJDATA[i].type === 'roofLight') {
-                        if (roomTarget = editor.rayCastingRoom(OBJDATA[i])) {
-                            if (isObjectsEquals(ROOM[k], roomTarget)) {
-                                lampNumber++;
-                                wattMax += 100;
-                            }
-                        }
+    for (let k in ROOM) {
+        reportRoom += '<div class="row">\n';
+        let nfc = true;
+        let nameRoom = "Room n°" + number + " <small>(no name)</small>";
+        if (ROOM[k].name != "") nameRoom = ROOM[k].name;
+        reportRoom += '<div class="col-md-4"><p>' + nameRoom + '</p></div>\n';
+        if (ROOM[k].name === "") {
+            reportRoom +=
+                '<div class="col-md-8"><p><i class="fa fa-ban" aria-hidden="true" style="color:red"></i> The room has no label, Home Rough Editor cannot provide you with information.</p></div>\n';
+        } else {
+            if (ROOM[k].name === "Salon") {
+                for (let g in ROOM) {
+                    if (ROOM[g].name === "Salle à manger") {
+                        roomEnergy[k].light += roomEnergy[g].light;
+                        roomEnergy[k].plug += roomEnergy[g].plug;
+                        roomEnergy[k].switch += roomEnergy[g].switch;
                     }
                 }
-            }
-            roomEnergy.push({
-                switch: switchNumber,
-                plug: plugNumber,
-                plug20: plug20,
-                plug32: plug32,
-                light: lampNumber
-            });
-            reportRoom += '<div class="col-md-2"><b>' + switchNumber + '</b></div>\n';
-            reportRoom += '<div class="col-md-2"><b>' + plugNumber + '</b></div>\n';
-            reportRoom += '<div class="col-md-2"><b>' + lampNumber + '</b></div>\n';
-            reportRoom += '<div class="col-md-2"><b>' + wattMax + '</b></div>\n';
-            number++;
-            reportRoom += '</div>';
-        }
-        reportRoom += '<hr/><h2>Standard details NF C 15-100</h2>\n';
-        number = 1;
-
-        for (let k in ROOM) {
-            reportRoom += '<div class="row">\n';
-            let nfc = true;
-            let nameRoom = "Room n°" + number + " <small>(no name)</small>";
-            if (ROOM[k].name != "") nameRoom = ROOM[k].name;
-            reportRoom += '<div class="col-md-4"><p>' + nameRoom + '</p></div>\n';
-            if (ROOM[k].name === "") {
-                reportRoom +=
-                    '<div class="col-md-8"><p><i class="fa fa-ban" aria-hidden="true" style="color:red"></i> The room has no label, Home Rough Editor cannot provide you with information.</p></div>\n';
-            } else {
-                if (ROOM[k].name === "Salon") {
-                    for (let g in ROOM) {
-                        if (ROOM[g].name === "Salle à manger") {
-                            roomEnergy[k].light += roomEnergy[g].light;
-                            roomEnergy[k].plug += roomEnergy[g].plug;
-                            roomEnergy[k].switch += roomEnergy[g].switch;
-                        }
-                    }
-                    reportRoom += '<div class="col-md-8">';
-                    if (roomEnergy[k].light === 0) {
-                        reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 controlled light point</b> <small>(actually ' +
-                            roomEnergy[k].light + ')</small>.</p>\n';
-                        nfc = false;
-                    }
-                    if (roomEnergy[k].plug < 5) {
-                        reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>5 power outlets</b> <small>(actually ' +
-                            roomEnergy[k].plug + ')</small>.</p>\n';
-                        nfc = false;
-                    }
-                    if (nfc) reportRoom += '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
-                    reportRoom += '</div>';
-                }
-                if (ROOM[k].name === "Salle à manger") {
+                reportRoom += '<div class="col-md-8">';
+                if (roomEnergy[k].light === 0) {
                     reportRoom +=
-                        '<div class="col-md-8"><p><i class="fa fa-info" aria-hidden="true" style="color:blue"></i> This room is linked to the <b>living room / living room</b> according to the standard.</p></div>\n';
+                        '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 controlled light point</b> <small>(actually ' +
+                        roomEnergy[k].light + ')</small>.</p>\n';
+                    nfc = false;
                 }
-                if (ROOM[k].name.substr(0, 7) === "Chambre") {
-                    reportRoom += '<div class="col-md-8">';
-                    if (roomEnergy[k].light === 0) {
-                        reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 controlled light point</b> <small>(actually ' +
-                            roomEnergy[k].light + ')</small>.</p>\n';
-                        nfc = false;
-                    }
-                    if (roomEnergy[k].plug < 3) {
-                        reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>3 power outlets</b> <small>(actually ' +
-                            roomEnergy[k].plug + ')</small>.</p>\n';
-                        nfc = false;
-                    }
-                    if (nfc) reportRoom += '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
-                    reportRoom += '</div>';
+                if (roomEnergy[k].plug < 5) {
+                    reportRoom +=
+                        '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>5 power outlets</b> <small>(actually ' +
+                        roomEnergy[k].plug + ')</small>.</p>\n';
+                    nfc = false;
                 }
-                if (ROOM[k].name === "SdB") {
-                    reportRoom += '<div class="col-md-8">';
-                    if (roomEnergy[k].light === 0) {
-                        reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 light point</b> <small>(actually ' +
-                            roomEnergy[k].light + ')</small>.</p>\n';
-                        nfc = false;
-                    }
-                    if (roomEnergy[k].plug < 2) {
-                        reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>2 power outlets</b> <small>(actually ' +
-                            roomEnergy[k].plug + ')</small>.</p>\n';
-                        nfc = false;
-                    }
-                    if (roomEnergy[k].switch === 0) {
-                        reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 switch</b> <small>(actually ' +
-                            roomEnergy[k].switch + ')</small>.</p>\n';
-                        nfc = false;
-                    }
-                    if (nfc) reportRoom += '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
-                    reportRoom += '</div>';
-                }
-                if (ROOM[k].name === "Couloir") {
-                    reportRoom += '<div class="col-md-8">';
-                    if (roomEnergy[k].light === 0) {
-                        reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 controlled light point</b> <small>(actually ' +
-                            roomEnergy[k].light + ')</small>.</p>\n';
-                        nfc = false;
-                    }
-                    if (roomEnergy[k].plug < 1) {
-                        reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 power outlet</b> <small>(actually ' +
-                            roomEnergy[k].plug + ')</small>.</p>\n';
-                        nfc = false;
-                    }
-                    if (nfc) reportRoom += '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
-                    reportRoom += '</div>';
-                }
-                if (ROOM[k].name === "Toilette") {
-                    reportRoom += '<div class="col-md-8">';
-                    if (roomEnergy[k].light === 0) {
-                        reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 light point</b>. <small>(actually ' +
-                            roomEnergy[k].light + ')</small>.</p>\n';
-                        nfc = false;
-                    }
-                    if (nfc) reportRoom += '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
-                    reportRoom += '</div>';
-                }
-                if (ROOM[k].name === "Cuisine") {
-                    reportRoom += '<div class="col-md-8">';
-                    if (roomEnergy[k].light === 0) {
-                        reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 controlled light point</b> <small>(actually ' +
-                            roomEnergy[k].light + ')</small>.</p>\n';
-                        nfc = false;
-                    }
-                    if (roomEnergy[k].plug < 6) {
-                        reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>6 power outlets</b> <small>(actually ' +
-                            roomEnergy[k].plug + ')</small>.</p>\n';
-                        nfc = false;
-                    }
-                    if (roomEnergy[k].plug32 === 0) {
-                        reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 32A power outlet</b> <small>(actually ' +
-                            roomEnergy[k].plug32 + ')</small>.</p>\n';
-                        nfc = false;
-                    }
-                    if (roomEnergy[k].plug20 < 2) {
-                        reportRoom +=
-                            '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>2 20A power outlets</b> <small>(actually ' +
-                            roomEnergy[k].plug20 + ')</small>.</p>\n';
-                        nfc = false;
-                    }
-                    if (nfc) reportRoom += '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
-                    reportRoom += '</div>';
-                }
+                if (nfc) reportRoom += '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
+                reportRoom += '</div>';
             }
-            number++;
-            reportRoom += '</div>';
+            if (ROOM[k].name === "Salle à manger") {
+                reportRoom +=
+                    '<div class="col-md-8"><p><i class="fa fa-info" aria-hidden="true" style="color:blue"></i> This room is linked to the <b>living room / living room</b> according to the standard.</p></div>\n';
+            }
+            if (ROOM[k].name.substr(0, 7) === "Chambre") {
+                reportRoom += '<div class="col-md-8">';
+                if (roomEnergy[k].light === 0) {
+                    reportRoom +=
+                        '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 controlled light point</b> <small>(actually ' +
+                        roomEnergy[k].light + ')</small>.</p>\n';
+                    nfc = false;
+                }
+                if (roomEnergy[k].plug < 3) {
+                    reportRoom +=
+                        '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>3 power outlets</b> <small>(actually ' +
+                        roomEnergy[k].plug + ')</small>.</p>\n';
+                    nfc = false;
+                }
+                if (nfc) reportRoom += '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
+                reportRoom += '</div>';
+            }
+            if (ROOM[k].name === "SdB") {
+                reportRoom += '<div class="col-md-8">';
+                if (roomEnergy[k].light === 0) {
+                    reportRoom +=
+                        '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 light point</b> <small>(actually ' +
+                        roomEnergy[k].light + ')</small>.</p>\n';
+                    nfc = false;
+                }
+                if (roomEnergy[k].plug < 2) {
+                    reportRoom +=
+                        '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>2 power outlets</b> <small>(actually ' +
+                        roomEnergy[k].plug + ')</small>.</p>\n';
+                    nfc = false;
+                }
+                if (roomEnergy[k].switch === 0) {
+                    reportRoom +=
+                        '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 switch</b> <small>(actually ' +
+                        roomEnergy[k].switch + ')</small>.</p>\n';
+                    nfc = false;
+                }
+                if (nfc) reportRoom += '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
+                reportRoom += '</div>';
+            }
+            if (ROOM[k].name === "Couloir") {
+                reportRoom += '<div class="col-md-8">';
+                if (roomEnergy[k].light === 0) {
+                    reportRoom +=
+                        '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 controlled light point</b> <small>(actually ' +
+                        roomEnergy[k].light + ')</small>.</p>\n';
+                    nfc = false;
+                }
+                if (roomEnergy[k].plug < 1) {
+                    reportRoom +=
+                        '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 power outlet</b> <small>(actually ' +
+                        roomEnergy[k].plug + ')</small>.</p>\n';
+                    nfc = false;
+                }
+                if (nfc) reportRoom += '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
+                reportRoom += '</div>';
+            }
+            if (ROOM[k].name === "Toilette") {
+                reportRoom += '<div class="col-md-8">';
+                if (roomEnergy[k].light === 0) {
+                    reportRoom +=
+                        '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 light point</b>. <small>(actually ' +
+                        roomEnergy[k].light + ')</small>.</p>\n';
+                    nfc = false;
+                }
+                if (nfc) reportRoom += '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
+                reportRoom += '</div>';
+            }
+            if (ROOM[k].name === "Cuisine") {
+                reportRoom += '<div class="col-md-8">';
+                if (roomEnergy[k].light === 0) {
+                    reportRoom +=
+                        '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 controlled light point</b> <small>(actually ' +
+                        roomEnergy[k].light + ')</small>.</p>\n';
+                    nfc = false;
+                }
+                if (roomEnergy[k].plug < 6) {
+                    reportRoom +=
+                        '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>6 power outlets</b> <small>(actually ' +
+                        roomEnergy[k].plug + ')</small>.</p>\n';
+                    nfc = false;
+                }
+                if (roomEnergy[k].plug32 === 0) {
+                    reportRoom +=
+                        '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>1 32A power outlet</b> <small>(actually ' +
+                        roomEnergy[k].plug32 + ')</small>.</p>\n';
+                    nfc = false;
+                }
+                if (roomEnergy[k].plug20 < 2) {
+                    reportRoom +=
+                        '<p><i class="fa fa-exclamation-triangle" style="color:orange" aria-hidden="true"></i> This room must have at least <b>2 20A power outlets</b> <small>(actually ' +
+                        roomEnergy[k].plug20 + ')</small>.</p>\n';
+                    nfc = false;
+                }
+                if (nfc) reportRoom += '<i class="fa fa-check" aria-hidden="true" style="color:green"></i>';
+                reportRoom += '</div>';
+            }
         }
+        number++;
+        reportRoom += '</div>';
+    }
 
-        document.getElementById('reportRooms').innerHTML = reportRoom;
-        $('#reportRooms').show(1000);
-    });
+    document.getElementById('reportRooms').innerHTML = reportRoom;
+    $('#reportRooms').show(1000);
+
 
 
 });
@@ -955,7 +955,7 @@ for (let k = 0; k < roomColorBtn.length; k++) {
     roomColorBtn[k].addEventListener("click", function () {
         let data = this.getAttribute('data-type');
         $('#roomBackground').val(data);
-        binder.attr({'fill': 'url(#' + data + ')'});
+        binder.attr({ 'fill': 'url(#' + data + ')' });
     });
 }
 
@@ -1000,7 +1000,7 @@ function matrixCalc(el, message = false) {
 }
 
 function matrixXY(m, x, y) {
-    return {x: x * m.a + y * m.c + m.e, y: x * m.b + y * m.d + m.f};
+    return { x: x * m.a + y * m.c + m.e, y: x * m.b + y * m.d + m.f };
 }
 
 function realBboxShow(coords) {
@@ -1020,11 +1020,11 @@ function limitObj(equation, size, coords, message = false) {
     let Bq = equation.B;
     let pos1, pos2;
     if (Aq === 'v') {
-        pos1 = {x: Px, y: Py - size / 2};
-        pos2 = {x: Px, y: Py + size / 2};
+        pos1 = { x: Px, y: Py - size / 2 };
+        pos2 = { x: Px, y: Py + size / 2 };
     } else if (Aq === 'h') {
-        pos1 = {x: Px - size / 2, y: Py};
-        pos2 = {x: Px + size / 2, y: Py};
+        pos1 = { x: Px - size / 2, y: Py };
+        pos2 = { x: Px + size / 2, y: Py };
     } else {
         let A = 1 + Aq * Aq;
         let B = (-2 * Px) + (2 * Aq * Bq) + (-2 * Py * Aq);
@@ -1032,8 +1032,8 @@ function limitObj(equation, size, coords, message = false) {
         let Delta = (B * B) - (4 * A * C);
         let posX1 = (-B - (Math.sqrt(Delta))) / (2 * A);
         let posX2 = (-B + (Math.sqrt(Delta))) / (2 * A);
-        pos1 = {x: posX1, y: (Aq * posX1) + Bq};
-        pos2 = {x: posX2, y: (Aq * posX2) + Bq};
+        pos1 = { x: posX1, y: (Aq * posX1) + Bq };
+        pos2 = { x: posX2, y: (Aq * posX2) + Bq };
     }
     return [pos1, pos2];
 }
@@ -1262,7 +1262,7 @@ function showVertex() {
 
 function showJunction() {
     for (let i = 0; i < junction.length; i++) {
-        debugPoint({x: junction[i].values[0], y: junction[i].values[1]}, i);
+        debugPoint({ x: junction[i].values[0], y: junction[i].values[1] }, i);
 
     }
 }
@@ -1298,8 +1298,8 @@ function inWallRib(wall, option = false) {
     let angleTextValue = wall.angle * (180 / Math.PI);
     let objWall = editor.objFromWall(wall); // LIST OBJ ON EDGE
     if (objWall.length == 0) return
-    ribMaster[0].push({wall: wall, crossObj: false, side: 'up', coords: wall.coords[0], distance: 0});
-    ribMaster[1].push({wall: wall, crossObj: false, side: 'down', coords: wall.coords[1], distance: 0});
+    ribMaster[0].push({ wall: wall, crossObj: false, side: 'up', coords: wall.coords[0], distance: 0 });
+    ribMaster[1].push({ wall: wall, crossObj: false, side: 'down', coords: wall.coords[1], distance: 0 });
     let objTarget = null
     for (let ob in objWall) {
         objTarget = objWall[ob];
@@ -1346,9 +1346,9 @@ function inWallRib(wall, option = false) {
         });
     }
     distance = qSVG.measure(wall.coords[0], wall.coords[3]) / meter;
-    ribMaster[0].push({wall: objTarget, crossObj: false, side: 'up', coords: wall.coords[3], distance: distance});
+    ribMaster[0].push({ wall: objTarget, crossObj: false, side: 'up', coords: wall.coords[3], distance: distance });
     distance = qSVG.measure(wall.coords[1], wall.coords[2]) / meter;
-    ribMaster[1].push({wall: objTarget, crossObj: false, side: 'down', coords: wall.coords[2], distance: distance});
+    ribMaster[1].push({ wall: objTarget, crossObj: false, side: 'down', coords: wall.coords[2], distance: distance });
     ribMaster[0].sort(function (a, b) {
         return (a.distance - b.distance).toFixed(2);
     });
@@ -1762,8 +1762,8 @@ function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
     construc.params.move = false;
     construc.params.resize = false;
     construc.params.resizeLimit = {};
-    construc.params.resizeLimit.width = {min: false, max: false};
-    construc.params.resizeLimit.height = {min: false, max: false};
+    construc.params.resizeLimit.width = { min: false, max: false };
+    construc.params.resizeLimit.height = { min: false, max: false };
     construc.params.rotate = false;
 
     if (classObj === 'socle') {
@@ -1784,7 +1784,7 @@ function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
                 (-sizeObj - thickObj / 2) + "  A" + sizeObj + "," + sizeObj + " 0 0,1 " + sizeObj / 2 + "," + (-thickObj / 2), "none", colorWall,
                 '');
             construc.params.resize = true;
-            construc.params.resizeLimit.width = {min: 40, max: 120};
+            construc.params.resizeLimit.width = { min: 40, max: 120 };
         }
         if (typeObj === 'double') {
 
@@ -1800,7 +1800,7 @@ function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
                 (-sizeObj / 2 - thickObj / 2) + "  A" + sizeObj / 2 + "," + sizeObj / 2 + " 0 0,0 0," + (-thickObj / 2), "none", colorWall,
                 '');
             construc.params.resize = true;
-            construc.params.resizeLimit.width = {min: 40, max: 160};
+            construc.params.resizeLimit.width = { min: 40, max: 160 };
         }
         if (typeObj === 'pocket') {
             pushToConstruc(construc, "M " + (-sizeObj / 2) + "," + (-(thickObj / 2) - 4) + " L " + (-sizeObj / 2) + "," +
@@ -1816,7 +1816,7 @@ function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
                 (-thickObj / 2 - 5) + " L " + (+sizeObj / 2) + "," + (-thickObj / 2 - 5) + " L " + (+sizeObj / 2) +
                 "," + (-thickObj / 2) + " Z", "url(#hatch)", "#494646", '');
             construc.params.resize = true;
-            construc.params.resizeLimit.width = {min: 60, max: 200};
+            construc.params.resizeLimit.width = { min: 60, max: 200 };
         }
         if (typeObj === 'aperture') {
             pushToConstruc(construc, "M " + (-sizeObj / 2) + "," + (-thickObj / 2) + " L " + (-sizeObj / 2) + "," + thickObj / 2 +
@@ -1832,7 +1832,7 @@ function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
                 " L " + (sizeObj / 2) + "," + thickObj / 2 + " L " + (sizeObj / 2) + "," + (-(thickObj / 2)) + " Z", "none", "#494646",
                 'none');
             construc.params.resize = true;
-            construc.params.resizeLimit.width = {min: 40, max: 500};
+            construc.params.resizeLimit.width = { min: 40, max: 500 };
         }
         if (typeObj === 'fix') {
             pushToConstruc(construc, "M " + (-sizeObj / 2) + ",-2 L " + (-sizeObj / 2) + ",2 L " +
@@ -1841,7 +1841,7 @@ function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
             pushToConstruc(construc, "M " + (-sizeObj / 2) + "," + (-thickObj / 2) + " L " + (-sizeObj / 2) + "," + thickObj / 2 +
                 " M " + sizeObj / 2 + "," + thickObj / 2 + " L " + sizeObj / 2 + "," + (-thickObj / 2), "none", "#ccc", '');
             construc.params.resize = true;
-            construc.params.resizeLimit.width = {min: 30, max: 300};
+            construc.params.resizeLimit.width = { min: 30, max: 300 };
         }
         if (typeObj === 'flap') {
 
@@ -1855,15 +1855,18 @@ function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
                 ((sizeObj) * 0.866)) + "," + ((-sizeObj / 2) - (thickObj / 2)) + "  A" + sizeObj + "," +
                 sizeObj + " 0 0,1 " + sizeObj / 2 + "," + (-thickObj / 2), "none", colorWall, '');
             construc.params.resize = true;
-            construc.params.resizeLimit.width = {min: 20, max: 100};
+            construc.params.resizeLimit.width = { min: 20, max: 100 };
         }
         if (typeObj === 'twin') {
 
             pushToConstruc(construc, "M " + (-sizeObj / 2) + ",-2 L " + (-sizeObj / 2) + ",2 L " + sizeObj / 2 +
-                ",2 L " + sizeObj / 2 + ",-2 Z", "#ccc", "none", '');
+                ",2 L " + sizeObj / 2 + ",-2 Z", "#000", "none", '');
 
             pushToConstruc(construc, "M " + (-sizeObj / 2) + "," + (-thickObj / 2) + " L " + (-sizeObj / 2) + "," + thickObj / 2 +
-                " M " + sizeObj / 2 + "," + thickObj / 2 + " L " + sizeObj / 2 + "," + (-thickObj / 2), "none", "#ccc", '');
+                " L " + sizeObj / 2 + "," + thickObj / 2 + " L " + sizeObj / 2 + "," + (-thickObj / 2), "#fff", "#fff", '', 0.7);
+
+            pushToConstruc(construc, "M " + (-sizeObj / 2) + "," + (-thickObj / 2) + " L " + (-sizeObj / 2) + "," + thickObj / 2 +
+                " M " + sizeObj / 2 + "," + thickObj / 2 + " L " + sizeObj / 2 + "," + (-thickObj / 2), "none", "#000", '');
 
             pushToConstruc(construc, "M " + (-sizeObj / 2) + "," + (-thickObj / 2) + " L " + ((-sizeObj / 2) +
                 ((sizeObj / 2) * 0.866)) + "," + (-sizeObj / 4 - thickObj / 2) + "  A" +
@@ -1873,7 +1876,7 @@ function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
                 ((-sizeObj / 2) * 0.866)) + "," + (-sizeObj / 4 - thickObj / 2) + "  A" +
                 sizeObj / 2 + "," + sizeObj / 2 + " 0 0,0 0," + (-thickObj / 2), "none", colorWall, '');
             construc.params.resize = true;
-            construc.params.resizeLimit.width = {min: 40, max: 200};
+            construc.params.resizeLimit.width = { min: 40, max: 200 };
         }
         if (typeObj === 'bay') {
 
@@ -1884,7 +1887,7 @@ function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
 
             pushToConstruc(construc, "M -2,1 L -2,3 L " + sizeObj / 2 + ",3 L " + sizeObj / 2 + ",1 L -1,1 L -1,-1 L -2,-1 Z", "#ccc", "none", '');
             construc.params.resize = true;
-            construc.params.resizeLimit.width = {min: 60, max: 300};
+            construc.params.resizeLimit.width = { min: 60, max: 300 };
         }
     }
 
@@ -1939,8 +1942,8 @@ function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
                 pushToConstruc(construc, "M " + (-sizeObj / 2) + "," + ((-thickObj / 2) + (i * heightStep)) + " L " + (sizeObj / 2) + "," +
                     ((-thickObj / 2) + (i * heightStep)), "none", "#000", 'none');
             }
-            construc.params.resizeLimit.width = {min: 40, max: 200};
-            construc.params.resizeLimit.height = {min: 40, max: 400};
+            construc.params.resizeLimit.width = { min: 40, max: 200 };
+            construc.params.resizeLimit.height = { min: 40, max: 400 };
         }
 
     }
@@ -2041,24 +2044,24 @@ function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
             construc.family = 'stick';
         }
         if (typeObj === 'roofLight') {
-            pushToConstruc(construc,  qSVG.circlePath(0, 0, 16), "#fff", "#000", '');
-            pushToConstruc(construc,  "M -8,-8 L 8,8 M -8,8 L 8,-8", "none", "#333", '');
+            pushToConstruc(construc, qSVG.circlePath(0, 0, 16), "#fff", "#000", '');
+            pushToConstruc(construc, "M -8,-8 L 8,8 M -8,8 L 8,-8", "none", "#333", '');
 
             construc.params.width = 36;
             construc.params.height = 36;
             construc.family = 'free';
         }
         if (typeObj === 'wallLight') {
-            pushToConstruc(construc,   qSVG.circlePath(0, 0, 16), "#fff", "#000", '');
-            pushToConstruc(construc,  "M -8,-8 L 8,8 M -8,8 L 8,-8", "none", "#333", '');
-            pushToConstruc(construc,  "M -10,10 L 10,10", "none", "#333", '');
+            pushToConstruc(construc, qSVG.circlePath(0, 0, 16), "#fff", "#000", '');
+            pushToConstruc(construc, "M -8,-8 L 8,8 M -8,8 L 8,-8", "none", "#333", '');
+            pushToConstruc(construc, "M -10,10 L 10,10", "none", "#333", '');
 
             construc.params.width = 36;
             construc.params.height = 36;
             construc.family = 'stick';
         }
         if (typeObj === 'www') {
-            pushToConstruc(construc,  "m -20,-20 l 40,0 l0,40 l-40,0 Z", "#fff", "#333", '');
+            pushToConstruc(construc, "m -20,-20 l 40,0 l0,40 l-40,0 Z", "#fff", "#333", '');
 
             construc.push({
                 'text': "@",
@@ -2074,9 +2077,9 @@ function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
             construc.family = 'free';
         }
         if (typeObj === 'rj45') {
-            pushToConstruc(construc,  qSVG.circlePath(0, 0, 16), "#fff", "#000", '');
-            pushToConstruc(construc,  "m-10,5 l0,-10 m20,0 l0,10", "none", "#333", '');
-            pushToConstruc(construc,  "m 0,5 v 7", "none", "#333", '');
+            pushToConstruc(construc, qSVG.circlePath(0, 0, 16), "#fff", "#000", '');
+            pushToConstruc(construc, "m-10,5 l0,-10 m20,0 l0,10", "none", "#333", '');
+            pushToConstruc(construc, "m 0,5 v 7", "none", "#333", '');
             pushToConstruc(construc, "m -10,5 h 20", "none", "#333", '');
 
             construc.push({
@@ -2097,7 +2100,7 @@ function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
             pushToConstruc(construc, "m-10,5 l0-10 m20,0 l0,10", "none", "#333", '');
             pushToConstruc(construc, "m-7,-5 l0,7 l14,0 l0,-7", "none", "#333", '');
             pushToConstruc(construc, "m 0,5 v 7", "none", "#333", '');
-            pushToConstruc(construc,  "m -10,5 h 20", "none", "#333", '');
+            pushToConstruc(construc, "m -10,5 h 20", "none", "#333", '');
 
             construc.push({
                 'text': "TV",
@@ -2114,7 +2117,7 @@ function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
         }
 
         if (typeObj === 'heater') {
-            pushToConstruc(construc,  qSVG.circlePath(0, 0, 16), "#fff", "#000", '');
+            pushToConstruc(construc, qSVG.circlePath(0, 0, 16), "#fff", "#000", '');
             pushToConstruc(construc, "m-15,-4 l30,0", "none", "#333", '');
             pushToConstruc(construc, "m-14,-8 l28,0", "none", "#333", '');
             pushToConstruc(construc, "m-11,-12 l22,0", "none", "#333", '');
@@ -2135,7 +2138,7 @@ function carpentryCalc(classObj, typeObj, sizeObj, thickObj, dividerObj = 10) {
             pushToConstruc(construc, "M -0,-10 L -0,10", "#fff", "#333", '');
             pushToConstruc(construc, "M 5,-10 L 5,10", "#fff", "#333", '');
             pushToConstruc(construc, "M 10,-10 L 10,10", "#fff", "#333", '');
-            pushToConstruc(construc,"M 15,-10 L 15,10", "#fff", "#333", '');
+            pushToConstruc(construc, "M 15,-10 L 15,10", "#fff", "#333", '');
 
             construc.params.width = 40;
             construc.params.height = 20;
@@ -2176,11 +2179,12 @@ function pushToRibMaster(ribMaster, firstIndex, secondIndex, wallIndex, crossEdg
     });
 }
 
-function pushToConstruc(construc, path, fill, stroke, strokeDashArray) {
+function pushToConstruc(construc, path, fill, stroke, strokeDashArray, opacity = 1) {
     construc.push({
         'path': path,
         'fill': fill,
         'stroke': stroke,
-        'strokeDashArray': strokeDashArray
+        'strokeDashArray': strokeDashArray,
+        'opacity': opacity
     });
 }
